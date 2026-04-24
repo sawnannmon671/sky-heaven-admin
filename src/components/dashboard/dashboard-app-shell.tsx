@@ -43,6 +43,12 @@ export function DashboardAppShell({
   const [financeOpened, setFinanceOpened] = useState(false);
   const [operationsOpened, setOperationsOpened] = useState(false);
   const [adminOpened, setAdminOpened] = useState(false);
+  const [lang, setLang] = useState<"en" | "mm">("en");
+
+  const languages = {
+    en: { label: "English", flag: "https://flagcdn.com/w40/us.png" },
+    mm: { label: "Myanmar", flag: "https://flagcdn.com/w40/mm.png" },
+  };
 
   useEffect(() => {
     if (pathname.includes("/dashboard/units") || 
@@ -87,13 +93,22 @@ export function DashboardAppShell({
             <Menu shadow="md" width={150}>
               <Menu.Target>
                 <Button variant="subtle" color="gray" px={8} radius="md">
-                  <Image src="https://flagcdn.com/w40/us.png" w={24} alt="English" />
+                  <Image src={languages[lang].flag} w={24} alt={languages[lang].label} />
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item leftSection={<Image src="https://flagcdn.com/w40/us.png" w={20} alt="English" />}>English</Menu.Item>
-                <Menu.Item leftSection={<Image src="https://flagcdn.com/w40/mm.png" w={20} alt="Myanmar" />}>Myanmar</Menu.Item>
-                <Menu.Item leftSection={<Image src="https://flagcdn.com/w40/th.png" w={20} alt="Thai" />}>Thai</Menu.Item>
+                <Menu.Item 
+                  leftSection={<Image src={languages.en.flag} w={20} alt="English" />}
+                  onClick={() => setLang("en")}
+                >
+                  English
+                </Menu.Item>
+                <Menu.Item 
+                  leftSection={<Image src={languages.mm.flag} w={20} alt="Myanmar" />}
+                  onClick={() => setLang("mm")}
+                >
+                  Myanmar
+                </Menu.Item>
               </Menu.Dropdown>
             </Menu>
             <Button variant="subtle" color="gray" p={4} radius="md">

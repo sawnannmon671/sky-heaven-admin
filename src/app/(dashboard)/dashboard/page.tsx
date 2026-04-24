@@ -115,10 +115,10 @@ export default function DashboardPage() {
   return (
     <Stack gap="xl">
       <Group justify="space-between">
-        <Stack gap={0}>
-          <Title order={2}>Property Overview</Title>
-          <Text c="dimmed" size="sm">Welcome back, here's what's happening today.</Text>
-        </Stack>
+                <Stack gap={0}>
+                  <Title order={2}>Dashboard</Title>
+                  <Text c="dimmed" size="sm">Welcome back, here's what's happening today.</Text>
+                </Stack>
         <Badge size="lg" variant="filled" color="blue" leftSection={<IconClock size={14} />}>
           Updated: April 24, 2026
         </Badge>

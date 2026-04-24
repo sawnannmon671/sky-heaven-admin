@@ -22,7 +22,7 @@ export default async function LoginPage() {
     >
       <Paper p={40} radius="md" style={{ width: 400, background: "white" }}>
         <Title ta="center" mb="lg" c="#2C7dA0">
-          Sky Haven
+          Sky Haven CMS
         </Title>
         <Text ta="center" c="dimmed" size="sm" mb={30}>
           Condo Management System

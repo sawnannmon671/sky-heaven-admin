@@ -40,12 +40,12 @@ export function DashboardAppShell({
       navbar={{ width: 250, breakpoint: "sm" }}
       padding="md"
     >
-      <AppShell.Header>
+      <AppShell.Header className={classes.header}>
         <Group h="100%" px="md" justify="space-between">
           <Group gap="xs">
             <Image src="/sh.png" alt="Sky Haven Logo" h={32} w="auto" fit="contain" />
             <Text fw={700} size="lg" c="#2C7dA0">
-              Sky Haven
+              Sky Haven CMS
             </Text>
           </Group>
           <Group gap="sm">

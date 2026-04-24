@@ -30,6 +30,7 @@ import { Session } from "next-auth";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
+import { useLanguageStore } from "@/store/useLanguageStore";
 import classes from "./dashboard-app-shell.module.css";
 
 export function DashboardAppShell({
@@ -46,12 +47,67 @@ export function DashboardAppShell({
   const [operationsOpened, setOperationsOpened] = useState(false);
   const [adminOpened, setAdminOpened] = useState(false);
   const [settingsOpened, setSettingsOpened] = useState(false);
-  const [lang, setLang] = useState<"en" | "mm">("en");
+  const { lang, setLang } = useLanguageStore();
 
   const languages = {
     en: { label: "English", flag: "https://flagcdn.com/w40/us.png" },
     mm: { label: "Myanmar", flag: "https://flagcdn.com/w40/mm.png" },
   };
+
+  const t = {
+    en: {
+      dashboard: "Dashboard",
+      propertyManagement: "Property Management",
+      units: "Units",
+      residents: "Residents",
+      parking: "Parking",
+      amenities: "Amenities",
+      finance: "Finance",
+      billing: "Billing",
+      payments: "Payments",
+      reports: "Reports",
+      operations: "Operations",
+      maintenance: "Maintenance",
+      visitors: "Visitors",
+      staff: "Staff",
+      announcements: "Announcements",
+      administration: "Administration",
+      userManagement: "User Management",
+      documents: "Documents",
+      settings: "Settings",
+      paymentType: "Payment Type",
+      paymentMethod: "Payment Method",
+      generalSettings: "General Settings",
+      profile: "Profile",
+      signOut: "Sign out",
+    },
+    mm: {
+      dashboard: "ဒက်ရှ်ဘုတ်",
+      propertyManagement: "အိမ်ခြံမြေစီမံခန့်ခွဲမှု",
+      units: "ယူနစ်များ",
+      residents: "နေထိုင်သူများ",
+      parking: "ကားပါကင်",
+      amenities: "အသုံးအဆောင်များ",
+      finance: "ဘဏ္ဍာရေး",
+      billing: "ငွေတောင်းခံလွှာ",
+      payments: "ငွေပေးချေမှုများ",
+      reports: "အစီရင်ခံစာများ",
+      operations: "လုပ်ငန်းဆောင်ရွက်မှုများ",
+      maintenance: "ပြုပြင်ထိန်းသိမ်းမှု",
+      visitors: "ဧည့်သည်များ",
+      staff: "ဝန်ထမ်းများ",
+      announcements: "ကြေငြာချက်များ",
+      administration: "စီမံခန့်ခွဲမှု",
+      userManagement: "အသုံးပြုသူစီမံခန့်ခွဲမှု",
+      documents: "စာရွက်စာတမ်းများ",
+      settings: "ဆက်တင်များ",
+      paymentType: "ငွေပေးချေမှုအမျိုးအစား",
+      paymentMethod: "ငွေပေးချေမှုနည်းလမ်း",
+      generalSettings: "အထွေထွေဆက်တင်များ",
+      profile: "ပရိုဖိုင်",
+      signOut: "ထွက်ရန်",
+    },
+  }[lang];
 
   useEffect(() => {
     if (pathname.includes("/dashboard/units") || 
@@ -127,12 +183,12 @@ export function DashboardAppShell({
               </Menu.Target>
               <Menu.Dropdown>
                 <Menu.Label>{session?.user?.name || "Admin"}</Menu.Label>
-                <Menu.Item leftSection={<IconUser size={16} />}>Profile</Menu.Item>
+                <Menu.Item leftSection={<IconUser size={16} />}>{t.profile}</Menu.Item>
                 <Menu.Item
                   leftSection={<IconLogout size={16} />}
                   onClick={() => signOut({ callbackUrl: "/login" })}
                 >
-                  Sign out
+                  {t.signOut}
                 </Menu.Item>
               </Menu.Dropdown>
             </Menu>
@@ -145,14 +201,14 @@ export function DashboardAppShell({
           <NavLink
             component={Link}
             href="/dashboard"
-            label="Dashboard"
+            label={t.dashboard}
             leftSection={<IconPalette size={20} />}
             className={classes.navLink}
             active={pathname === "/dashboard"}
           />
 
           <NavLink
-            label="Property Management"
+            label={t.propertyManagement}
             leftSection={<IconBuilding size={20} />}
             childrenOffset={28}
             className={classes.navLink}
@@ -162,7 +218,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/units"
-              label="Units"
+              label={t.units}
               leftSection={<IconHome size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/units"}
@@ -170,7 +226,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/residents"
-              label="Residents"
+              label={t.residents}
               leftSection={<IconUsers size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/residents"}
@@ -178,7 +234,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/parking"
-              label="Parking"
+              label={t.parking}
               leftSection={<IconCar size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/parking"}
@@ -186,7 +242,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/amenities"
-              label="Amenities"
+              label={t.amenities}
               leftSection={<IconCalendar size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/amenities"}
@@ -194,7 +250,7 @@ export function DashboardAppShell({
           </NavLink>
 
           <NavLink
-            label="Finance"
+            label={t.finance}
             leftSection={<IconReceipt size={20} />}
             childrenOffset={28}
             className={classes.navLink}
@@ -204,7 +260,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/billing"
-              label="Billing"
+              label={t.billing}
               leftSection={<IconReceipt size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/billing"}
@@ -212,7 +268,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/payments"
-              label="Payments"
+              label={t.payments}
               leftSection={<IconCash size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/payments"}
@@ -220,7 +276,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/reports"
-              label="Reports"
+              label={t.reports}
               leftSection={<IconChartBar size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/reports"}
@@ -228,7 +284,7 @@ export function DashboardAppShell({
           </NavLink>
 
           <NavLink
-            label="Operations"
+            label={t.operations}
             leftSection={<IconTools size={20} />}
             childrenOffset={28}
             className={classes.navLink}
@@ -238,7 +294,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/maintenance"
-              label="Maintenance"
+              label={t.maintenance}
               leftSection={<IconTools size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/maintenance"}
@@ -246,7 +302,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/visitors"
-              label="Visitors"
+              label={t.visitors}
               leftSection={<IconCar size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/visitors"}
@@ -254,7 +310,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/staff"
-              label="Staff"
+              label={t.staff}
               leftSection={<IconUsers size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/staff" && !pathname.includes('administration')}
@@ -262,7 +318,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/announcements"
-              label="Announcements"
+              label={t.announcements}
               leftSection={<IconSpeakerphone size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/announcements"}
@@ -270,7 +326,7 @@ export function DashboardAppShell({
           </NavLink>
 
           <NavLink
-            label="Administration"
+            label={t.administration}
             leftSection={<IconShieldCheck size={20} />}
             childrenOffset={28}
             className={classes.navLink}
@@ -280,7 +336,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/staff"
-              label="User Management"
+              label={t.userManagement}
               leftSection={<IconUsers size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/staff"}
@@ -288,7 +344,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/documents"
-              label="Documents"
+              label={t.documents}
               leftSection={<IconFileText size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/documents"}
@@ -296,7 +352,7 @@ export function DashboardAppShell({
           </NavLink>
 
           <NavLink
-            label="Settings"
+            label={t.settings}
             leftSection={<IconSettings size={20} />}
             childrenOffset={28}
             className={classes.navLink}
@@ -306,7 +362,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/settings/payment-type"
-              label="Payment Type"
+              label={t.paymentType}
               leftSection={<IconCreditCard size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/settings/payment-type"}
@@ -314,7 +370,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/settings/payment-method"
-              label="Payment Method"
+              label={t.paymentMethod}
               leftSection={<IconWallet size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/settings/payment-method"}
@@ -322,7 +378,7 @@ export function DashboardAppShell({
             <NavLink
               component={Link}
               href="/dashboard/settings"
-              label="General Settings"
+              label={t.generalSettings}
               leftSection={<IconSettings size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/settings"}

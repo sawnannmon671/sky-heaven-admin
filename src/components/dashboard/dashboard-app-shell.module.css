@@ -1,0 +1,57 @@
+.navbar {
+  background-color: #003366; /* Dark Blue from the photo */
+  border-right: none;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbarHeader {
+  padding: 24px 16px;
+  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.logoWrapper {
+  width: 80px;
+  height: 80px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.navbarLinks {
+  padding: 16px 8px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.navLink {
+  color: rgba(255, 255, 255, 0.85);
+  border-radius: 8px;
+  margin-bottom: 4px;
+  transition: all 0.2s ease;
+}
+
+.navLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navLink[data-active] {
+  background-color: rgba(255, 255, 255, 0.2);
+  color: white;
+  font-weight: 600;
+}
+
+.navLink :global(.mantine-NavLink-label) {
+  font-size: 14px;
+}
+
+.navLink :global(.mantine-NavLink-leftSection) {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.navLink:hover :global(.mantine-NavLink-leftSection),
+.navLink[data-active] :global(.mantine-NavLink-leftSection) {
+  color: white;
+}

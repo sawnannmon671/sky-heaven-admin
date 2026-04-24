@@ -8,6 +8,9 @@ import type { Metadata } from "next";
 export const metadata: Metadata = {
   title: "Sky Haven CMS",
   description: "Condo Building Management System",
+  icons: {
+    icon: "/sh.png",
+  },
 };
 
 export default function RootLayout({
@@ -19,7 +22,6 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ColorSchemeScript defaultColorScheme="light" />
-        <link rel="icon" href="/sh-logo.png" />
       </head>
       <body>
         <ThemeProvider>{children}</ThemeProvider>

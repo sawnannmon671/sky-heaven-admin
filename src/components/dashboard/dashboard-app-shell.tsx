@@ -39,7 +39,7 @@ export function DashboardAppShell({
           <Group gap="xs">
             <Image src="/sh.png" alt="Sky Heaven Logo" h={32} w="auto" fit="contain" />
             <Text fw={700} size="lg">
-              Sky Heaven Admin
+              Sky Haven
             </Text>
           </Group>
           <Group gap="sm">

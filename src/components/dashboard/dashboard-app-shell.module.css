@@ -1,5 +1,7 @@
 .navbar {
-  background-color: #003366; /* Dark Blue from the photo */
+  /* background-color: #2C7dA0; Updated blue color */
+  /* 2C7dA0, 2C7dA0, 014F86   */
+  background-color: #2C7dA0; 
   border-right: none;
   display: flex;
   flex-direction: column;

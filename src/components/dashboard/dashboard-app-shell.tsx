@@ -25,6 +25,9 @@ import {
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
+import { usePathname } from "next/navigation";
+import Link from "next/link";
+import { useState, useEffect } from "react";
 import classes from "./dashboard-app-shell.module.css";
 
 export function DashboardAppShell({
@@ -34,6 +37,38 @@ export function DashboardAppShell({
   children: React.ReactNode;
   session: Session | null;
 }) {
+  const pathname = usePathname();
+
+  const [propertyOpened, setPropertyOpened] = useState(false);
+  const [financeOpened, setFinanceOpened] = useState(false);
+  const [operationsOpened, setOperationsOpened] = useState(false);
+  const [adminOpened, setAdminOpened] = useState(false);
+
+  useEffect(() => {
+    if (pathname.includes("/dashboard/units") || 
+        pathname.includes("/dashboard/residents") || 
+        pathname.includes("/dashboard/parking") || 
+        pathname.includes("/dashboard/amenities")) {
+      setPropertyOpened(true);
+    }
+    if (pathname.includes("/dashboard/billing") || 
+        pathname.includes("/dashboard/payments") || 
+        pathname.includes("/dashboard/reports")) {
+      setFinanceOpened(true);
+    }
+    if (pathname.includes("/dashboard/maintenance") || 
+        pathname.includes("/dashboard/visitors") || 
+        pathname.includes("/dashboard/staff") || 
+        pathname.includes("/dashboard/announcements")) {
+      setOperationsOpened(true);
+    }
+    if (pathname.includes("/dashboard/staff") || 
+        pathname.includes("/dashboard/documents") || 
+        pathname.includes("/dashboard/settings")) {
+      setAdminOpened(true);
+    }
+  }, [pathname]);
+
   return (
     <AppShell
       header={{ height: 60 }}
@@ -88,10 +123,12 @@ export function DashboardAppShell({
       <AppShell.Navbar className={classes.navbar}>
         <Box className={classes.navbarLinks}>
           <NavLink
+            component={Link}
             href="/dashboard"
             label="Dashboard"
             leftSection={<IconPalette size={20} />}
             className={classes.navLink}
+            active={pathname === "/dashboard"}
           />
 
           <NavLink
@@ -99,30 +136,40 @@ export function DashboardAppShell({
             leftSection={<IconHome size={20} />}
             childrenOffset={28}
             className={classes.navLink}
+            opened={propertyOpened}
+            onChange={setPropertyOpened}
           >
             <NavLink
+              component={Link}
               href="/dashboard/units"
               label="Units"
               leftSection={<IconBuilding size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/units"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/residents"
               label="Residents"
               leftSection={<IconUsers size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/residents"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/parking"
               label="Parking"
               leftSection={<IconCar size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/parking"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/amenities"
               label="Amenities"
               leftSection={<IconCalendar size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/amenities"}
             />
           </NavLink>
 
@@ -131,24 +178,32 @@ export function DashboardAppShell({
             leftSection={<IconReceipt size={20} />}
             childrenOffset={28}
             className={classes.navLink}
+            opened={financeOpened}
+            onChange={setFinanceOpened}
           >
             <NavLink
+              component={Link}
               href="/dashboard/billing"
               label="Billing"
               leftSection={<IconReceipt size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/billing"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/payments"
               label="Payments"
               leftSection={<IconCash size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/payments"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/reports"
               label="Reports"
               leftSection={<IconChartBar size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/reports"}
             />
           </NavLink>
 
@@ -157,30 +212,40 @@ export function DashboardAppShell({
             leftSection={<IconTools size={20} />}
             childrenOffset={28}
             className={classes.navLink}
+            opened={operationsOpened}
+            onChange={setOperationsOpened}
           >
             <NavLink
+              component={Link}
               href="/dashboard/maintenance"
               label="Maintenance"
               leftSection={<IconTools size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/maintenance"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/visitors"
               label="Visitors"
               leftSection={<IconCar size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/visitors"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/staff"
               label="Staff"
               leftSection={<IconUsers size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/staff" && !pathname.includes('administration')}
             />
             <NavLink
+              component={Link}
               href="/dashboard/announcements"
               label="Announcements"
               leftSection={<IconSpeakerphone size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/announcements"}
             />
           </NavLink>
 
@@ -189,24 +254,32 @@ export function DashboardAppShell({
             leftSection={<IconShieldCheck size={20} />}
             childrenOffset={28}
             className={classes.navLink}
+            opened={adminOpened}
+            onChange={setAdminOpened}
           >
             <NavLink
+              component={Link}
               href="/dashboard/staff"
               label="User Management"
               leftSection={<IconUsers size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/staff"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/documents"
               label="Documents"
               leftSection={<IconFileText size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/documents"}
             />
             <NavLink
+              component={Link}
               href="/dashboard/settings"
               label="Settings"
               leftSection={<IconSettings size={18} />}
               className={classes.navLink}
+              active={pathname === "/dashboard/settings"}
             />
           </NavLink>
         </Box>

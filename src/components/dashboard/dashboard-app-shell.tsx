@@ -177,8 +177,13 @@ export function DashboardAppShell({
             </Button>
             <Menu shadow="md" width={200}>
               <Menu.Target>
-                <Button variant="subtle" color="gray" p={4} radius="md">
-                  <IconUserCircle size={24} />
+                <Button variant="subtle" color="gray" px="xs" radius="md">
+                  <Group gap="xs">
+                    <IconUserCircle size={24} />
+                    <Text size="sm" fw={500} visibleFrom="sm">
+                      {session?.user?.name || "Admin"}
+                    </Text>
+                  </Group>
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>

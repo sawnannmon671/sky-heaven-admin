@@ -38,11 +38,17 @@ export default function SettingsPage() {
 
   return (
     <Stack gap="xl">
-      <Title order={2}>Settings</Title>
+      <Stack gap={0}>
+        <Title order={2}>Settings</Title>
+        <Text c="dimmed" size="sm">Manage your application preferences and appearance.</Text>
+      </Stack>
 
-      <Paper p="md" radius="md" withBorder>
-        <Stack gap="md">
-          <Title order={4}>Appearance</Title>
+      <Paper p="lg" radius="md" withBorder shadow="sm">
+        <Stack gap="lg">
+          <div>
+            <Title order={4}>Appearance</Title>
+            <Text size="sm" c="dimmed">Customize how the dashboard looks on your device.</Text>
+          </div>
           <Group justify="space-between">
             <Box>
               <Text fw={500}>Dark Mode</Text>
@@ -61,12 +67,12 @@ export default function SettingsPage() {
         </Stack>
       </Paper>
 
-      <Paper p="md" radius="md" withBorder>
-        <Stack gap="md">
+      <Paper p="lg" radius="md" withBorder shadow="sm">
+        <Stack gap="lg">
           <Box>
             <Title order={4}>Theme Color</Title>
-            <Text size="xs" c="dimmed">
-              Select the primary color for the application
+            <Text size="sm" c="dimmed">
+              Select the primary accent color for the application interface.
             </Text>
           </Box>
 

@@ -1,7 +1,7 @@
 "use client";
 
-import { Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon } from "@mantine/core";
-import { IconDownload, IconPrinter } from "@tabler/icons-react";
+import { Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon, ThemeIcon, TextInput } from "@mantine/core";
+import { IconDownload, IconPrinter, IconFileInvoice, IconSearch, IconEye } from "@tabler/icons-react";
 
 const elements = [
   { id: "INV-001", unit: "101", amount: "$150.00", type: "Monthly Fee", status: "Paid", date: "2024-04-01" },
@@ -12,18 +12,30 @@ const elements = [
 export default function BillingPage() {
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>
-      <Table.Td fw={500}>{element.id}</Table.Td>
-      <Table.Td>{element.unit}</Table.Td>
-      <Table.Td>{element.type}</Table.Td>
-      <Table.Td>{element.amount}</Table.Td>
-      <Table.Td>{element.date}</Table.Td>
       <Table.Td>
-        <Badge color={element.status === "Paid" ? "green" : element.status === "Pending" ? "yellow" : "red"}>
+        <Group gap="sm">
+          <ThemeIcon size="sm" variant="light" color="blue">
+            <IconFileInvoice size={16} />
+          </ThemeIcon>
+          <Text size="sm" fw={500}>{element.id}</Text>
+        </Group>
+      </Table.Td>
+      <Table.Td>Unit {element.unit}</Table.Td>
+      <Table.Td>{element.type}</Table.Td>
+      <Table.Td>
+        <Text fw={700} size="sm">{element.amount}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm" c="dimmed">{element.date}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Badge variant="dot" color={element.status === "Paid" ? "green" : element.status === "Pending" ? "yellow" : "red"}>
           {element.status}
         </Badge>
       </Table.Td>
       <Table.Td>
-        <Group gap="xs">
+        <Group gap={4} justify="flex-end">
+          <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
           <ActionIcon variant="subtle" color="blue"><IconDownload size={16} /></ActionIcon>
           <ActionIcon variant="subtle" color="gray"><IconPrinter size={16} /></ActionIcon>
         </Group>
@@ -32,14 +44,23 @@ export default function BillingPage() {
   ));
 
   return (
-    <Stack gap="md">
+    <Stack gap="xl">
       <Group justify="space-between">
-        <Title order={2}>Billing & Invoices</Title>
-        <Button color="blue">Generate Invoices</Button>
+        <Stack gap={0}>
+          <Title order={2}>Billing & Invoices</Title>
+          <Text c="dimmed" size="sm">Manage property fees, utilities, and resident invoicing.</Text>
+        </Stack>
+        <Button color="#014F86">Generate Invoices</Button>
       </Group>
 
-      <Paper p="md" radius="md" withBorder>
-        <Table verticalSpacing="sm">
+      <Paper p="md" radius="md" withBorder shadow="sm">
+        <TextInput
+          placeholder="Search invoices by ID, unit or type..."
+          leftSection={<IconSearch size={16} />}
+          mb="xl"
+          size="md"
+        />
+        <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
               <Table.Th>Invoice ID</Table.Th>
@@ -48,7 +69,7 @@ export default function BillingPage() {
               <Table.Th>Amount</Table.Th>
               <Table.Th>Due Date</Table.Th>
               <Table.Th>Status</Table.Th>
-              <Table.Th>Actions</Table.Th>
+              <Table.Th ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

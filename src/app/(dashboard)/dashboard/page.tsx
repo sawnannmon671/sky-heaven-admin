@@ -16,6 +16,7 @@ import {
   Box,
   Progress,
   SimpleGrid,
+  ActionIcon,
 } from "@mantine/core";
 import {
   IconUsers,
@@ -115,33 +116,36 @@ export default function DashboardPage() {
   return (
     <Stack gap="xl">
       <Group justify="space-between">
-                <Stack gap={0}>
-                  <Title order={2}>Dashboard</Title>
-                  <Text c="dimmed" size="sm">Welcome back, here's what's happening today.</Text>
-                </Stack>
-        <Badge size="lg" variant="filled" color="blue" leftSection={<IconClock size={14} />}>
-          Updated: April 24, 2026
+        <Stack gap={0}>
+          <Title order={2}>Property Overview</Title>
+          <Text c="dimmed" size="sm">Monitor your property performance and recent activities at a glance.</Text>
+        </Stack>
+        <Badge size="lg" variant="light" color="#014F86" leftSection={<IconClock size={14} />}>
+          Last Update: April 24, 2026
         </Badge>
       </Group>
 
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="xl">
         {cards}
       </SimpleGrid>
 
-      <Grid gutter="md">
+      <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>
           <Paper withBorder p="md" radius="md" shadow="sm">
-            <Group justify="space-between" mb="md">
-              <Title order={4}>Recent Activities</Title>
-              <Button variant="subtle" size="xs">View All</Button>
+            <Group justify="space-between" mb="xl">
+              <Stack gap={0}>
+                <Title order={4}>Recent Activities</Title>
+                <Text size="xs" c="dimmed">Latest events across all departments</Text>
+              </Stack>
+              <Button variant="subtle" size="xs" color="#014F86">View All Activity</Button>
             </Group>
-            <Table verticalSpacing="sm">
+            <Table verticalSpacing="sm" highlightOnHover>
               <Table.Thead>
                 <Table.Tr>
-                  <Table.Th>User</Table.Th>
-                  <Table.Th>Activity</Table.Th>
-                  <Table.Th>Status</Table.Th>
-                  <Table.Th>Time</Table.Th>
+                  <Table.Th>User / Resident</Table.Th>
+                  <Table.Th>Activity Type</Table.Th>
+                  <Table.Th>Current Status</Table.Th>
+                  <Table.Th ta="right">Time Elapsed</Table.Th>
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
@@ -149,7 +153,7 @@ export default function DashboardPage() {
                   <Table.Tr key={item.id}>
                     <Table.Td>
                       <Group gap="sm">
-                        <Avatar color={item.color} radius="xl" size="sm">{item.user[0]}</Avatar>
+                        <Avatar color={item.color} radius="xl" size="sm" variant="light">{item.user[0]}</Avatar>
                         <div>
                           <Text size="sm" fw={500}>{item.user}</Text>
                           <Text size="xs" c="dimmed">{item.unit}</Text>
@@ -160,9 +164,9 @@ export default function DashboardPage() {
                       <Text size="sm">{item.activity}</Text>
                     </Table.Td>
                     <Table.Td>
-                      <Badge color={item.color} variant="dot">{item.status}</Badge>
+                      <Badge color={item.color} variant="dot" size="sm">{item.status}</Badge>
                     </Table.Td>
-                    <Table.Td>
+                    <Table.Td ta="right">
                       <Text size="xs" c="dimmed">{item.date}</Text>
                     </Table.Td>
                   </Table.Tr>
@@ -173,41 +177,52 @@ export default function DashboardPage() {
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, lg: 4 }}>
-          <Stack gap="md">
+          <Stack gap="xl">
             <Paper withBorder p="md" radius="md" shadow="sm">
-              <Title order={4} mb="md">Occupancy Rate</Title>
+              <Group justify="space-between" mb="md">
+                <Title order={4}>Occupancy Rate</Title>
+                <ActionIcon variant="subtle" color="gray"><IconArrowUpRight size={16} /></ActionIcon>
+              </Group>
               <Group justify="center" mb="md">
                 <RingProgress
-                  size={140}
-                  thickness={14}
+                  size={160}
+                  thickness={16}
                   roundCaps
-                  sections={[{ value: 85, color: "blue" }]}
+                  sections={[{ value: 85, color: "#014F86" }]}
                   label={
                     <Stack gap={0} align="center">
-                      <Text ta="center" size="lg" fw={700}>85%</Text>
-                      <Text ta="center" size="xs" c="dimmed">Occupied</Text>
+                      <Text ta="center" size="xl" fw={800}>85%</Text>
+                      <Text ta="center" size="xs" c="dimmed" fw={500}>Occupied</Text>
                     </Stack>
                   }
                 />
               </Group>
               <Stack gap="xs">
                 <Group justify="space-between">
-                  <Text size="sm">Available Units</Text>
-                  <Text size="sm" fw={700}>18</Text>
+                  <Text size="sm" fw={500}>Available Units</Text>
+                  <Text size="sm" fw={700} c="#014F86">18 / 120</Text>
                 </Group>
-                <Progress value={85} color="blue" size="sm" radius="xl" />
+                <Progress value={85} color="#014F86" size="sm" radius="xl" />
               </Stack>
             </Paper>
 
-            <Paper withBorder p="md" radius="md" shadow="sm" style={{ backgroundColor: "#014F86", color: "white" }}>
-                      <Group justify="space-between" mb="xs">
-                        <Text fw={700}>Revenue Target</Text>
-                        <IconTrendingUp size={20} />
-                      </Group>
-                      <Title order={3} mb="sm">$42,500.00</Title>
-                      <Progress value={70} color="white" size="xs" mb="xs" />
-                      <Text size="xs">70% of monthly goal reached</Text>
-                    </Paper>
+            <Paper withBorder p="lg" radius="md" shadow="md" style={{ backgroundColor: "#014F86", color: "white", backgroundImage: "linear-gradient(135deg, #014F86 0%, #2C7dA0 100%)" }}>
+              <Group justify="space-between" mb="xs">
+                <Text fw={600} size="sm" tt="uppercase" lts={1}>Revenue Target</Text>
+                <ThemeIcon variant="white" color="#014F86" size="sm" radius="xl">
+                  <IconTrendingUp size={14} />
+                </ThemeIcon>
+              </Group>
+              <Title order={2} mb="md">$42,500.00</Title>
+              <Stack gap={4}>
+                <Group justify="space-between" size="xs">
+                  <Text size="xs" fw={500}>Progress to Goal</Text>
+                  <Text size="xs" fw={700}>70%</Text>
+                </Group>
+                <Progress value={70} color="white" size="xs" radius="xl" />
+                <Text size="xs" mt={4} opacity={0.8}>$12,500 remaining to reach April goal</Text>
+              </Stack>
+            </Paper>
           </Stack>
         </Grid.Col>
       </Grid>

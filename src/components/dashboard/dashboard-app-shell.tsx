@@ -2,7 +2,7 @@
 
 import { AppShell, Group, NavLink, Text, Button, Menu, Box, Image, Stack } from "@mantine/core";
 import {
-  IconDashboard,
+  IconPalette,
   IconUsers,
   IconBuilding,
   IconReceipt,
@@ -10,12 +10,18 @@ import {
   IconCalendar,
   IconCar,
   IconUser,
-  IconVideo,
   IconChartBar,
   IconLogout,
   IconSettings,
   IconBell,
   IconUserCircle,
+  IconChevronRight,
+  IconCash,
+  IconSpeakerphone,
+  IconFileText,
+  IconShieldCheck,
+  IconHome,
+  IconDatabase,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
@@ -84,69 +90,125 @@ export function DashboardAppShell({
           <NavLink
             href="/dashboard"
             label="Dashboard"
-            leftSection={<IconDashboard size={20} />}
+            leftSection={<IconPalette size={20} />}
             className={classes.navLink}
           />
+
           <NavLink
-            href="/dashboard/units"
-            label="Units"
-            leftSection={<IconBuilding size={20} />}
+            label="Property Management"
+            leftSection={<IconHome size={20} />}
+            childrenOffset={28}
             className={classes.navLink}
-          />
+          >
+            <NavLink
+              href="/dashboard/units"
+              label="Units"
+              leftSection={<IconBuilding size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/residents"
+              label="Residents"
+              leftSection={<IconUsers size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/parking"
+              label="Parking"
+              leftSection={<IconCar size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/amenities"
+              label="Amenities"
+              leftSection={<IconCalendar size={18} />}
+              className={classes.navLink}
+            />
+          </NavLink>
+
           <NavLink
-            href="/dashboard/residents"
-            label="Residents"
-            leftSection={<IconUsers size={20} />}
-            className={classes.navLink}
-          />
-          <NavLink
-            href="/dashboard/billing"
-            label="Billing"
+            label="Finance"
             leftSection={<IconReceipt size={20} />}
+            childrenOffset={28}
             className={classes.navLink}
-          />
+          >
+            <NavLink
+              href="/dashboard/billing"
+              label="Billing"
+              leftSection={<IconReceipt size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/payments"
+              label="Payments"
+              leftSection={<IconCash size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/reports"
+              label="Reports"
+              leftSection={<IconChartBar size={18} />}
+              className={classes.navLink}
+            />
+          </NavLink>
+
           <NavLink
-            href="/dashboard/maintenance"
-            label="Maintenance"
+            label="Operations"
             leftSection={<IconTools size={20} />}
+            childrenOffset={28}
             className={classes.navLink}
-          />
+          >
+            <NavLink
+              href="/dashboard/maintenance"
+              label="Maintenance"
+              leftSection={<IconTools size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/visitors"
+              label="Visitors"
+              leftSection={<IconCar size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/staff"
+              label="Staff"
+              leftSection={<IconUsers size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/announcements"
+              label="Announcements"
+              leftSection={<IconSpeakerphone size={18} />}
+              className={classes.navLink}
+            />
+          </NavLink>
+
           <NavLink
-            href="/dashboard/video-call"
-            label="Video Call"
-            leftSection={<IconVideo size={20} />}
+            label="Administration"
+            leftSection={<IconShieldCheck size={20} />}
+            childrenOffset={28}
             className={classes.navLink}
-          />
-          <NavLink
-            href="/dashboard/visitors"
-            label="Visitors"
-            leftSection={<IconCar size={20} />}
-            className={classes.navLink}
-          />
-          <NavLink
-            href="/dashboard/amenities"
-            label="Amenities"
-            leftSection={<IconCalendar size={20} />}
-            className={classes.navLink}
-          />
-          <NavLink
-            href="/dashboard/reports"
-            label="Reports"
-            leftSection={<IconChartBar size={20} />}
-            className={classes.navLink}
-          />
-          <NavLink
-            href="/dashboard/staff"
-            label="User Management"
-            leftSection={<IconUser size={20} />}
-            className={classes.navLink}
-          />
-          <NavLink
-            href="/dashboard/settings"
-            label="Settings"
-            leftSection={<IconSettings size={20} />}
-            className={classes.navLink}
-          />
+          >
+            <NavLink
+              href="/dashboard/staff"
+              label="User Management"
+              leftSection={<IconUsers size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/documents"
+              label="Documents"
+              leftSection={<IconFileText size={18} />}
+              className={classes.navLink}
+            />
+            <NavLink
+              href="/dashboard/settings"
+              label="Settings"
+              leftSection={<IconSettings size={18} />}
+              className={classes.navLink}
+            />
+          </NavLink>
         </Box>
       </AppShell.Navbar>
 

@@ -1,7 +1,5 @@
 .navbar {
-  /* background-color: #2C7dA0; Updated blue color */
-  /* 2C7dA0, 2C7dA0, 014F86   */
-  background-color: #2C7dA0; 
+  background-color: #014F86; 
   border-right: none;
   display: flex;
   flex-direction: column;

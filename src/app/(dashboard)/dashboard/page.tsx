@@ -199,15 +199,15 @@ export default function DashboardPage() {
               </Stack>
             </Paper>
 
-            <Paper withBorder p="md" radius="md" shadow="sm" style={{ backgroundColor: "#2C7dA0", color: "white" }}>
-              <Group justify="space-between" mb="xs">
-                <Text fw={700}>Revenue Target</Text>
-                <IconTrendingUp size={20} />
-              </Group>
-              <Title order={3} mb="sm">$42,500.00</Title>
-              <Progress value={70} color="white" size="xs" mb="xs" />
-              <Text size="xs">70% of monthly goal reached</Text>
-            </Paper>
+            <Paper withBorder p="md" radius="md" shadow="sm" style={{ backgroundColor: "#014F86", color: "white" }}>
+                      <Group justify="space-between" mb="xs">
+                        <Text fw={700}>Revenue Target</Text>
+                        <IconTrendingUp size={20} />
+                      </Group>
+                      <Title order={3} mb="sm">$42,500.00</Title>
+                      <Progress value={70} color="white" size="xs" mb="xs" />
+                      <Text size="xs">70% of monthly goal reached</Text>
+                    </Paper>
           </Stack>
         </Grid.Col>
       </Grid>

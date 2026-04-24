@@ -21,7 +21,7 @@ export default async function LoginPage() {
       }}
     >
       <Paper p={40} radius="md" style={{ width: 400, background: "white" }}>
-        <Title ta="center" mb="lg" c="#2C7dA0">
+        <Title ta="center" mb="lg" c="#014F86">
           Sky Haven CMS
         </Title>
         <Text ta="center" c="dimmed" size="sm" mb={30}>

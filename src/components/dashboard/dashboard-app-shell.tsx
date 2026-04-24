@@ -44,21 +44,21 @@ export function DashboardAppShell({
         <Group h="100%" px="md" justify="space-between">
           <Group gap="xs">
             <Image src="/sh.png" alt="Sky Haven Logo" h={32} w="auto" fit="contain" />
-            <Text fw={700} size="lg" c="#2C7dA0">
+            <Text fw={700} size="lg" c="#014F86">
               Sky Haven CMS
             </Text>
           </Group>
           <Group gap="sm">
             <Menu shadow="md" width={150}>
               <Menu.Target>
-                <Button variant="subtle" color="gray" p={4} radius="md">
-                  <Text size="xl">🇺🇸</Text>
+                <Button variant="subtle" color="gray" px={8} radius="md">
+                  <Image src="https://flagcdn.com/w40/us.png" w={24} alt="English" />
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
-                <Menu.Item leftSection={<Text size="lg">🇺🇸</Text>}>English</Menu.Item>
-                <Menu.Item leftSection={<Text size="lg">🇲🇲</Text>}>Myanmar</Menu.Item>
-                <Menu.Item leftSection={<Text size="lg">🇹🇭</Text>}>Thai</Menu.Item>
+                <Menu.Item leftSection={<Image src="https://flagcdn.com/w40/us.png" w={20} alt="English" />}>English</Menu.Item>
+                <Menu.Item leftSection={<Image src="https://flagcdn.com/w40/mm.png" w={20} alt="Myanmar" />}>Myanmar</Menu.Item>
+                <Menu.Item leftSection={<Image src="https://flagcdn.com/w40/th.png" w={20} alt="Thai" />}>Thai</Menu.Item>
               </Menu.Dropdown>
             </Menu>
             <Button variant="subtle" color="gray" p={4} radius="md">

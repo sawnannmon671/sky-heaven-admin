@@ -22,6 +22,8 @@ import {
   IconShieldCheck,
   IconHome,
   IconDatabase,
+  IconCreditCard,
+  IconWallet,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
@@ -43,6 +45,7 @@ export function DashboardAppShell({
   const [financeOpened, setFinanceOpened] = useState(false);
   const [operationsOpened, setOperationsOpened] = useState(false);
   const [adminOpened, setAdminOpened] = useState(false);
+  const [settingsOpened, setSettingsOpened] = useState(false);
   const [lang, setLang] = useState<"en" | "mm">("en");
 
   const languages = {
@@ -69,9 +72,11 @@ export function DashboardAppShell({
       setOperationsOpened(true);
     }
     if (pathname.includes("/dashboard/staff") || 
-        pathname.includes("/dashboard/documents") || 
-        pathname.includes("/dashboard/settings")) {
+        pathname.includes("/dashboard/documents")) {
       setAdminOpened(true);
+    }
+    if (pathname.includes("/dashboard/settings")) {
+      setSettingsOpened(true);
     }
   }, [pathname]);
 
@@ -148,7 +153,7 @@ export function DashboardAppShell({
 
           <NavLink
             label="Property Management"
-            leftSection={<IconHome size={20} />}
+            leftSection={<IconBuilding size={20} />}
             childrenOffset={28}
             className={classes.navLink}
             opened={propertyOpened}
@@ -158,7 +163,7 @@ export function DashboardAppShell({
               component={Link}
               href="/dashboard/units"
               label="Units"
-              leftSection={<IconBuilding size={18} />}
+              leftSection={<IconHome size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/units"}
             />
@@ -288,10 +293,36 @@ export function DashboardAppShell({
               className={classes.navLink}
               active={pathname === "/dashboard/documents"}
             />
+          </NavLink>
+
+          <NavLink
+            label="Settings"
+            leftSection={<IconSettings size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={settingsOpened}
+            onChange={setSettingsOpened}
+          >
+            <NavLink
+              component={Link}
+              href="/dashboard/settings/payment-type"
+              label="Payment Type"
+              leftSection={<IconCreditCard size={18} />}
+              className={classes.navLink}
+              active={pathname === "/dashboard/settings/payment-type"}
+            />
+            <NavLink
+              component={Link}
+              href="/dashboard/settings/payment-method"
+              label="Payment Method"
+              leftSection={<IconWallet size={18} />}
+              className={classes.navLink}
+              active={pathname === "/dashboard/settings/payment-method"}
+            />
             <NavLink
               component={Link}
               href="/dashboard/settings"
-              label="Settings"
+              label="General Settings"
               leftSection={<IconSettings size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/settings"}

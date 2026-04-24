@@ -33,9 +33,12 @@ export function DashboardAppShell({
     >
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
-          <Text fw={700} size="lg">
-            Sky Heaven Admin
-          </Text>
+          <Group gap="xs">
+            <Image src="/sh.png" alt="Sky Heaven Logo" h={32} w="auto" fit="contain" />
+            <Text fw={700} size="lg">
+              Sky Heaven
+            </Text>
+          </Group>
           <Menu shadow="md" width={200}>
             <Menu.Target>
               <Button variant="subtle" size="sm">
@@ -55,8 +58,6 @@ export function DashboardAppShell({
       </AppShell.Header>
 
       <AppShell.Navbar className={classes.navbar}>
-       
-
         <Box className={classes.navbarLinks}>
           <NavLink
             href="/dashboard"

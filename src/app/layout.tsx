@@ -19,6 +19,7 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <ColorSchemeScript defaultColorScheme="light" />
+        <link rel="icon" href="/sh-logo.png" />
       </head>
       <body>
         <ThemeProvider>{children}</ThemeProvider>

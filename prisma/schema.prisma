@@ -1,0 +1,234 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  name      String?
+  password  String
+  role      Role     @default(STAFF)
+  image     String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  staff     Staff?
+}
+
+enum Role {
+  ADMIN
+  MANAGER
+  STAFF
+}
+
+model Staff {
+  id          String   @id @default(cuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  firstName   String
+  lastName    String
+  phone      String?
+  position   String
+  department String?
+  isActive   Boolean  @default(true)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  maintenanceRequests MaintenanceRequest[]
+}
+
+model Unit {
+  id          String        @id @default(cuid())
+  unitNumber  String
+  floor      Int
+  type       UnitType
+  bedrooms   Int          @default(1)
+  bathrooms  Int          @default(1)
+  size       Float?
+  status     UnitStatus   @default(AVAILABLE)
+  monthlyFee Decimal      @db.Decimal(10, 2)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+
+  residents       Resident[]
+  maintenanceRequests MaintenanceRequest[]
+  parkingSpots   ParkingSpot[]
+  billingRecords BillingRecord[]
+}
+
+enum UnitType {
+  STUDIO
+  ONE_BEDROOM
+  TWO_BEDROOM
+  THREE_BEDROOM
+  PENTHOUSE
+}
+
+enum UnitStatus {
+  AVAILABLE
+  OCCUPIED
+  MAINTENANCE
+  RESERVED
+}
+
+model Resident {
+  id           String         @id @default(cuid())
+  unitId       String
+  unit         Unit           @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  userId       String?        @unique
+  firstName   String
+  lastName    String
+  email       String?
+  phone       String?
+  type        ResidentType
+  moveInDate  DateTime?
+  moveOutDate DateTime?
+  isActive    Boolean        @default(true)
+  createdAt   DateTime       @default(now())
+  updatedAt   DateTime       @updatedAt
+}
+
+enum ResidentType {
+  OWNER
+  TENANT
+}
+
+model MaintenanceRequest {
+  id          String            @id @default(cuid())
+  unitId     String
+  unit       Unit              @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  staffId   String?
+  staff     Staff?            @relation(fields: [staffId], references: [id])
+  title     String
+  description String
+  priority  Priority          @default(MEDIUM)
+  status    MaintenanceStatus @default(PENDING)
+  category  MaintenanceCategory
+  scheduledDate DateTime?
+  completedDate DateTime?
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+  URGENT
+}
+
+enum MaintenanceStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+enum MaintenanceCategory {
+  PLUMBING
+  ELECTRICAL
+  HVAC
+  APPLIANCE
+  STRUCTURAL
+  PEST_CONTROL
+  CLEANING
+  OTHER
+}
+
+model BillingRecord {
+  id          String        @id @default(cuid())
+  unitId     String
+  unit       Unit          @relation(fields: [unitId], references: [id], onDelete: Cascade)
+  type       BillingType
+  amount     Decimal      @db.Decimal(10, 2)
+  dueDate    DateTime
+  paidDate   DateTime?
+  status     PaymentStatus @default(PENDING)
+  period     String
+  description String?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+enum BillingType {
+  MONTHLY_FEE
+  PARKING_FEE
+  UTILITY
+  LATE_FEE
+  SPECIAL_ASSESSMENT
+}
+
+enum PaymentStatus {
+  PENDING
+  PAID
+  OVERDUE
+  CANCELLED
+}
+
+model ParkingSpot {
+  id          String          @id @default(cuid())
+  unitId     String?
+  unit       Unit?           @relation(fields: [unitId], references: [id])
+  spotNumber String          @unique
+  level      String
+  type       ParkingType     @default(STANDARD)
+  status     ParkingStatus   @default(AVAILABLE)
+  monthlyFee Decimal        @db.Decimal(10, 2)
+  createdAt  DateTime       @default(now())
+  updatedAt  DateTime       @updatedAt
+}
+
+enum ParkingType {
+  STANDARD
+  COVERED
+  ELECTRIC
+  HANDICAP
+}
+
+enum ParkingStatus {
+  AVAILABLE
+  OCCUPIED
+  RESERVED
+}
+
+model Visitor {
+  id          String        @id @default(cuid())
+  name        String
+  phone       String?
+  unitId     String?
+  residentId String?
+  purpose    String?
+  status     VisitorStatus @default(CHECKED_IN)
+  checkIn    DateTime      @default(now())
+  checkOut   DateTime?
+  createdAt  DateTime      @default(now())
+  updatedAt  DateTime      @updatedAt
+}
+
+enum VisitorStatus {
+  CHECKED_IN
+  CHECKED_OUT
+}
+
+model Announcement {
+  id          String   @id @default(cuid())
+  title      String
+  content    String   @db.Text
+  priority   AnnouncementPriority @default(NORMAL)
+  isActive   Boolean  @default(true)
+  startsAt   DateTime @default(now())
+  endsAt     DateTime?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+enum AnnouncementPriority {
+  NORMAL
+  IMPORTANT
+  URGENT
+}

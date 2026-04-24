@@ -2,7 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon } from "@mantine/core";
 import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuildingCommunity } from "@tabler/icons-react";
-import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "101", floor: 1, type: "Studio", status: "Occupied", resident: "John Doe", color: "blue" },
@@ -61,8 +61,10 @@ const translations = {
 };
 
 export default function UnitsPage() {
-  const { lang } = useLanguageStore();
+  const { lang, mounted } = useTranslation();
   const t = translations[lang];
+
+  if (!mounted) return null;
 
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>

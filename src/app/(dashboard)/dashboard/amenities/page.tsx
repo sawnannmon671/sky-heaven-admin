@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Badge, Stack, Text, SimpleGrid, Card, Image, ActionIcon, ThemeIcon } from "@mantine/core";
 import { IconPlus, IconCalendar, IconUsers, IconClock, IconSettings } from "@tabler/icons-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const amenities = [
   { title: "Swimming Pool", status: "Open", capacity: "20 people", schedule: "06:00 - 22:00", image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&q=80" },
@@ -10,7 +11,53 @@ const amenities = [
   { title: "Function Hall", status: "Maintenance", capacity: "100 people", schedule: "Closed", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&q=80" },
 ];
 
+const translations = {
+  en: {
+    title: "Amenities & Facilities",
+    subtitle: "Explore and reserve property amenities and common areas.",
+    addBtn: "Add Amenity",
+    bookBtn: "Book Now",
+    capacityLabel: "Capacity",
+    scheduleLabel: "Schedule",
+    statuses: {
+      Open: "Open",
+      Reserved: "Reserved",
+      Maintenance: "Maintenance",
+    },
+    amenityTitles: {
+      "Swimming Pool": "Swimming Pool",
+      "Gym Center": "Gym Center",
+      "BBQ Area": "BBQ Area",
+      "Function Hall": "Function Hall",
+    },
+  },
+  mm: {
+    title: "သာယာအဆင်ပြေမှုများနှင့် အဆောက်အအုံများ",
+    subtitle: "အိမ်ခြံမြေ၏ သာယာအဆင်ပြေမှုများနှင့် အများသုံးနေရာများကို ရှာဖွေပြီး ကြိုတင်မှာယူပါ။",
+    addBtn: "ဝန်ဆောင်မှုအသစ်ထည့်ရန်",
+    bookBtn: "ကြိုတင်မှာယူရန်",
+    capacityLabel: "ဆံ့ဝင်ဦးရေ",
+    scheduleLabel: "အချိန်ဇယား",
+    statuses: {
+      Open: "ဖွင့်လှစ်ထား",
+      Reserved: "ကြိုတင်မှာယူထား",
+      Maintenance: "ပြုပြင်ထိန်းသိမ်းဆဲ",
+    },
+    amenityTitles: {
+      "Swimming Pool": "ရေကူးကန်",
+      "Gym Center": "အားကစားခန်းမ",
+      "BBQ Area": "အကင်စားသောက်ရန်နေရာ",
+      "Function Hall": "အခမ်းအနားခန်းမ",
+    },
+  },
+};
+
 export default function AmenitiesPage() {
+  const { lang, mounted } = useTranslation();
+  const t = translations[lang];
+
+  if (!mounted) return null;
+
   const cards = amenities.map((item) => (
     <Card key={item.title} shadow="sm" padding="0" radius="md" withBorder>
       <Card.Section>
@@ -23,12 +70,14 @@ export default function AmenitiesPage() {
 
       <Stack p="md" gap="xs">
         <Group justify="space-between">
-          <Text fw={700} size="lg">{item.title}</Text>
+          <Text fw={700} size="lg">
+            {t.amenityTitles[item.title as keyof typeof t.amenityTitles] || item.title}
+          </Text>
           <Badge 
             variant="light" 
             color={item.status === "Open" ? "green" : item.status === "Reserved" ? "blue" : "red"}
           >
-            {item.status}
+            {t.statuses[item.status as keyof typeof t.statuses]}
           </Badge>
         </Group>
 
@@ -37,13 +86,13 @@ export default function AmenitiesPage() {
             <ThemeIcon variant="light" size="sm" color="gray">
               <IconUsers size={14} />
             </ThemeIcon>
-            <Text size="sm" c="dimmed">Capacity: {item.capacity}</Text>
+            <Text size="sm" c="dimmed">{t.capacityLabel}: {item.capacity}</Text>
           </Group>
           <Group gap={8}>
             <ThemeIcon variant="light" size="sm" color="gray">
               <IconClock size={14} />
             </ThemeIcon>
-            <Text size="sm" c="dimmed">Schedule: {item.schedule}</Text>
+            <Text size="sm" c="dimmed">{t.scheduleLabel}: {item.schedule}</Text>
           </Group>
         </Stack>
 
@@ -56,7 +105,7 @@ export default function AmenitiesPage() {
             leftSection={<IconCalendar size={16} />}
             disabled={item.status === "Maintenance"}
           >
-            Book Now
+            {t.bookBtn}
           </Button>
           <ActionIcon variant="light" size="lg" color="gray" radius="md">
             <IconSettings size={18} />
@@ -70,10 +119,10 @@ export default function AmenitiesPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>Amenities & Facilities</Title>
-          <Text c="dimmed" size="sm">Explore and reserve property amenities and common areas.</Text>
+          <Title order={2}>{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconPlus size={16} />} color="#014F86">Add Amenity</Button>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="xl">

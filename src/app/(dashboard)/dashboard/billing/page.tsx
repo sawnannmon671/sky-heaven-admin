@@ -2,7 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon, ThemeIcon, TextInput } from "@mantine/core";
 import { IconDownload, IconPrinter, IconFileInvoice, IconSearch, IconEye } from "@tabler/icons-react";
-import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "INV-001", unit: "101", amount: "$150.00", type: "Monthly Fee", status: "Paid", date: "2024-04-01" },
@@ -60,8 +60,10 @@ const translations = {
 };
 
 export default function BillingPage() {
-  const { lang } = useLanguageStore();
+  const { lang, mounted } = useTranslation();
   const t = translations[lang];
+
+  if (!mounted) return null;
 
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>

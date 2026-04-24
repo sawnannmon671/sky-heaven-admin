@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput } from "@mantine/core";
 import { IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch } from "@tabler/icons-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "REQ-101", unit: "101", category: "Plumbing", priority: "High", status: "In Progress", date: "2024-04-20", color: "red" },
@@ -9,7 +10,79 @@ const elements = [
   { id: "REQ-103", unit: "303", category: "Cleaning", priority: "Low", status: "Completed", date: "2024-04-18", color: "blue" },
 ];
 
+const translations = {
+  en: {
+    title: "Maintenance Requests",
+    subtitle: "Track and manage property maintenance and repair tickets.",
+    addBtn: "New Request",
+    searchPlaceholder: "Search requests...",
+    filterStatus: "Filter by Status",
+    table: {
+      requestId: "Request ID",
+      unit: "Unit",
+      category: "Category",
+      priority: "Priority",
+      status: "Status",
+      date: "Date",
+      actions: "Actions",
+    },
+    categories: {
+      Plumbing: "Plumbing",
+      Electrical: "Electrical",
+      Cleaning: "Cleaning",
+    },
+    priorities: {
+      High: "High",
+      Medium: "Medium",
+      Low: "Low",
+    },
+    statuses: {
+      Pending: "Pending",
+      "In Progress": "In Progress",
+      Completed: "Completed",
+    },
+    unitLabel: "Unit",
+  },
+  mm: {
+    title: "ပြုပြင်ထိန်းသိမ်းမှု တောင်းဆိုချက်များ",
+    subtitle: "အိမ်ခြံမြေ ပြုပြင်ထိန်းသိမ်းမှုနှင့် ပြင်ဆင်ရေးလက်မှတ်များကို ခြေရာခံပြီး စီမံခန့်ခွဲပါ။",
+    addBtn: "တောင်းဆိုချက်အသစ်",
+    searchPlaceholder: "တောင်းဆိုချက်များကို ရှာဖွေရန်...",
+    filterStatus: "အခြေအနေဖြင့် စစ်ထုတ်ရန်",
+    table: {
+      requestId: "တောင်းဆိုမှုနံပါတ်",
+      unit: "အခန်း",
+      category: "အမျိုးအစား",
+      priority: "ဦးစားပေး",
+      status: "အခြေအနေ",
+      date: "ရက်စွဲ",
+      actions: "လုပ်ဆောင်ချက်များ",
+    },
+    categories: {
+      Plumbing: "ပိုက်ပြင်ခြင်း",
+      Electrical: "လျှပ်စစ်",
+      Cleaning: "သန့်ရှင်းရေး",
+    },
+    priorities: {
+      High: "အရေးကြီး",
+      Medium: "အလယ်အလတ်",
+      Low: "သာမန်",
+    },
+    statuses: {
+      Pending: "စောင့်ဆိုင်းဆဲ",
+      "In Progress": "ဆောင်ရွက်ဆဲ",
+      Completed: "ပြီးစီး",
+    },
+    unitLabel: "အခန်း",
+  },
+};
+
 export default function MaintenancePage() {
+  const { lang, mounted } = useTranslation();
+  const t = translations[lang];
+
+  if (!mounted) return null;
+
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
@@ -20,16 +93,16 @@ export default function MaintenancePage() {
           <Text size="sm" fw={500}>{element.id}</Text>
         </Group>
       </Table.Td>
-      <Table.Td>Unit {element.unit}</Table.Td>
-      <Table.Td>{element.category}</Table.Td>
+      <Table.Td>{t.unitLabel} {element.unit}</Table.Td>
+      <Table.Td>{t.categories[element.category as keyof typeof t.categories]}</Table.Td>
       <Table.Td>
         <Badge variant="light" color={element.priority === "High" ? "red" : element.priority === "Medium" ? "orange" : "blue"}>
-          {element.priority}
+          {t.priorities[element.priority as keyof typeof t.priorities]}
         </Badge>
       </Table.Td>
       <Table.Td>
         <Badge variant="dot" color={element.status === "Completed" ? "green" : element.status === "In Progress" ? "blue" : "yellow"}>
-          {element.status}
+          {t.statuses[element.status as keyof typeof t.statuses]}
         </Badge>
       </Table.Td>
       <Table.Td>
@@ -55,22 +128,26 @@ export default function MaintenancePage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>Maintenance Requests</Title>
-          <Text c="dimmed" size="sm">Track and manage property maintenance and repair tickets.</Text>
+          <Title order={2}>{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconPlus size={16} />} color="#014F86">New Request</Button>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Group mb="xl" justify="space-between">
           <TextInput
-            placeholder="Search requests..."
+            placeholder={t.searchPlaceholder}
             leftSection={<IconSearch size={16} />}
             style={{ flex: 1 }}
           />
           <Select
-            placeholder="Filter by Status"
-            data={["Pending", "In Progress", "Completed"]}
+            placeholder={t.filterStatus}
+            data={[
+              { value: "Pending", label: t.statuses.Pending },
+              { value: "In Progress", label: t.statuses["In Progress"] },
+              { value: "Completed", label: t.statuses.Completed },
+            ]}
             leftSection={<IconFilter size={16} />}
             style={{ width: 200 }}
           />
@@ -78,13 +155,13 @@ export default function MaintenancePage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Request ID</Table.Th>
-              <Table.Th>Unit</Table.Th>
-              <Table.Th>Category</Table.Th>
-              <Table.Th>Priority</Table.Th>
-              <Table.Th>Status</Table.Th>
-              <Table.Th>Date</Table.Th>
-              <Table.Th ta="right">Actions</Table.Th>
+              <Table.Th>{t.table.requestId}</Table.Th>
+              <Table.Th>{t.table.unit}</Table.Th>
+              <Table.Th>{t.table.category}</Table.Th>
+              <Table.Th>{t.table.priority}</Table.Th>
+              <Table.Th>{t.table.status}</Table.Th>
+              <Table.Th>{t.table.date}</Table.Th>
+              <Table.Th ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

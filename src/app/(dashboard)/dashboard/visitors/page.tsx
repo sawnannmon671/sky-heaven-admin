@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Badge, Stack, Text, Avatar, TextInput, ActionIcon } from "@mantine/core";
 import { IconUserPlus, IconSearch, IconEye, IconTrash, IconClock, IconUserCheck, IconUserMinus } from "@tabler/icons-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "1", name: "David Miller", unit: "101", purpose: "Delivery", checkIn: "10:30 AM", status: "Checked In", color: "cyan" },
@@ -9,7 +10,71 @@ const elements = [
   { id: "3", name: "Mike Tyson", unit: "305", purpose: "Maintenance", checkIn: "11:00 AM", status: "Checked In", color: "orange" },
 ];
 
+const translations = {
+  en: {
+    title: "Visitor Log",
+    subtitle: "Monitor and manage visitor access to the property.",
+    addBtn: "Register Visitor",
+    searchPlaceholder: "Search visitors by name, unit or purpose...",
+    unitPrefix: "Unit",
+    table: {
+      name: "Visitor Name",
+      unit: "Unit",
+      purpose: "Purpose",
+      checkIn: "Check In",
+      status: "Status",
+      actions: "Actions",
+    },
+    purposes: {
+      Delivery: "Delivery",
+      Guest: "Guest",
+      Maintenance: "Maintenance",
+    },
+    statuses: {
+      "Checked In": "Checked In",
+      "Checked Out": "Checked Out",
+    },
+    actions: {
+      checkOut: "Check Out",
+      reEntry: "Re-entry",
+    },
+  },
+  mm: {
+    title: "ဧည့်သည်မှတ်တမ်း",
+    subtitle: "အိမ်ခြံမြေအတွင်း ဧည့်သည်များ ဝင်ထွက်သွားလာမှုကို စောင့်ကြည့်စီမံပါ။",
+    addBtn: "ဧည့်သည်စာရင်းသွင်းရန်",
+    searchPlaceholder: "အမည်၊ အခန်းနံပါတ် သို့မဟုတ် အကြောင်းအရာဖြင့် ရှာဖွေရန်...",
+    unitPrefix: "အခန်း",
+    table: {
+      name: "ဧည့်သည်အမည်",
+      unit: "အခန်း",
+      purpose: "လာရောက်သည့်အကြောင်းအရာ",
+      checkIn: "ဝင်ရောက်သည့်အချိန်",
+      status: "အခြေအနေ",
+      actions: "လုပ်ဆောင်ချက်များ",
+    },
+    purposes: {
+      Delivery: "ပစ္စည်းပို့ဆောင်မှု",
+      Guest: "ဧည့်သည်",
+      Maintenance: "ပြုပြင်ထိန်းသိမ်းမှု",
+    },
+    statuses: {
+      "Checked In": "ဝင်ရောက်ထား",
+      "Checked Out": "ထွက်ခွာပြီး",
+    },
+    actions: {
+      checkOut: "ထွက်ခွာရန်",
+      reEntry: "ပြန်လည်ဝင်ရောက်ရန်",
+    },
+  },
+};
+
 export default function VisitorsPage() {
+  const { lang, mounted } = useTranslation();
+  const t = translations[lang];
+
+  if (!mounted) return null;
+
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
@@ -18,9 +83,11 @@ export default function VisitorsPage() {
           <Text size="sm" fw={500}>{element.name}</Text>
         </Group>
       </Table.Td>
-      <Table.Td>Unit {element.unit}</Table.Td>
+      <Table.Td>{t.unitPrefix} {element.unit}</Table.Td>
       <Table.Td>
-        <Badge variant="light" color="gray">{element.purpose}</Badge>
+        <Badge variant="light" color="gray">
+          {t.purposes[element.purpose as keyof typeof t.purposes] || element.purpose}
+        </Badge>
       </Table.Td>
       <Table.Td>
         <Group gap={4}>
@@ -30,7 +97,7 @@ export default function VisitorsPage() {
       </Table.Td>
       <Table.Td>
         <Badge variant="dot" color={element.status === "Checked In" ? "green" : "gray"}>
-          {element.status}
+          {t.statuses[element.status as keyof typeof t.statuses] || element.status}
         </Badge>
       </Table.Td>
       <Table.Td>
@@ -38,11 +105,11 @@ export default function VisitorsPage() {
           <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
           {element.status === "Checked In" ? (
             <Button variant="subtle" size="xs" color="red" leftSection={<IconUserMinus size={14} />}>
-              Check Out
+              {t.actions.checkOut}
             </Button>
           ) : (
             <Button variant="subtle" size="xs" color="blue" leftSection={<IconUserCheck size={14} />}>
-              Re-entry
+              {t.actions.reEntry}
             </Button>
           )}
           <ActionIcon variant="subtle" color="red"><IconTrash size={16} /></ActionIcon>
@@ -55,15 +122,15 @@ export default function VisitorsPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>Visitor Log</Title>
-          <Text c="dimmed" size="sm">Monitor and manage visitor access to the property.</Text>
+          <Title order={2}>{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconUserPlus size={16} />} color="#014F86">Register Visitor</Button>
+        <Button leftSection={<IconUserPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <TextInput
-          placeholder="Search visitors by name, unit or purpose..."
+          placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"
@@ -71,12 +138,12 @@ export default function VisitorsPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Visitor Name</Table.Th>
-              <Table.Th>Unit</Table.Th>
-              <Table.Th>Purpose</Table.Th>
-              <Table.Th>Check In</Table.Th>
-              <Table.Th>Status</Table.Th>
-              <Table.Th ta="right">Actions</Table.Th>
+              <Table.Th>{t.table.name}</Table.Th>
+              <Table.Th>{t.table.unit}</Table.Th>
+              <Table.Th>{t.table.purpose}</Table.Th>
+              <Table.Th>{t.table.checkIn}</Table.Th>
+              <Table.Th>{t.table.status}</Table.Th>
+              <Table.Th ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

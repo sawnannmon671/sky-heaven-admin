@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, TextInput, Badge, Stack, Avatar, Text, ActionIcon } from "@mantine/core";
 import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconPhone, IconMail } from "@tabler/icons-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "1", name: "John Doe", unit: "101", phone: "09-123456789", email: "john@example.com", type: "Owner", status: "Active", color: "blue" },
@@ -9,7 +10,61 @@ const elements = [
   { id: "3", name: "Robert Wilson", unit: "305", phone: "09-555666777", email: "robert@example.com", type: "Owner", status: "Inactive", color: "gray" },
 ];
 
+const translations = {
+  en: {
+    title: "Residents Directory",
+    subtitle: "Manage resident profiles, contact information, and occupancy status.",
+    addBtn: "Add Resident",
+    searchPlaceholder: "Search residents by name, unit, phone or email...",
+    table: {
+      name: "Name & Contact",
+      unit: "Unit",
+      phone: "Phone",
+      type: "Type",
+      status: "Status",
+      actions: "Actions",
+    },
+    types: {
+      Owner: "Owner",
+      Tenant: "Tenant",
+    },
+    statuses: {
+      Active: "Active",
+      Inactive: "Inactive",
+    },
+    unitLabel: "Unit",
+  },
+  mm: {
+    title: "နေထိုင်သူများစာရင်း",
+    subtitle: "နေထိုင်သူများ၏ ကိုယ်ရေးအချက်အလက်များ၊ ဆက်သွယ်ရန်နှင့် နေထိုင်မှုအခြေအနေများကို စီမံခန့်ခွဲပါ။",
+    addBtn: "နေထိုင်သူအသစ်ထည့်ရန်",
+    searchPlaceholder: "နေထိုင်သူအမည်၊ အခန်းနံပါတ်၊ ဖုန်း သို့မဟုတ် အီးမေးလ်ဖြင့် ရှာဖွေရန်...",
+    table: {
+      name: "အမည်နှင့် ဆက်သွယ်ရန်",
+      unit: "အခန်းနံပါတ်",
+      phone: "ဖုန်း",
+      type: "အမျိုးအစား",
+      status: "အခြေအနေ",
+      actions: "လုပ်ဆောင်ချက်များ",
+    },
+    types: {
+      Owner: "ပိုင်ရှင်",
+      Tenant: "အိမ်ငှား",
+    },
+    statuses: {
+      Active: "အသုံးပြုဆဲ",
+      Inactive: "ရပ်နားထား",
+    },
+    unitLabel: "အခန်း",
+  },
+};
+
 export default function ResidentsPage() {
+  const { lang, mounted } = useTranslation();
+  const t = translations[lang];
+
+  if (!mounted) return null;
+
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
@@ -22,7 +77,7 @@ export default function ResidentsPage() {
         </Group>
       </Table.Td>
       <Table.Td>
-        <Text size="sm" fw={500}>Unit {element.unit}</Text>
+        <Text size="sm" fw={500}>{t.unitLabel} {element.unit}</Text>
       </Table.Td>
       <Table.Td>
         <Group gap={4}>
@@ -31,10 +86,14 @@ export default function ResidentsPage() {
         </Group>
       </Table.Td>
       <Table.Td>
-        <Badge variant="light" color={element.type === "Owner" ? "violet" : "blue"}>{element.type}</Badge>
+        <Badge variant="light" color={element.type === "Owner" ? "violet" : "blue"}>
+          {t.types[element.type as keyof typeof t.types]}
+        </Badge>
       </Table.Td>
       <Table.Td>
-        <Badge variant="dot" color={element.status === "Active" ? "green" : "gray"}>{element.status}</Badge>
+        <Badge variant="dot" color={element.status === "Active" ? "green" : "gray"}>
+          {t.statuses[element.status as keyof typeof t.statuses]}
+        </Badge>
       </Table.Td>
       <Table.Td>
         <Group gap={4} justify="flex-end">
@@ -56,15 +115,15 @@ export default function ResidentsPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>Residents Directory</Title>
-          <Text c="dimmed" size="sm">Manage resident profiles, contact information, and occupancy status.</Text>
+          <Title order={2}>{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconPlus size={16} />} color="#014F86">Add Resident</Button>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <TextInput
-          placeholder="Search residents by name, unit, phone or email..."
+          placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"
@@ -72,12 +131,12 @@ export default function ResidentsPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Name & Contact</Table.Th>
-              <Table.Th>Unit</Table.Th>
-              <Table.Th>Phone</Table.Th>
-              <Table.Th>Type</Table.Th>
-              <Table.Th>Status</Table.Th>
-              <Table.Th ta="right">Actions</Table.Th>
+              <Table.Th>{t.table.name}</Table.Th>
+              <Table.Th>{t.table.unit}</Table.Th>
+              <Table.Th>{t.table.phone}</Table.Th>
+              <Table.Th>{t.table.type}</Table.Th>
+              <Table.Th>{t.table.status}</Table.Th>
+              <Table.Th ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

@@ -1,12 +1,52 @@
 "use client";
 import { Title, Paper, Table, Group, Button, TextInput, Stack, ActionIcon, Text, ThemeIcon, Badge } from "@mantine/core";
 import { IconPlus, IconSearch, IconFileText, IconDownload, IconTrash, IconEye, IconFileTypePdf, IconFileTypeXls } from "@tabler/icons-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "DOC-001", name: "Building Rules & Regulations.pdf", type: "PDF", size: "1.2 MB", date: "2024-01-15" },
   { id: "DOC-002", name: "Maintenance Schedule 2024.xlsx", type: "Excel", size: "450 KB", date: "2024-03-10" },
   { id: "DOC-003", name: "Resident Directory 2024.pdf", type: "PDF", size: "2.5 MB", date: "2024-04-01" },
 ];
+
+const translations = {
+  en: {
+    title: "Document Repository",
+    subtitle: "Access and manage property documents, manuals, and reports.",
+    addBtn: "Upload Document",
+    searchPlaceholder: "Search documents by name, type or ID...",
+    table: {
+      name: "Document Name",
+      type: "Type",
+      size: "Size",
+      date: "Date Added",
+      actions: "Actions",
+    },
+    docNames: {
+      "Building Rules & Regulations.pdf": "Building Rules & Regulations.pdf",
+      "Maintenance Schedule 2024.xlsx": "Maintenance Schedule 2024.xlsx",
+      "Resident Directory 2024.pdf": "Resident Directory 2024.pdf",
+    },
+  },
+  mm: {
+    title: "စာရွက်စာတမ်းများ သိမ်းဆည်းရာနေရာ",
+    subtitle: "အိမ်ခြံမြေ စာရွက်စာတမ်းများ၊ လမ်းညွှန်ချက်များနှင့် အစီရင်ခံစာများကို ကြည့်ရှုစီမံပါ။",
+    addBtn: "စာရွက်စာတမ်း တင်ရန်",
+    searchPlaceholder: "အမည်၊ အမျိုးအစား သို့မဟုတ် နံပါတ်ဖြင့် ရှာဖွေရန်...",
+    table: {
+      name: "စာရွက်စာတမ်းအမည်",
+      type: "အမျိုးအစား",
+      size: "ပမာဏ",
+      date: "တင်သည့်ရက်စွဲ",
+      actions: "လုပ်ဆောင်ချက်များ",
+    },
+    docNames: {
+      "Building Rules & Regulations.pdf": "အဆောက်အအုံ စည်းမျဉ်းစည်းကမ်းများ.pdf",
+      "Maintenance Schedule 2024.xlsx": "ပြုပြင်ထိန်းသိမ်းမှု အစီအစဉ် ၂၀၂၄.xlsx",
+      "Resident Directory 2024.pdf": "နေထိုင်သူများ လမ်းညွှန် ၂၀၂၄.pdf",
+    },
+  },
+};
 
 const getFileIcon = (type: string) => {
   switch (type) {
@@ -17,6 +57,11 @@ const getFileIcon = (type: string) => {
 };
 
 export default function DocumentsPage() {
+  const { lang, mounted } = useTranslation();
+  const t = translations[lang];
+
+  if (!mounted) return null;
+
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
@@ -25,7 +70,9 @@ export default function DocumentsPage() {
             {getFileIcon(element.type)}
           </ThemeIcon>
           <div>
-            <Text size="sm" fw={500}>{element.name}</Text>
+            <Text size="sm" fw={500}>
+              {t.docNames[element.name as keyof typeof t.docNames] || element.name}
+            </Text>
             <Text size="xs" c="dimmed">{element.id}</Text>
           </div>
         </Group>
@@ -55,15 +102,15 @@ export default function DocumentsPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>Document Repository</Title>
-          <Text c="dimmed" size="sm">Access and manage property documents, manuals, and reports.</Text>
+          <Title order={2}>{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconPlus size={16} />} color="#014F86">Upload Document</Button>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <TextInput
-          placeholder="Search documents by name, type or ID..."
+          placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"
@@ -71,11 +118,11 @@ export default function DocumentsPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>Document Name</Table.Th>
-              <Table.Th>Type</Table.Th>
-              <Table.Th>Size</Table.Th>
-              <Table.Th>Date Added</Table.Th>
-              <Table.Th ta="right">Actions</Table.Th>
+              <Table.Th>{t.table.name}</Table.Th>
+              <Table.Th>{t.table.type}</Table.Th>
+              <Table.Th>{t.table.size}</Table.Th>
+              <Table.Th>{t.table.date}</Table.Th>
+              <Table.Th ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

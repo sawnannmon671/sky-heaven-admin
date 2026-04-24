@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Badge, Stack, Text, Avatar, TextInput, ActionIcon } from "@mantine/core";
 import { IconUserPlus, IconSearch, IconShieldLock, IconEdit, IconTrash, IconEye } from "@tabler/icons-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
   { id: "1", name: "Admin User", email: "admin@skyhaven.com", role: "Admin", status: "Active", color: "red" },
@@ -9,7 +10,57 @@ const elements = [
   { id: "3", name: "Technician", email: "tech@skyhaven.com", role: "Staff", status: "Inactive", color: "gray" },
 ];
 
+const translations = {
+  en: {
+    title: "Staff & User Management",
+    subtitle: "Manage administrative access and property staff roles.",
+    addBtn: "Add Staff",
+    searchPlaceholder: "Search staff by name, email or role...",
+    table: {
+      user: "User",
+      role: "Role",
+      status: "Status",
+      actions: "Actions",
+    },
+    roles: {
+      Admin: "Admin",
+      Manager: "Manager",
+      Staff: "Staff",
+    },
+    statuses: {
+      Active: "Active",
+      Inactive: "Inactive",
+    },
+  },
+  mm: {
+    title: "ဝန်ထမ်းနှင့် အသုံးပြုသူ စီမံခန့်ခွဲမှု",
+    subtitle: "စီမံခန့်ခွဲခွင့်နှင့် အိမ်ခြံမြေ ဝန်ထမ်းအဆင့်အတန်းများကို စီမံခန့်ခွဲပါ။",
+    addBtn: "ဝန်ထမ်းအသစ်ထည့်ရန်",
+    searchPlaceholder: "အမည်၊ အီးမေးလ် သို့မဟုတ် ရာထူးဖြင့် ရှာဖွေရန်...",
+    table: {
+      user: "အသုံးပြုသူ",
+      role: "ရာထူး",
+      status: "အခြေအနေ",
+      actions: "လုပ်ဆောင်ချက်များ",
+    },
+    roles: {
+      Admin: "စီမံခန့်ခွဲသူ",
+      Manager: "မန်နေဂျာ",
+      Staff: "ဝန်ထမ်း",
+    },
+    statuses: {
+      Active: "အသုံးပြုဆဲ",
+      Inactive: "ရပ်နားထား",
+    },
+  },
+};
+
 export default function StaffPage() {
+  const { lang, mounted } = useTranslation();
+  const t = translations[lang];
+
+  if (!mounted) return null;
+
   const rows = elements.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
@@ -23,12 +74,12 @@ export default function StaffPage() {
       </Table.Td>
       <Table.Td>
         <Badge variant="light" color={element.role === "Admin" ? "red" : element.role === "Manager" ? "blue" : "gray"}>
-          {element.role}
+          {t.roles[element.role as keyof typeof t.roles]}
         </Badge>
       </Table.Td>
       <Table.Td>
         <Badge variant="dot" color={element.status === "Active" ? "green" : "gray"}>
-          {element.status}
+          {t.statuses[element.status as keyof typeof t.statuses]}
         </Badge>
       </Table.Td>
       <Table.Td>
@@ -46,15 +97,15 @@ export default function StaffPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>Staff & User Management</Title>
-          <Text c="dimmed" size="sm">Manage administrative access and property staff roles.</Text>
+          <Title order={2}>{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconUserPlus size={16} />} color="#014F86">Add Staff</Button>
+        <Button leftSection={<IconUserPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <TextInput
-          placeholder="Search staff by name, email or role..."
+          placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"
@@ -62,10 +113,10 @@ export default function StaffPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>User</Table.Th>
-              <Table.Th>Role</Table.Th>
-              <Table.Th>Status</Table.Th>
-              <Table.Th ta="right">Actions</Table.Th>
+              <Table.Th>{t.table.user}</Table.Th>
+              <Table.Th>{t.table.role}</Table.Th>
+              <Table.Th>{t.table.status}</Table.Th>
+              <Table.Th ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows}</Table.Tbody>

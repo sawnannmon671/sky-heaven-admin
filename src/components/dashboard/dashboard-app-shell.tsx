@@ -30,7 +30,7 @@ import { Session } from "next-auth";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslation } from "@/hooks/useTranslation";
 import classes from "./dashboard-app-shell.module.css";
 
 export function DashboardAppShell({
@@ -47,7 +47,7 @@ export function DashboardAppShell({
   const [operationsOpened, setOperationsOpened] = useState(false);
   const [adminOpened, setAdminOpened] = useState(false);
   const [settingsOpened, setSettingsOpened] = useState(false);
-  const { lang, setLang } = useLanguageStore();
+  const { lang, setLang, mounted } = useTranslation();
 
   const languages = {
     en: { label: "English", flag: "https://flagcdn.com/w40/us.png" },

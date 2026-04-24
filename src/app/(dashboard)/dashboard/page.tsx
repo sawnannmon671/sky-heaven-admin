@@ -29,7 +29,7 @@ import {
   IconCircleCheck,
   IconClock,
 } from "@tabler/icons-react";
-import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const stats = [
   {
@@ -185,8 +185,10 @@ const translations = {
 };
 
 export default function DashboardPage() {
-  const { lang } = useLanguageStore();
+  const { lang, mounted } = useTranslation();
   const t = translations[lang];
+
+  if (!mounted) return null;
 
   const cards = stats.map((stat) => {
     const Icon = stat.icon;

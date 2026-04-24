@@ -2,7 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput } from "@mantine/core";
 import { IconSearch, IconPlus, IconEdit, IconTrash, IconCreditCard } from "@tabler/icons-react";
-import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const paymentTypes = [
   { id: 1, name: "Cash", description: "Direct cash payments", status: "Active" },
@@ -59,8 +59,10 @@ const translations = {
 };
 
 export default function PaymentTypePage() {
-  const { lang } = useLanguageStore();
+  const { lang, mounted } = useTranslation();
   const t = translations[lang];
+
+  if (!mounted) return null;
 
   const rows = paymentTypes.map((type) => (
     <Table.Tr key={type.id}>

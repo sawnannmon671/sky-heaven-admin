@@ -2,7 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput } from "@mantine/core";
 import { IconSearch, IconPlus, IconEdit, IconTrash, IconWallet } from "@tabler/icons-react";
-import { useLanguageStore } from "@/store/useLanguageStore";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const paymentMethods = [
   { id: 1, name: "AYA Bank", type: "Bank Transfer", account: "123-456-789", status: "Active" },
@@ -48,8 +48,10 @@ const translations = {
 };
 
 export default function PaymentMethodPage() {
-  const { lang } = useLanguageStore();
+  const { lang, mounted } = useTranslation();
   const t = translations[lang];
+
+  if (!mounted) return null;
 
   const rows = paymentMethods.map((method) => (
     <Table.Tr key={method.id}>

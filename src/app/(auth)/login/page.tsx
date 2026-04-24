@@ -22,7 +22,7 @@ export default async function LoginPage() {
     >
       <Paper p={40} radius="md" style={{ width: 400, background: "white" }}>
         <Title ta="center" mb="lg">
-          Sky Heaven
+          Sky Haven
         </Title>
         <Text ta="center" c="dimmed" size="sm" mb={30}>
           Condo Management System

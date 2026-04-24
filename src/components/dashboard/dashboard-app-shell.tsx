@@ -10,6 +10,7 @@ import {
   IconCalendar,
   IconCar,
   IconUser,
+  IconVideo,
   IconChartBar,
   IconLogout,
   IconSettings,
@@ -36,7 +37,7 @@ export function DashboardAppShell({
           <Group gap="xs">
             <Image src="/sh.png" alt="Sky Heaven Logo" h={32} w="auto" fit="contain" />
             <Text fw={700} size="lg">
-              Sky Heaven
+              Sky Haven
             </Text>
           </Group>
           <Menu shadow="md" width={200}>
@@ -87,6 +88,12 @@ export function DashboardAppShell({
             href="/dashboard/maintenance"
             label="Maintenance"
             leftSection={<IconTools size={20} />}
+            className={classes.navLink}
+          />
+          <NavLink
+            href="/dashboard/video-call"
+            label="Video Call"
+            leftSection={<IconVideo size={20} />}
             className={classes.navLink}
           />
           <NavLink

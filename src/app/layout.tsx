@@ -6,7 +6,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Sky Heaven - Condo Management",
+  title: "Sky Haven - Condo Management",
   description: "Condo Building Management System",
 };
 

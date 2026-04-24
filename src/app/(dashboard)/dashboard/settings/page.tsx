@@ -102,7 +102,7 @@ export default function SettingsPage() {
         <Stack gap="md">
           <Title order={4}>About</Title>
           <Text size="sm">
-            Sky Heaven Condo Management System v0.1.0
+            Sky Haven Condo Management System v0.1.0
           </Text>
         </Stack>
       </Paper>

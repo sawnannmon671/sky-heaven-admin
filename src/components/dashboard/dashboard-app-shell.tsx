@@ -14,6 +14,8 @@ import {
   IconChartBar,
   IconLogout,
   IconSettings,
+  IconBell,
+  IconUserCircle,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
@@ -37,24 +39,43 @@ export function DashboardAppShell({
           <Group gap="xs">
             <Image src="/sh.png" alt="Sky Heaven Logo" h={32} w="auto" fit="contain" />
             <Text fw={700} size="lg">
-              Sky Haven
+              Sky Heaven Admin
             </Text>
           </Group>
-          <Menu shadow="md" width={200}>
-            <Menu.Target>
-              <Button variant="subtle" size="sm">
-                {session?.user?.name || "Admin"}
-              </Button>
-            </Menu.Target>
-            <Menu.Dropdown>
-              <Menu.Item
-                leftSection={<IconLogout size={16} />}
-                onClick={() => signOut({ callbackUrl: "/login" })}
-              >
-                Sign out
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+          <Group gap="sm">
+            <Menu shadow="md" width={150}>
+              <Menu.Target>
+                <Button variant="subtle" color="gray" p={4} radius="md">
+                  <Text size="xl">🇺🇸</Text>
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Item leftSection={<Text size="lg">🇺🇸</Text>}>English</Menu.Item>
+                <Menu.Item leftSection={<Text size="lg">🇲🇲</Text>}>Myanmar</Menu.Item>
+                <Menu.Item leftSection={<Text size="lg">🇹🇭</Text>}>Thai</Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+            <Button variant="subtle" color="gray" p={4} radius="md">
+              <IconBell size={22} />
+            </Button>
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+                <Button variant="subtle" color="gray" p={4} radius="md">
+                  <IconUserCircle size={24} />
+                </Button>
+              </Menu.Target>
+              <Menu.Dropdown>
+                <Menu.Label>{session?.user?.name || "Admin"}</Menu.Label>
+                <Menu.Item leftSection={<IconUser size={16} />}>Profile</Menu.Item>
+                <Menu.Item
+                  leftSection={<IconLogout size={16} />}
+                  onClick={() => signOut({ callbackUrl: "/login" })}
+                >
+                  Sign out
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Group>
         </Group>
       </AppShell.Header>
 

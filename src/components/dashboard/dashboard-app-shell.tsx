@@ -55,20 +55,7 @@ export function DashboardAppShell({
       </AppShell.Header>
 
       <AppShell.Navbar className={classes.navbar}>
-        <Box className={classes.navbarHeader}>
-          <Stack align="center" gap="xs">
-            <Box className={classes.logoWrapper}>
-              <Image
-                src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=200&auto=format&fit=crop"
-                alt="Sky Heaven Logo"
-                radius="md"
-              />
-            </Box>
-            <Text c="white" fw={700} size="xl" ta="center">
-              Sky Heaven
-            </Text>
-          </Stack>
-        </Box>
+       
 
         <Box className={classes.navbarLinks}>
           <NavLink

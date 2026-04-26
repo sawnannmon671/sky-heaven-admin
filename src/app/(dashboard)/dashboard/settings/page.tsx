@@ -86,7 +86,7 @@ export default function SettingsPage() {
                   cursor: "pointer",
                   backgroundColor:
                     primaryColor === color
-                      ? theme.colors[color][theme.colorScheme === "dark" ? 9 : 0]
+                      ? theme.colors[color][colorScheme === "dark" ? 9 : 0]
                       : "transparent",
                   borderColor: primaryColor === color ? theme.colors[color][6] : undefined,
                 }}

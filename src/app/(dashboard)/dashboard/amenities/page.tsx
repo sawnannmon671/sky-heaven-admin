@@ -8,12 +8,12 @@ import {
   IconTrash, 
   IconExternalLink, 
   IconMicrophone, 
-  IconGlass, 
-  IconMoodBoy, 
+  IconGlassFull, 
+  IconMoodKid, 
   IconBallFootball, 
   IconBooks, 
   IconDeviceTv, 
-  IconSwimming,
+  IconPool,
   IconBarbell,
   IconMeat
 } from "@tabler/icons-react";
@@ -21,13 +21,13 @@ import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 const amenities = [
-  { title: "Swimming Pool", status: "Open", capacity: "20 people", schedule: "06:00 - 22:00", icon: <IconSwimming size={20} />, color: "blue" },
+  { title: "Swimming Pool", status: "Open", capacity: "20 people", schedule: "06:00 - 22:00", icon: <IconPool size={20} />, color: "blue" },
   { title: "Gym Center", status: "Open", capacity: "15 people", schedule: "24/7", icon: <IconBarbell size={20} />, color: "teal" },
   { title: "BBQ Area", status: "Reserved", capacity: "10 people", schedule: "17:00 - 23:00", icon: <IconMeat size={20} />, color: "orange" },
   { title: "Function Hall", status: "Maintenance", capacity: "100 people", schedule: "Closed", icon: <IconPlus size={20} />, color: "red" },
   { title: "Karaoke Room", status: "Open", capacity: "8 people", schedule: "10:00 - 00:00", icon: <IconMicrophone size={20} />, color: "pink" },
-  { title: "Sky Bar", status: "Open", capacity: "50 people", schedule: "16:00 - 02:00", icon: <IconGlass size={20} />, color: "indigo" },
-  { title: "Children Playground", status: "Open", capacity: "30 people", schedule: "08:00 - 20:00", icon: <IconMoodBoy size={20} />, color: "yellow" },
+  { title: "Sky Bar", status: "Open", capacity: "50 people", schedule: "16:00 - 02:00", icon: <IconGlassFull size={20} />, color: "indigo" },
+  { title: "Children Playground", status: "Open", capacity: "30 people", schedule: "08:00 - 20:00", icon: <IconMoodKid size={20} />, color: "yellow" },
   { title: "Futsal Court", status: "Open", capacity: "12 people", schedule: "06:00 - 22:00", icon: <IconBallFootball size={20} />, color: "green" },
   { title: "Reading Lounge", status: "Open", capacity: "20 people", schedule: "08:00 - 21:00", icon: <IconBooks size={20} />, color: "cyan" },
   { title: "Cinema Room", status: "Reserved", capacity: "12 people", schedule: "10:00 - 22:00", icon: <IconDeviceTv size={20} />, color: "grape" },

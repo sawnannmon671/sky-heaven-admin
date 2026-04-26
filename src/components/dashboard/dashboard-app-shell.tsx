@@ -24,6 +24,44 @@ import {
   IconDatabase,
   IconCreditCard,
   IconWallet,
+  IconUsersGroup,
+  IconUserPlus,
+  IconAddressBook,
+  IconFileInvoice,
+  IconDroplet,
+  IconAlertTriangle,
+  IconHistory,
+  IconRotate2,
+  IconReportMoney,
+  IconChartPie,
+  IconTicket,
+  IconClipboardList,
+  IconUserCog,
+  IconCalendarStats,
+  IconMessageExclamation,
+  IconParkingCircle,
+  IconId,
+  IconUserCheck,
+  IconDoorEnter,
+  IconIdBadge,
+  IconTruck,
+  IconPool,
+  IconBarbell,
+  IconArmchair,
+  IconGlassFull,
+  IconMail,
+  IconMessageReport,
+  IconUserShield,
+  IconBrush,
+  IconClock,
+  IconCalendarTime,
+  IconCloudUpload,
+  IconKey,
+  IconLock,
+  IconEye,
+  IconBuildingSkyscraper,
+  IconCoin,
+  IconDeviceFloppy,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
@@ -43,9 +81,17 @@ export function DashboardAppShell({
   const pathname = usePathname();
 
   const [propertyOpened, setPropertyOpened] = useState(false);
+  const [residentOpened, setResidentOpened] = useState(false);
   const [financeOpened, setFinanceOpened] = useState(false);
   const [operationsOpened, setOperationsOpened] = useState(false);
+  const [parkingOpened, setParkingOpened] = useState(false);
+  const [visitorOpened, setVisitorOpened] = useState(false);
+  const [amenitiesOpened, setAmenitiesOpened] = useState(false);
+  const [communicationOpened, setCommunicationOpened] = useState(false);
+  const [staffOpened, setStaffOpened] = useState(false);
   const [adminOpened, setAdminOpened] = useState(false);
+  const [reportsOpened, setReportsOpened] = useState(false);
+  const [userManagementOpened, setUserManagementOpened] = useState(false);
   const [settingsOpened, setSettingsOpened] = useState(false);
   const { lang, setLang, mounted } = useTranslation();
 
@@ -54,31 +100,86 @@ export function DashboardAppShell({
     mm: { label: "Myanmar", flag: "https://flagcdn.com/w40/mm.png" },
   };
 
+  const safeLang = (lang === "mm" ? "mm" : "en") as keyof typeof languages;
+
   const t = {
     en: {
       home: "Home",
       dashboard: "Dashboard",
       propertyManagement: "Property Management",
-      units: "Units",
-      residents: "Residents",
-      parking: "Parking",
-      amenities: "Amenities",
-      finance: "Finance",
-      billing: "Billing",
-      payments: "Payments",
-      reports: "Reports",
-      operations: "Operations",
+      buildings: "Buildings / Towers",
+      floors: "Floors",
+      units: "Units / Rooms",
+      unitTypes: "Unit Types",
+      facilities: "Facilities / Common Areas",
+      residentManagement: "Resident Management",
+      owners: "Owners",
+      tenants: "Tenants",
+      familyMembers: "Family Members",
+      moveInOut: "Move In / Move Out",
+      residentDirectory: "Resident Directory",
+      billingFinance: "Billing & Finance",
+      invoiceGeneration: "Invoice Generation",
+      maintenanceFees: "Monthly Maintenance Fees",
+      utilityBills: "Utility Bills",
+      lateFees: "Late Fees / Penalties",
+      paymentRecords: "Payment Records",
+      refunds: "Refunds",
+      expenseTracking: "Expense Tracking",
+      financialReports: "Financial Reports",
       maintenance: "Maintenance",
-      visitors: "Visitors",
-      staff: "Staff",
+      createTicket: "Create Ticket",
+      workOrders: "Work Orders",
+      technicianAssignment: "Technician Assignment",
+      preventiveMaintenance: "Schedule Preventive Maintenance",
+      complaintManagement: "Complaint Management",
+      parkingManagement: "Parking Management",
+      parkingSlots: "Parking Slots",
+      vehicleRegistration: "Vehicle Registration",
+      guestParking: "Guest Parking",
+      parkingFees: "Parking Fees",
+      visitorManagement: "Visitor Management",
+      visitorEntry: "Visitor Entry",
+      visitorPass: "Visitor Pass",
+      deliveryLogs: "Delivery Logs",
+      securityApproval: "Security Approval",
+      amenitiesBooking: "Amenities Booking",
+      gymBooking: "Gym Booking",
+      poolBooking: "Pool Booking",
+      meetingRoom: "Meeting Room",
+      eventHall: "Event Hall Reservation",
+      communication: "Communication",
       announcements: "Announcements",
-      administration: "Administration",
-      userManagement: "User Management",
+      notices: "Notices",
+      broadcast: "SMS / Email Broadcast",
+      feedback: "Complaint Feedback",
+      staffManagement: "Staff Management",
+      staffList: "Staff List",
+      securityGuards: "Security Guards",
+      cleaningStaff: "Cleaning Staff",
+      attendance: "Attendance",
+      shiftSchedule: "Shift Schedule",
       documents: "Documents",
+      contracts: "Contracts",
+      residentForms: "Resident Forms",
+      rules: "Rules & Regulations",
+      uploadFiles: "Upload Files",
+      reports: "Reports",
+      paymentReport: "Payment Report",
+      occupancyReport: "Occupancy Report",
+      maintenanceReport: "Maintenance Report",
+      visitorReport: "Visitor Report",
+      parkingReport: "Parking Report",
+      userManagement: "User Management",
+      users: "Users",
+      roles: "Roles & Permissions",
+      accessLogs: "Access Logs",
       settings: "Settings",
-      paymentType: "Payment Type",
-      paymentMethod: "Payment Method",
-      generalSettings: "General Settings",
+      companyProfile: "Company Profile",
+      condoInfo: "Condo Info",
+      currencyTax: "Currency / Tax",
+      notificationSettings: "Notification Settings",
+      backup: "Backup",
       profile: "Profile",
       signOut: "Sign out",
     },
@@ -86,52 +187,129 @@ export function DashboardAppShell({
       home: "ပင်မစာမျက်နှာ",
       dashboard: "ဒက်ရှ်ဘုတ်",
       propertyManagement: "အိမ်ခြံမြေစီမံခန့်ခွဲမှု",
-      units: "ယူနစ်များ",
-      residents: "နေထိုင်သူများ",
-      parking: "ကားပါကင်",
-      amenities: "အသုံးအဆောင်များ",
-      finance: "ဘဏ္ဍာရေး",
-      billing: "ငွေတောင်းခံလွှာ",
-      payments: "ငွေပေးချေမှုများ",
-      reports: "အစီရင်ခံစာများ",
-      operations: "လုပ်ငန်းဆောင်ရွက်မှုများ",
+      buildings: "အဆောက်အဦးများ / မျှော်စင်များ",
+      floors: "အလွှာများ",
+      units: "ယူနစ်များ / အခန်းများ",
+      unitTypes: "ယူနစ်အမျိုးအစားများ",
+      facilities: "အသုံးအဆောင်များ / ဘုံနေရာများ",
+      residentManagement: "နေထိုင်သူစီမံခန့်ခွဲမှု",
+      owners: "အိမ်ပိုင်ရှင်များ",
+      tenants: "အငှားနေထိုင်သူများ",
+      familyMembers: "မိသားစုဝင်များ",
+      moveInOut: "အဝင် / အထွက်",
+      residentDirectory: "နေထိုင်သူများစာရင်း",
+      billingFinance: "ငွေတောင်းခံလွှာနှင့် ဘဏ္ဍာရေး",
+      invoiceGeneration: "ငွေတောင်းခံလွှာထုတ်ခြင်း",
+      maintenanceFees: "လစဉ်ထိန်းသိမ်းခများ",
+      utilityBills: "ယူတီလီတီဘေလ်များ",
+      lateFees: "နောက်ကျကြေးများ",
+      paymentRecords: "ငွေပေးချေမှုမှတ်တမ်းများ",
+      refunds: "ငွေပြန်အမ်းမှုများ",
+      expenseTracking: "အသုံးစရိတ်ခြေရာခံခြင်း",
+      financialReports: "ဘဏ္ဍာရေးအစီရင်ခံစာများ",
       maintenance: "ပြုပြင်ထိန်းသိမ်းမှု",
-      visitors: "ဧည့်သည်များ",
-      staff: "ဝန်ထမ်းများ",
+      createTicket: "တိုင်ကြားချက်အသစ်ဖွင့်ရန်",
+      workOrders: "လုပ်ငန်းအမိန့်များ",
+      technicianAssignment: "စက်မှုကျွမ်းကျင်သူတာဝန်ပေးခြင်း",
+      preventiveMaintenance: "ကြိုတင်ထိန်းသိမ်းမှုအချိန်ဇယား",
+      complaintManagement: "တိုင်ကြားချက်စီမံခန့်ခွဲမှု",
+      parkingManagement: "ကားပါကင်စီမံခန့်ခွဲမှု",
+      parkingSlots: "ကားပါကင်နေရာများ",
+      vehicleRegistration: "ယာဉ်မှတ်ပုံတင်ခြင်း",
+      guestParking: "ဧည့်သည်ကားပါကင်",
+      parkingFees: "ကားပါကင်ခများ",
+      visitorManagement: "ဧည့်သည်စီမံခန့်ခွဲမှု",
+      visitorEntry: "ဧည့်သည်အဝင်",
+      visitorPass: "ဧည့်သည်ဝင်ခွင့်ကတ်",
+      deliveryLogs: "ပို့ဆောင်မှုမှတ်တမ်းများ",
+      securityApproval: "လုံခြုံရေးအတည်ပြုချက်",
+      amenitiesBooking: "အသုံးအဆောင်ဘွတ်ကင်လုပ်ခြင်း",
+      gymBooking: "ဂျင်မ်ဘွတ်ကင်",
+      poolBooking: "ရေကူးကန်ဘွတ်ကင်",
+      meetingRoom: "အစည်းအဝေးခန်း",
+      eventHall: "ပွဲခန်းမဘွတ်ကင်",
+      communication: "ဆက်သွယ်ရေး",
       announcements: "ကြေငြာချက်များ",
-      administration: "စီမံခန့်ခွဲမှု",
-      userManagement: "အသုံးပြုသူစီမံခန့်ခွဲမှု",
+      notices: "အသိပေးချက်များ",
+      broadcast: "SMS / အီးမေးလ် ပေးပို့ခြင်း",
+      feedback: "တိုင်ကြားချက်တုံ့ပြန်မှု",
+      staffManagement: "ဝန်ထမ်းစီမံခန့်ခွဲမှု",
+      staffList: "ဝန်ထမ်းစာရင်း",
+      securityGuards: "လုံခြုံရေးဝန်ထမ်းများ",
+      cleaningStaff: "သန့်ရှင်းရေးဝန်ထမ်းများ",
+      attendance: "တက်ရောက်မှု",
+      shiftSchedule: "အလှည့်ကျတာဝန်အချိန်ဇယား",
       documents: "စာရွက်စာတမ်းများ",
+      contracts: "စာချုပ်များ",
+      residentForms: "နေထိုင်သူပုံစံများ",
+      rules: "စည်းမျဉ်းစည်းကမ်းများ",
+      uploadFiles: "ဖိုင်တင်ရန်",
+      reports: "အစီရင်ခံစာများ",
+      paymentReport: "ငွေပေးချေမှုအစီရင်ခံစာ",
+      occupancyReport: "နေထိုင်မှုအစီရင်ခံစာ",
+      maintenanceReport: "ပြုပြင်ထိန်းသိမ်းမှုအစီရင်ခံစာ",
+      visitorReport: "ဧည့်သည်အစီရင်ခံစာ",
+      parkingReport: "ကားပါကင်အစီရင်ခံစာ",
+      userManagement: "အသုံးပြုသူစီမံခန့်ခွဲမှု",
+      users: "အသုံးပြုသူများ",
+      roles: "အခန်းကဏ္ဍနှင့် ခွင့်ပြုချက်များ",
+      accessLogs: "ဝင်ရောက်မှုမှတ်တမ်းများ",
       settings: "ဆက်တင်များ",
-      paymentType: "ငွေပေးချေမှုအမျိုးအစား",
-      paymentMethod: "ငွေပေးချေမှုနည်းလမ်း",
-      generalSettings: "အထွေထွေဆက်တင်များ",
+      companyProfile: "ကုမ္ပဏီအချက်အလက်",
+      condoInfo: "ကွန်ဒိုအချက်အလက်",
+      currencyTax: "ငွေကြေးနှင့် အခွန်",
+      notificationSettings: "အကြောင်းကြားချက်ဆက်တင်များ",
+      backup: "ဒေတာသိမ်းဆည်းမှု",
       profile: "ပရိုဖိုင်",
       signOut: "ထွက်ရန်",
     },
-  }[lang];
+  }[safeLang];
 
   useEffect(() => {
-    if (pathname.includes("/dashboard/units") || 
-        pathname.includes("/dashboard/residents") || 
-        pathname.includes("/dashboard/parking") || 
-        pathname.includes("/dashboard/amenities")) {
+    if (!pathname) return;
+
+    if (pathname.includes("/dashboard/buildings") || 
+        pathname.includes("/dashboard/floors") || 
+        pathname.includes("/dashboard/units") || 
+        pathname.includes("/dashboard/unit-types") || 
+        pathname.includes("/dashboard/facilities")) {
       setPropertyOpened(true);
+    }
+    if (pathname.includes("/dashboard/residents")) {
+      setResidentOpened(true);
     }
     if (pathname.includes("/dashboard/billing") || 
         pathname.includes("/dashboard/payments") || 
-        pathname.includes("/dashboard/reports")) {
+        pathname.includes("/dashboard/finance")) {
       setFinanceOpened(true);
     }
-    if (pathname.includes("/dashboard/maintenance") || 
-        pathname.includes("/dashboard/visitors") || 
-        pathname.includes("/dashboard/staff") || 
-        pathname.includes("/dashboard/announcements")) {
+    if (pathname.includes("/dashboard/maintenance")) {
       setOperationsOpened(true);
     }
-    if (pathname.includes("/dashboard/staff") || 
-        pathname.includes("/dashboard/documents")) {
+    if (pathname.includes("/dashboard/parking")) {
+      setParkingOpened(true);
+    }
+    if (pathname.includes("/dashboard/visitors")) {
+      setVisitorOpened(true);
+    }
+    if (pathname.includes("/dashboard/amenities")) {
+      setAmenitiesOpened(true);
+    }
+    if (pathname.includes("/dashboard/communication") || 
+        pathname.includes("/dashboard/announcements")) {
+      setCommunicationOpened(true);
+    }
+    if (pathname.includes("/dashboard/staff")) {
+      setStaffOpened(true);
+    }
+    if (pathname.includes("/dashboard/documents")) {
       setAdminOpened(true);
+    }
+    if (pathname.includes("/dashboard/reports")) {
+      setReportsOpened(true);
+    }
+    if (pathname.includes("/dashboard/user-management")) {
+      setUserManagementOpened(true);
     }
     if (pathname.includes("/dashboard/settings")) {
       setSettingsOpened(true);
@@ -158,7 +336,7 @@ export function DashboardAppShell({
             <Menu shadow="md" width={150}>
               <Menu.Target>
                 <Button variant="subtle" color="gray" px={8} radius="md">
-                  <Image src={languages[lang].flag} w={24} alt={languages[lang].label} />
+                  <Image src={languages[safeLang].flag} w={24} alt={languages[safeLang].label} />
                 </Button>
               </Menu.Target>
               <Menu.Dropdown>
@@ -226,6 +404,22 @@ export function DashboardAppShell({
           >
             <NavLink
               component={Link}
+              href="/dashboard/buildings"
+              label={t.buildings}
+              leftSection={<IconBuilding size={18} />}
+              className={classes.navLink}
+              active={pathname === "/dashboard/buildings"}
+            />
+            <NavLink
+              component={Link}
+              href="/dashboard/floors"
+              label={t.floors}
+              leftSection={<IconDatabase size={18} />}
+              className={classes.navLink}
+              active={pathname === "/dashboard/floors"}
+            />
+            <NavLink
+              component={Link}
               href="/dashboard/units"
               label={t.units}
               leftSection={<IconHome size={18} />}
@@ -234,130 +428,181 @@ export function DashboardAppShell({
             />
             <NavLink
               component={Link}
-              href="/dashboard/residents"
-              label={t.residents}
-              leftSection={<IconUsers size={18} />}
+              href="/dashboard/unit-types"
+              label={t.unitTypes}
+              leftSection={<IconPalette size={18} />}
               className={classes.navLink}
-              active={pathname === "/dashboard/residents"}
+              active={pathname === "/dashboard/unit-types"}
             />
             <NavLink
               component={Link}
-              href="/dashboard/parking"
-              label={t.parking}
-              leftSection={<IconCar size={18} />}
+              href="/dashboard/facilities"
+              label={t.facilities}
+              leftSection={<IconBuilding size={18} />}
               className={classes.navLink}
-              active={pathname === "/dashboard/parking"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/amenities"
-              label={t.amenities}
-              leftSection={<IconCalendar size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/amenities"}
+              active={pathname === "/dashboard/facilities"}
             />
           </NavLink>
 
           <NavLink
-            label={t.finance}
+            label={t.residentManagement}
+            leftSection={<IconUsers size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={residentOpened}
+            onChange={setResidentOpened}
+          >
+            <NavLink component={Link} href="/dashboard/residents/owners" label={t.owners} leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/owners"} />
+            <NavLink component={Link} href="/dashboard/residents/tenants" label={t.tenants} leftSection={<IconUsersGroup size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/tenants"} />
+            <NavLink component={Link} href="/dashboard/residents/family" label={t.familyMembers} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/family"} />
+            <NavLink component={Link} href="/dashboard/residents/move-in-out" label={t.moveInOut} leftSection={<IconUserPlus size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/move-in-out"} />
+            <NavLink component={Link} href="/dashboard/residents/directory" label={t.residentDirectory} leftSection={<IconAddressBook size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/directory"} />
+          </NavLink>
+
+          <NavLink
+            label={t.billingFinance}
             leftSection={<IconReceipt size={20} />}
             childrenOffset={28}
             className={classes.navLink}
             opened={financeOpened}
             onChange={setFinanceOpened}
           >
-            <NavLink
-              component={Link}
-              href="/dashboard/billing"
-              label={t.billing}
-              leftSection={<IconReceipt size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/billing"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/payments"
-              label={t.payments}
-              leftSection={<IconCash size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/payments"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/reports"
-              label={t.reports}
-              leftSection={<IconChartBar size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/reports"}
-            />
+            <NavLink component={Link} href="/dashboard/billing/invoice" label={t.invoiceGeneration} leftSection={<IconFileInvoice size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/invoice"} />
+            <NavLink component={Link} href="/dashboard/billing/maintenance" label={t.maintenanceFees} leftSection={<IconTools size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/maintenance"} />
+            <NavLink component={Link} href="/dashboard/billing/utilities" label={t.utilityBills} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/utilities"} />
+            <NavLink component={Link} href="/dashboard/billing/late-fees" label={t.lateFees} leftSection={<IconAlertTriangle size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/late-fees"} />
+            <NavLink component={Link} href="/dashboard/billing/payments" label={t.paymentRecords} leftSection={<IconHistory size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/payments"} />
+            <NavLink component={Link} href="/dashboard/billing/refunds" label={t.refunds} leftSection={<IconRotate2 size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/refunds"} />
+            <NavLink component={Link} href="/dashboard/billing/expenses" label={t.expenseTracking} leftSection={<IconReportMoney size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/expenses"} />
+            <NavLink component={Link} href="/dashboard/billing/reports" label={t.financialReports} leftSection={<IconChartPie size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/reports"} />
           </NavLink>
 
           <NavLink
-            label={t.operations}
+            label={t.maintenance}
             leftSection={<IconTools size={20} />}
             childrenOffset={28}
             className={classes.navLink}
             opened={operationsOpened}
             onChange={setOperationsOpened}
           >
-            <NavLink
-              component={Link}
-              href="/dashboard/maintenance"
-              label={t.maintenance}
-              leftSection={<IconTools size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/maintenance"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/visitors"
-              label={t.visitors}
-              leftSection={<IconCar size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/visitors"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/staff"
-              label={t.staff}
-              leftSection={<IconUsers size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/staff" && !pathname.includes('administration')}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/announcements"
-              label={t.announcements}
-              leftSection={<IconSpeakerphone size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/announcements"}
-            />
+            <NavLink component={Link} href="/dashboard/maintenance/create" label={t.createTicket} leftSection={<IconTicket size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/create"} />
+            <NavLink component={Link} href="/dashboard/maintenance/orders" label={t.workOrders} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/orders"} />
+            <NavLink component={Link} href="/dashboard/maintenance/technician" label={t.technicianAssignment} leftSection={<IconUserCog size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/technician"} />
+            <NavLink component={Link} href="/dashboard/maintenance/preventive" label={t.preventiveMaintenance} leftSection={<IconCalendarStats size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/preventive"} />
+            <NavLink component={Link} href="/dashboard/maintenance/complaints" label={t.complaintManagement} leftSection={<IconMessageExclamation size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/complaints"} />
           </NavLink>
 
           <NavLink
-            label={t.administration}
-            leftSection={<IconShieldCheck size={20} />}
+            label={t.parkingManagement}
+            leftSection={<IconCar size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={parkingOpened}
+            onChange={setParkingOpened}
+          >
+            <NavLink component={Link} href="/dashboard/parking/slots" label={t.parkingSlots} leftSection={<IconParkingCircle size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/slots"} />
+            <NavLink component={Link} href="/dashboard/parking/registration" label={t.vehicleRegistration} leftSection={<IconId size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/registration"} />
+            <NavLink component={Link} href="/dashboard/parking/guest" label={t.guestParking} leftSection={<IconUserCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/guest"} />
+            <NavLink component={Link} href="/dashboard/parking/fees" label={t.parkingFees} leftSection={<IconCash size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/fees"} />
+          </NavLink>
+
+          <NavLink
+            label={t.visitorManagement}
+            leftSection={<IconDoorEnter size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={visitorOpened}
+            onChange={setVisitorOpened}
+          >
+            <NavLink component={Link} href="/dashboard/visitors/entry" label={t.visitorEntry} leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/entry"} />
+            <NavLink component={Link} href="/dashboard/visitors/pass" label={t.visitorPass} leftSection={<IconIdBadge size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/pass"} />
+            <NavLink component={Link} href="/dashboard/visitors/delivery" label={t.deliveryLogs} leftSection={<IconTruck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/delivery"} />
+            <NavLink component={Link} href="/dashboard/visitors/security" label={t.securityApproval} leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/security"} />
+          </NavLink>
+
+          <NavLink
+            label={t.amenitiesBooking}
+            leftSection={<IconPool size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={amenitiesOpened}
+            onChange={setAmenitiesOpened}
+          >
+            <NavLink component={Link} href="/dashboard/amenities/gym" label={t.gymBooking} leftSection={<IconBarbell size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/gym"} />
+            <NavLink component={Link} href="/dashboard/amenities/pool" label={t.poolBooking} leftSection={<IconPool size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/pool"} />
+            <NavLink component={Link} href="/dashboard/amenities/meeting" label={t.meetingRoom} leftSection={<IconArmchair size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/meeting"} />
+            <NavLink component={Link} href="/dashboard/amenities/event" label={t.eventHall} leftSection={<IconGlassFull size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/event"} />
+          </NavLink>
+
+          <NavLink
+            label={t.communication}
+            leftSection={<IconSpeakerphone size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={communicationOpened}
+            onChange={setCommunicationOpened}
+          >
+            <NavLink component={Link} href="/dashboard/announcements" label={t.announcements} leftSection={<IconSpeakerphone size={18} />} className={classes.navLink} active={pathname === "/dashboard/announcements"} />
+            <NavLink component={Link} href="/dashboard/communication/notices" label={t.notices} leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/notices"} />
+            <NavLink component={Link} href="/dashboard/communication/broadcast" label={t.broadcast} leftSection={<IconMail size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/broadcast"} />
+            <NavLink component={Link} href="/dashboard/communication/feedback" label={t.feedback} leftSection={<IconMessageReport size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/feedback"} />
+          </NavLink>
+
+          <NavLink
+            label={t.staffManagement}
+            leftSection={<IconUsersGroup size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={staffOpened}
+            onChange={setStaffOpened}
+          >
+            <NavLink component={Link} href="/dashboard/staff/list" label={t.staffList} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/list"} />
+            <NavLink component={Link} href="/dashboard/staff/guards" label={t.securityGuards} leftSection={<IconUserShield size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/guards"} />
+            <NavLink component={Link} href="/dashboard/staff/cleaning" label={t.cleaningStaff} leftSection={<IconBrush size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/cleaning"} />
+            <NavLink component={Link} href="/dashboard/staff/attendance" label={t.attendance} leftSection={<IconClock size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/attendance"} />
+            <NavLink component={Link} href="/dashboard/staff/shift" label={t.shiftSchedule} leftSection={<IconCalendarTime size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/shift"} />
+          </NavLink>
+
+          <NavLink
+            label={t.documents}
+            leftSection={<IconFileText size={20} />}
             childrenOffset={28}
             className={classes.navLink}
             opened={adminOpened}
             onChange={setAdminOpened}
           >
-            <NavLink
-              component={Link}
-              href="/dashboard/staff"
-              label={t.userManagement}
-              leftSection={<IconUsers size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/staff"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/documents"
-              label={t.documents}
-              leftSection={<IconFileText size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/documents"}
-            />
+            <NavLink component={Link} href="/dashboard/documents/contracts" label={t.contracts} leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/contracts"} />
+            <NavLink component={Link} href="/dashboard/documents/forms" label={t.residentForms} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/forms"} />
+            <NavLink component={Link} href="/dashboard/documents/rules" label={t.rules} leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/rules"} />
+            <NavLink component={Link} href="/dashboard/documents/upload" label={t.uploadFiles} leftSection={<IconCloudUpload size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/upload"} />
+          </NavLink>
+
+          <NavLink
+            label={t.reports}
+            leftSection={<IconChartBar size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={reportsOpened}
+            onChange={setReportsOpened}
+          >
+            <NavLink component={Link} href="/dashboard/reports/payment" label={t.paymentReport} leftSection={<IconCash size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/payment"} />
+            <NavLink component={Link} href="/dashboard/reports/occupancy" label={t.occupancyReport} leftSection={<IconHome size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/occupancy"} />
+            <NavLink component={Link} href="/dashboard/reports/maintenance" label={t.maintenanceReport} leftSection={<IconTools size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/maintenance"} />
+            <NavLink component={Link} href="/dashboard/reports/visitor" label={t.visitorReport} leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/visitor"} />
+            <NavLink component={Link} href="/dashboard/reports/parking" label={t.parkingReport} leftSection={<IconCar size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/parking"} />
+          </NavLink>
+
+          <NavLink
+            label={t.userManagement}
+            leftSection={<IconKey size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={userManagementOpened}
+            onChange={setUserManagementOpened}
+          >
+            <NavLink component={Link} href="/dashboard/user-management/users" label={t.users} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/users"} />
+            <NavLink component={Link} href="/dashboard/user-management/roles" label={t.roles} leftSection={<IconLock size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/roles"} />
+            <NavLink component={Link} href="/dashboard/user-management/logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/logs"} />
           </NavLink>
 
           <NavLink
@@ -368,30 +613,11 @@ export function DashboardAppShell({
             opened={settingsOpened}
             onChange={setSettingsOpened}
           >
-            <NavLink
-              component={Link}
-              href="/dashboard/settings/payment-type"
-              label={t.paymentType}
-              leftSection={<IconCreditCard size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/settings/payment-type"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/settings/payment-method"
-              label={t.paymentMethod}
-              leftSection={<IconWallet size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/settings/payment-method"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/settings"
-              label={t.generalSettings}
-              leftSection={<IconSettings size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/settings"}
-            />
+            <NavLink component={Link} href="/dashboard/settings/profile" label={t.companyProfile} leftSection={<IconBuilding size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/profile"} />
+            <NavLink component={Link} href="/dashboard/settings/condo" label={t.condoInfo} leftSection={<IconBuildingSkyscraper size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/condo"} />
+            <NavLink component={Link} href="/dashboard/settings/finance" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/finance"} />
+            <NavLink component={Link} href="/dashboard/settings/notifications" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notifications"} />
+            <NavLink component={Link} href="/dashboard/settings/backup" label={t.backup} leftSection={<IconDeviceFloppy size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/backup"} />
           </NavLink>
         </Box>
       </AppShell.Navbar>

@@ -1,6 +1,7 @@
 "use client";
 
-import { AppShell, Group, NavLink, Text, Button, Menu, Box, Image, Stack } from "@mantine/core";
+import { AppShell, Group, NavLink, Text, Button, Menu, Box, Image, Stack, Avatar, Divider, Burger } from "@mantine/core";
+import { useDisclosure } from "@mantine/hooks";
 import {
   IconPalette,
   IconUsers,
@@ -94,6 +95,7 @@ export function DashboardAppShell({
   const [userManagementOpened, setUserManagementOpened] = useState(false);
   const [settingsOpened, setSettingsOpened] = useState(false);
   const { lang, setLang, mounted } = useTranslation();
+  const [opened, { toggle }] = useDisclosure(true);
 
   const languages = {
     en: { label: "English", flag: "https://flagcdn.com/w40/us.png" },
@@ -321,7 +323,11 @@ export function DashboardAppShell({
   return (
     <AppShell
       header={{ height: 60 }}
-      navbar={{ width: 250, breakpoint: "sm" }}
+      navbar={{ 
+        width: 250, 
+        breakpoint: "sm",
+        collapsed: { mobile: !opened, desktop: !opened }
+      }}
       padding="md"
     >
       <AppShell.Header className={classes.header}>
@@ -331,6 +337,7 @@ export function DashboardAppShell({
             <Text fw={700} size="lg" c="#014F86">
               Sky Haven CMS
             </Text>
+            <Burger opened={opened} onClick={toggle} size="sm" color="#014F86" ml="xs" />
           </Group>
           <Group gap="sm">
             <Menu shadow="md" width={150}>

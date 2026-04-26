@@ -46,44 +46,59 @@ export default function DetailPage() {
         </Button>
       </Group>
 
-      <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 900, backgroundColor: '#ffffff' }}>
-        {item ? (
-          <Stack gap="xl">
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
-              <Box>
-                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4}>ID</Text>
-                <Text size="lg" fw={500}>{id}</Text>
-              </Box>
-              
-              {Object.entries(item).map(([key, value]) => {
-                if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
-                
-                const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
-                const isStatus = key.toLowerCase().includes('status');
-                
-                return (
-                  <Box key={key}>
-                    <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4} style={{ textTransform: 'capitalize' }}>
-                      {formattedKey}
-                    </Text>
-                    {isStatus ? (
+      <Box>
+        {item ? (() => {
+            const entries = Object.entries(item).filter(([k, v]) => k !== 'color' && k !== 'icon' && typeof v !== 'object');
+            const mid = Math.ceil(entries.length / 2);
+            const firstHalf = entries.slice(0, mid);
+            const secondHalf = entries.slice(mid);
+
+            const renderItem = ([key, value]: [string, any]) => {
+              const formattedKey = key === 'id' ? 'ID' : key.replace(/([A-Z])/g, ' $1').trim();
+              const isStatus = key.toLowerCase().includes('status');
+              return (
+                <Box key={key}>
+                  <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4} style={{ textTransform: 'capitalize' }}>
+                    {formattedKey}
+                  </Text>
+                  {isStatus ? (
+                    <div>
                       <Badge color={(item as any).color || 'blue'} variant="light" size="lg" radius="md">
                         {String(value)}
                       </Badge>
-                    ) : (
-                      <Text size="lg" fw={500} style={{ wordBreak: 'break-word' }}>
-                        {String(value)}
-                      </Text>
-                    )}
-                  </Box>
-                );
-              })}
-            </SimpleGrid>
-          </Stack>
-        ) : (
-          <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
+                    </div>
+                  ) : (
+                    <Text size="lg" fw={600} style={{ wordBreak: 'break-word' }}>
+                      {String(value)}
+                    </Text>
+                  )}
+                </Box>
+              );
+            };
+
+            return (
+              <SimpleGrid cols={{ base: 1, md: 2 }} spacing="xl">
+                <Paper p="xl" radius="md" withBorder shadow="sm" style={{ backgroundColor: '#ffffff' }}>
+                  <Title order={5} mb="xl" c="dimmed" tt="uppercase" lts={1}>Primary Details</Title>
+                  <Stack gap="lg">
+                    {firstHalf.map(renderItem)}
+                  </Stack>
+                </Paper>
+                
+                <Paper p="xl" radius="md" withBorder shadow="sm" style={{ backgroundColor: '#ffffff' }}>
+                  <Title order={5} mb="xl" c="dimmed" tt="uppercase" lts={1}>Additional Details</Title>
+                  <Stack gap="lg">
+                    {secondHalf.map(renderItem)}
+                  </Stack>
+                </Paper>
+              </SimpleGrid>
+            );
+          })() : (
+          <Paper p="xl" radius="md" withBorder shadow="sm" style={{ backgroundColor: '#ffffff' }}>
+            <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
+          </Paper>
         )}
-      </Paper>
+      </Box>
     </Stack>
   );
 }

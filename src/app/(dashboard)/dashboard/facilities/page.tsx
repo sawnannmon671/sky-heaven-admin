@@ -9,7 +9,7 @@ import { useTranslation } from "@/hooks/useTranslation";
 const elements = [
   { id: "FAC-001", name: "Swimming Pool", location: "Level 1", status: "Open", color: "blue" },
   { id: "FAC-002", name: "Gym Center", location: "Level 3", status: "Open", color: "teal" },
-  { id: "FAC-003", name: "Lounge Area", location: "Penthouse", status: "Cleaning", color: "orange" },
+  { id: "FAC-003", name: "Function Room", location: "Penthouse", status: "Cleaning", color: "orange" },
   { id: "FAC-004", name: "Children Playground", location: "Garden", status: "Open", color: "green" },
 ];
 

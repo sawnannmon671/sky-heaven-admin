@@ -205,11 +205,11 @@ export default function AmenitiesPage() {
           <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
             <Table.Thead bg="gray.0">
               <Table.Tr>
-                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.amenity}</Table.Th>
-                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.status}</Table.Th>
-                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.capacity}</Table.Th>
-                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.schedule}</Table.Th>
-                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }} ta="right">{t.tableHeaders.actions}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.amenity}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.status}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.capacity}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.schedule}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="dark" ta="right">{t.tableHeaders.actions}</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows}</Table.Tbody>

@@ -308,7 +308,7 @@ export default function DashboardPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between" align="flex-end">
         <Stack gap={4}>
-          <Title order={1} style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.pageTitle}</Title>
+          <Title order={2}>{t.pageTitle}</Title>
           <Text c="dimmed" size="md" fw={500}>{t.pageSubtitle}</Text>
         </Stack>
         <Paper withBorder px="md" py="xs" radius="md" bg="gray.0">
@@ -331,7 +331,7 @@ export default function DashboardPage() {
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Stack gap={0}>
-                    <Title order={4} style={{ fontWeight: 800 }}>{t.activities.title}</Title>
+                    <Title order={3}>{t.activities.title}</Title>
                     <Text size="xs" c="dimmed" fw={500}>{t.activities.subtitle}</Text>
                   </Stack>
                   <Button variant="light" size="xs" color="blue" radius="md">{t.activities.viewAll}</Button>
@@ -341,10 +341,10 @@ export default function DashboardPage() {
                 <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
                   <Table.Thead bg="gray.0">
                     <Table.Tr>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thUser}</Table.Th>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thType}</Table.Th>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thStatus}</Table.Th>
-                      <Table.Th ta="right" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thTime}</Table.Th>
+                      <Table.Th fw={700} fz="sm" c="dark">{t.activities.thUser}</Table.Th>
+                      <Table.Th fw={700} fz="sm" c="dark">{t.activities.thType}</Table.Th>
+                      <Table.Th fw={700} fz="sm" c="dark">{t.activities.thStatus}</Table.Th>
+                      <Table.Th ta="right" fw={700} fz="sm" c="dark">{t.activities.thTime}</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -381,21 +381,21 @@ export default function DashboardPage() {
             <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
-                  <Title order={4} style={{ fontWeight: 800 }}>{t.visitors.title}</Title>
+                  <Title order={3}>{t.visitors.title}</Title>
                   <Button variant="light" size="xs" color="blue" radius="md">View History</Button>
                 </Group>
               </Box>
               <ScrollArea>
                 <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
                   <Table.Thead bg="gray.0">
-                    <Table.Tr>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thName}</Table.Th>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thHost}</Table.Th>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thTime}</Table.Th>
-                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thType}</Table.Th>
-                      <Table.Th ta="right" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thStatus}</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
+                  <Table.Tr>
+                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thName}</Table.Th>
+                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thHost}</Table.Th>
+                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thTime}</Table.Th>
+                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thType}</Table.Th>
+                     <Table.Th ta="right" fw={700} fz="sm" c="dark">{t.visitors.thStatus}</Table.Th>
+                   </Table.Tr>
+                </Table.Thead>
                   <Table.Tbody>
                     {recentVisitors.map((visitor) => (
                       <Table.Tr key={visitor.id}>
@@ -432,7 +432,7 @@ export default function DashboardPage() {
             <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
-                  <Title order={4} style={{ fontWeight: 800 }}>{t.alerts.title}</Title>
+                  <Title order={3}>{t.alerts.title}</Title>
                   <ActionIcon variant="light" color="gray" radius="md">
                     <IconBell size={18} />
                   </ActionIcon>
@@ -474,7 +474,7 @@ export default function DashboardPage() {
             <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
-                  <Title order={4} style={{ fontWeight: 800 }}>{t.occupancy.title}</Title>
+                  <Title order={3}>{t.occupancy.title}</Title>
                   <ActionIcon variant="light" color="blue" radius="md"><IconArrowUpRight size={18} /></ActionIcon>
                 </Group>
               </Box>

@@ -403,9 +403,9 @@ export default function HomePage() {
       {/* Stats Section */}
       <Box 
         py={100} 
-        bg="#014F86" 
+        bg="#014F86"
         c="white"
-        minH={300}
+        mih={300}
         ref={statsReveal.ref}
         className={`${classes.reveal} ${statsReveal.isVisible ? classes.revealVisible : ''}`}
         style={{ position: 'relative', overflow: 'hidden', display: 'flex', alignItems: 'center' }}
@@ -424,7 +424,7 @@ export default function HomePage() {
             {stats.map((stat) => (
               <Stack key={stat.label} align="center" gap={0}>
                 <stat.icon size={50} stroke={1.5} color="rgba(255,255,255,0.7)" />
-                <Text size={64} fw={900} mt="md" style={{ letterSpacing: -2 }}>{stat.value}</Text>
+                <Text fz={64} fw={900} mt="md" style={{ letterSpacing: -2 }}>{stat.value}</Text>
                 <Text size="xl" fw={600} c="blue.1">
                   {lang === 'mm' ? stat.mmLabel : stat.label}
                 </Text>
@@ -439,7 +439,7 @@ export default function HomePage() {
         id="amenities" 
         py={120} 
         bg="gray.0"
-        minH={600}
+        mih={600}
         ref={amenitiesReveal.ref}
         className={`${classes.reveal} ${amenitiesReveal.isVisible ? classes.revealVisible : ''}`}
       >
@@ -538,7 +538,7 @@ export default function HomePage() {
       <Box className={classes.classicFooter} py={100} c="white">
         <Container size="lg">
           <SimpleGrid cols={{ base: 1, md: 4 }} spacing={50}>
-            <Stack gap="xl" span={{ md: 1.5 }}>
+            <Stack gap="xl">
               <Group gap="sm">
                 <Box bg="white" p={6} radius="md" style={{ display: 'flex' }}>
                   <Image src="/sh.png" alt="Sky Haven Logo" h={36} w="auto" fit="contain" />

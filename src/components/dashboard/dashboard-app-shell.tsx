@@ -209,15 +209,6 @@ export function DashboardAppShell({
         <Box className={classes.navbarLinks}>
           <NavLink
             component={Link}
-            href="/"
-            label={t.home}
-            leftSection={<IconHome size={20} />}
-            className={classes.navLink}
-            active={pathname === "/"}
-          />
-
-          <NavLink
-            component={Link}
             href="/dashboard"
             label={t.dashboard}
             leftSection={<IconPalette size={20} />}

@@ -56,6 +56,7 @@ export function DashboardAppShell({
 
   const t = {
     en: {
+      home: "Home",
       dashboard: "Dashboard",
       propertyManagement: "Property Management",
       units: "Units",
@@ -82,6 +83,7 @@ export function DashboardAppShell({
       signOut: "Sign out",
     },
     mm: {
+      home: "ပင်မစာမျက်နှာ",
       dashboard: "ဒက်ရှ်ဘုတ်",
       propertyManagement: "အိမ်ခြံမြေစီမံခန့်ခွဲမှု",
       units: "ယူနစ်များ",
@@ -135,6 +137,8 @@ export function DashboardAppShell({
       setSettingsOpened(true);
     }
   }, [pathname]);
+
+  if (!mounted) return null;
 
   return (
     <AppShell
@@ -203,6 +207,15 @@ export function DashboardAppShell({
 
       <AppShell.Navbar className={classes.navbar}>
         <Box className={classes.navbarLinks}>
+          <NavLink
+            component={Link}
+            href="/"
+            label={t.home}
+            leftSection={<IconHome size={20} />}
+            className={classes.navLink}
+            active={pathname === "/"}
+          />
+
           <NavLink
             component={Link}
             href="/dashboard"

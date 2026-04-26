@@ -1,13 +1,20 @@
+.header {
+  background: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
 .navbar {
-  background-color: #014F86; 
+  background: linear-gradient(180deg, #013A63 0%, #014F86 100%);
   border-right: none;
   display: flex;
   flex-direction: column;
+  box-shadow: 4px 0 15px rgba(0, 0, 0, 0.1);
 }
 
 .navbarHeader {
   padding: 24px 16px;
-  background: linear-gradient(180deg, rgba(0, 0, 0, 0.2) 0%, rgba(0, 0, 0, 0) 100%);
+  background: rgba(0, 0, 0, 0.2);
   border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
@@ -20,27 +27,30 @@
 }
 
 .navbarLinks {
-  padding: 16px 8px;
+  padding: 20px 12px;
   flex: 1;
   overflow-y: auto;
 }
 
 .navLink {
-  color: rgba(255, 255, 255, 0.85);
-  border-radius: 8px;
-  margin-bottom: 4px;
-  transition: all 0.2s ease;
+  color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  margin-bottom: 6px;
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 500;
 }
 
 .navLink:hover {
-  background-color: rgba(255, 255, 255, 0.1);
+  background-color: rgba(255, 255, 255, 0.15);
   color: white;
+  transform: translateX(4px);
 }
 
 .navLink[data-active] {
-  background-color: rgba(255, 255, 255, 0.2);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.15) 0%, rgba(255, 255, 255, 0.05) 100%);
   color: white;
-  font-weight: 600;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .navLink :global(.mantine-NavLink-label) {
@@ -48,7 +58,7 @@
 }
 
 .navLink :global(.mantine-NavLink-leftSection) {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .navLink:hover :global(.mantine-NavLink-leftSection),

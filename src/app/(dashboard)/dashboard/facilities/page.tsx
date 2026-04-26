@@ -7,10 +7,10 @@ import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
-  { id: "FAC-001", name: "Swimming Pool", location: "Level 1", status: "Open", color: "blue" },
-  { id: "FAC-002", name: "Gym Center", location: "Level 3", status: "Open", color: "teal" },
-  { id: "FAC-003", name: "Function Room", location: "Penthouse", status: "Cleaning", color: "orange" },
-  { id: "FAC-004", name: "Children Playground", location: "Garden", status: "Open", color: "green" },
+  { id: "FAC-001", name: "Swimming Pool", location: "Level 1", status: "Open", color: "blue", openingTime: "06:00 AM", closeTime: "10:00 PM", capacity: "50 Persons", remark: "Regular maintenance on Mondays" },
+  { id: "FAC-002", name: "Gym Center", location: "Level 3", status: "Open", color: "teal", openingTime: "05:00 AM", closeTime: "11:00 PM", capacity: "30 Persons", remark: "Bring your own towel" },
+  { id: "FAC-003", name: "Function Room", location: "Penthouse", status: "Cleaning", color: "orange", openingTime: "08:00 AM", closeTime: "11:00 PM", capacity: "100 Persons", remark: "Booking required 3 days in advance" },
+  { id: "FAC-004", name: "Children Playground", location: "Garden", status: "Open", color: "green", openingTime: "07:00 AM", closeTime: "08:00 PM", capacity: "20 Children", remark: "Adult supervision required" },
 ];
 
 const translations = {
@@ -21,6 +21,10 @@ const translations = {
     searchPlaceholder: "Search facilities...",
     thFacility: "Facility Name",
     thLocation: "Location",
+    thOpeningTime: "Opening Time",
+    thCloseTime: "Close Time",
+    thCapacity: "Capacity",
+    thRemark: "Remark",
     thStatus: "Status",
     thActions: "Actions",
     status: {
@@ -36,6 +40,10 @@ const translations = {
     searchPlaceholder: "အသုံးအဆောင်များ ရှာဖွေရန်...",
     thFacility: "အသုံးအဆောင်အမည်",
     thLocation: "တည်နေရာ",
+    thOpeningTime: "ဖွင့်ချိန်",
+    thCloseTime: "ပိတ်ချိန်",
+    thCapacity: "လူဦးရေ",
+    thRemark: "မှတ်ချက်",
     thStatus: "အခြေအနေ",
     thActions: "လုပ်ဆောင်ချက်များ",
     status: {
@@ -88,6 +96,18 @@ export default function FacilitiesPage() {
       </Table.Td>
       <Table.Td>
         <Text size="sm" fw={500}>{element.location}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm">{element.openingTime}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm">{element.closeTime}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm">{element.capacity}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm" c="dimmed" style={{ maxWidth: 150 }} truncate>{element.remark}</Text>
       </Table.Td>
       <Table.Td>
         <Badge 
@@ -144,11 +164,11 @@ export default function FacilitiesPage() {
                 </UnstyledButton>
               </Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">
-                <UnstyledButton onClick={() => handleSort('name')} style={{ width: '100%', color: 'inherit' }}>
+                <UnstyledButton onClick={() => handleSort('location')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thLocation}</span>
                     <Center>
-                      {sortConfig?.key === 'name' ? (
+                      {sortConfig?.key === 'location' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
                       ) : (
                         <IconSelector size={14} color="gray" />
@@ -157,12 +177,16 @@ export default function FacilitiesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">{t.thOpeningTime}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">{t.thCloseTime}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">{t.thCapacity}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">{t.thRemark}</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">
-                <UnstyledButton onClick={() => handleSort('location')} style={{ width: '100%', color: 'inherit' }}>
+                <UnstyledButton onClick={() => handleSort('status')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thStatus}</span>
                     <Center>
-                      {sortConfig?.key === 'location' ? (
+                      {sortConfig?.key === 'status' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
                       ) : (
                         <IconSelector size={14} color="gray" />

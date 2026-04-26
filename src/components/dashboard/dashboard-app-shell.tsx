@@ -337,7 +337,7 @@ export function DashboardAppShell({
             <Text fw={700} size="lg" c="#014F86">
               Sky Haven CMS
             </Text>
-            <Burger opened={opened} onClick={toggle} size="sm" color="#014F86" ml="xs" />
+            <Burger opened={!opened} onClick={toggle} size="sm" color="#014F86" ml="xs" />
           </Group>
           <Group gap="sm">
             <Menu shadow="md" width={150}>
@@ -499,6 +499,7 @@ export function DashboardAppShell({
             <NavLink component={Link} href="/dashboard/maintenance/complaints" label={t.complaintManagement} leftSection={<IconMessageExclamation size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/complaints"} />
           </NavLink>
 
+          {/* Parking Menu Hidden
           <NavLink
             label={t.parkingManagement}
             leftSection={<IconCar size={20} />}
@@ -511,6 +512,7 @@ export function DashboardAppShell({
             <NavLink component={Link} href="/dashboard/parking/registration" label={t.vehicleRegistration} leftSection={<IconId size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/registration"} />
             <NavLink component={Link} href="/dashboard/parking/guest" label={t.guestParking} leftSection={<IconUserCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/guest"} />
           </NavLink>
+          */}
 
           <NavLink
             label={t.visitorManagement}

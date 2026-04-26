@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon } from "@mantine/core";
 import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuildingCommunity } from "@tabler/icons-react";
+import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [

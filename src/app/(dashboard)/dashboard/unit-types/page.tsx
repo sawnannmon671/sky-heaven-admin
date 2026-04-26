@@ -2,6 +2,7 @@
 
 import { Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge } from "@mantine/core";
 import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconLayoutBoard } from "@tabler/icons-react";
+import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
@@ -78,7 +79,7 @@ export default function UnitTypesPage() {
       </Table.Td>
       <Table.Td>
         <Group gap={4} justify="flex-end">
-          <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
+          <ActionIcon component={Link} href={`/dashboard/unit-types/${element.id}`} variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
           <ActionIcon variant="subtle" color="blue"><IconEdit size={16} /></ActionIcon>
           <ActionIcon variant="subtle" color="red"><IconTrash size={16} /></ActionIcon>
         </Group>

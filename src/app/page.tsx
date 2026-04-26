@@ -290,9 +290,9 @@ export default function HomePage() {
 
       {/* Hero Section */}
       <Box 
-        pos="relative" 
-        h="100vh" 
-        minH={600}
+        pos="relative"
+        h="100vh"
+        mih={600}
         bg="#012a4a"
         style={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }}
       >
@@ -351,9 +351,9 @@ export default function HomePage() {
       {/* Features Section */}
       <Box 
         id="features" 
-        py={120} 
+        py={120}
         bg="#fcfcfc"
-        minH={600}
+        mih={600}
         ref={featuresReveal.ref}
         className={`${classes.featuresSection} ${classes.reveal} ${featuresReveal.isVisible ? classes.revealVisible : ''}`}
       >

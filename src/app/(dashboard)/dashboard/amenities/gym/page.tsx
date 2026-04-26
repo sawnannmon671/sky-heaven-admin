@@ -1,7 +1,7 @@
 "use client";
 
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button } from "@mantine/core";
-import { IconBarbell, IconChevronLeft } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge } from "@mantine/core";
+import { IconBarbell, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
@@ -48,11 +48,60 @@ export default function GymBookingPage() {
         </Button>
       </Group>
 
-      <Paper p="xl" radius="md" withBorder>
-        <Stack align="center" py="xl">
-          <IconBarbell size={48} color="var(--mantine-color-teal-6)" />
-          <Text size="lg" fw={500}>{t.comingSoon}</Text>
-        </Stack>
+      
+      <Paper p="md" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
+        <Group justify="space-between" mb="md">
+          <TextInput
+            placeholder="Search..."
+            leftSection={<IconSearch size={16} />}
+            size="md"
+            radius="md"
+            style={{ flex: 1, maxWidth: 400 }}
+          />
+          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+            Add New
+          </Button>
+        </Group>
+
+        <Table verticalSpacing="md" highlightOnHover>
+          <Table.Thead bg="gray.0">
+            <Table.Tr>
+              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+            </Table.Tr>
+          </Table.Thead>
+          <Table.Tbody>
+            {[1, 2, 3].map((item) => (
+              <Table.Tr key={item}>
+                <Table.Td>
+                  <Text size="sm" fw={700}>#00{item}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Group gap="sm">
+                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                      <IconBarbell size={18} />
+                    </ThemeIcon>
+                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                  </Group>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
+                    {item === 1 ? 'Active' : 'Pending'}
+                  </Badge>
+                </Table.Td>
+                <Table.Td>
+                  <Group gap={4} justify="flex-end">
+                    <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
+                    <ActionIcon variant="subtle" color="blue"><IconEdit size={16} /></ActionIcon>
+                    <ActionIcon variant="subtle" color="red"><IconTrash size={16} /></ActionIcon>
+                  </Group>
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
       </Paper>
     </Stack>
   );

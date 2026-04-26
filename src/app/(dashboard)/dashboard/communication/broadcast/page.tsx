@@ -25,6 +25,14 @@ export default function BroadcastPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "BC-001", title: "Water Outage Notice", channel: "SMS", audience: "All Residents", sentAt: "2024-10-26 09:00 AM", status: "Sent" },
+    { id: "BC-002", title: "Monthly Newsletter", channel: "Email", audience: "Building A", sentAt: "2024-10-25 02:00 PM", status: "Sent" },
+    { id: "BC-003", title: "Elevator Maintenance", channel: "SMS", audience: "Building B", sentAt: "2024-10-27 10:00 AM", status: "Scheduled" },
+    { id: "BC-004", title: "Fire Drill Reminder", channel: "Email", audience: "All Residents", sentAt: "2024-10-28 09:00 AM", status: "Draft" },
+    { id: "BC-005", title: "Pest Control Schedule", channel: "SMS", audience: "Building C", sentAt: "2024-10-26 11:30 AM", status: "Sent" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function BroadcastPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Broadcast ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Title & Channel</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Target Audience</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color={item.channel === 'SMS' ? 'teal' : 'blue'} radius="md">
                       <IconMail size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.title}</Text>
+                      <Text size="xs" c="dimmed">Channel: {item.channel}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.audience}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.sentAt}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Sent' ? 'green' : item.status === 'Scheduled' ? 'blue' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

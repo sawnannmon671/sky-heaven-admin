@@ -25,6 +25,14 @@ export default function PreventiveMaintenancePage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "PM-001", equipment: "Main Elevator", location: "Block A", frequency: "Monthly", nextDue: "2024-11-01", status: "Scheduled" },
+    { id: "PM-002", equipment: "Water Pump", location: "Basement", frequency: "Quarterly", nextDue: "2024-10-25", status: "Upcoming" },
+    { id: "PM-003", equipment: "Fire Extinguishers", location: "All Floors", frequency: "Annually", nextDue: "2024-12-15", status: "Scheduled" },
+    { id: "PM-004", equipment: "HVAC System", location: "Roof", frequency: "Bi-annually", nextDue: "2024-10-10", status: "Overdue" },
+    { id: "PM-005", equipment: "Generator", location: "Basement", frequency: "Monthly", nextDue: "2024-11-05", status: "Scheduled" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function PreventiveMaintenancePage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">PM ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Equipment & Location</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Frequency</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Next Due Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="cyan" radius="md">
                       <IconCalendarStats size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.equipment}</Text>
+                      <Text size="xs" c="dimmed">{item.location}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.frequency}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={item.status === 'Overdue' ? 700 : 400} c={item.status === 'Overdue' ? 'red' : 'dark'}>{item.nextDue}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Scheduled' ? 'blue' : item.status === 'Upcoming' ? 'cyan' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

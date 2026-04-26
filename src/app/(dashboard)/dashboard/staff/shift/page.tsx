@@ -25,6 +25,14 @@ export default function ShiftSchedulePage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "SH-001", name: "U Kyaw Swar", role: "Security Guard", date: "2024-10-26", shiftTime: "08:00 AM - 08:00 PM", status: "Completed" },
+    { id: "SH-002", name: "Daw Ni Ni", role: "Cleaner", date: "2024-10-26", shiftTime: "08:00 AM - 04:00 PM", status: "In Progress" },
+    { id: "SH-003", name: "Ko Htun", role: "Technician", date: "2024-10-26", shiftTime: "10:00 AM - 06:00 PM", status: "Upcoming" },
+    { id: "SH-004", name: "Ma Hlaing", role: "Cleaner", date: "2024-10-27", shiftTime: "08:00 AM - 04:00 PM", status: "Upcoming" },
+    { id: "SH-005", name: "U Zaw", role: "Security Guard", date: "2024-10-26", shiftTime: "08:00 PM - 08:00 AM", status: "Upcoming" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function ShiftSchedulePage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Shift ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Employee & Role</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Shift Time</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="violet" radius="md">
                       <IconCalendarTime size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.name}</Text>
+                      <Text size="xs" c="dimmed">Role: {item.role}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.shiftTime}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Completed' ? 'green' : item.status === 'In Progress' ? 'blue' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

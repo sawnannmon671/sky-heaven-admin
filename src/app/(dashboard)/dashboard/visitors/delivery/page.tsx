@@ -25,6 +25,14 @@ export default function DeliveryLogsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "DL-001", company: "FoodPanda", unit: "A-101", item: "Food", arrival: "2024-10-26 12:30 PM", status: "Delivered" },
+    { id: "DL-002", company: "Grab", unit: "B-205", item: "Food", arrival: "2024-10-26 01:15 PM", status: "Arrived" },
+    { id: "DL-003", company: "Ninja Van", unit: "C-304", item: "Parcel", arrival: "2024-10-26 02:00 PM", status: "Delivered" },
+    { id: "DL-004", company: "Royal Express", unit: "A-502", item: "Document", arrival: "2024-10-26 09:45 AM", status: "Delivered" },
+    { id: "DL-005", company: "KMD", unit: "D-102", item: "Electronics", arrival: "2024-10-26 03:30 PM", status: "Pending" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -67,28 +75,39 @@ export default function DeliveryLogsPage() {
           <Table.Thead bg="gray.0">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Company & Unit</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Item Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Arrival Time</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="orange" radius="md">
                       <IconTruck size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.company}</Text>
+                      <Text size="xs" c="dimmed">To: {item.unit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.item}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.arrival}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Delivered' ? 'green' : item.status === 'Arrived' ? 'blue' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

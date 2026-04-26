@@ -503,7 +503,6 @@ export function DashboardAppShell({
             <NavLink component={Link} href="/dashboard/parking/slots" label={t.parkingSlots} leftSection={<IconParkingCircle size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/slots"} />
             <NavLink component={Link} href="/dashboard/parking/registration" label={t.vehicleRegistration} leftSection={<IconId size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/registration"} />
             <NavLink component={Link} href="/dashboard/parking/guest" label={t.guestParking} leftSection={<IconUserCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/guest"} />
-            <NavLink component={Link} href="/dashboard/parking/fees" label={t.parkingFees} leftSection={<IconCash size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/fees"} />
           </NavLink>
 
           <NavLink
@@ -602,7 +601,7 @@ export function DashboardAppShell({
           >
             <NavLink component={Link} href="/dashboard/user-management/users" label={t.users} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/users"} />
             <NavLink component={Link} href="/dashboard/user-management/roles" label={t.roles} leftSection={<IconLock size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/roles"} />
-            <NavLink component={Link} href="/dashboard/user-management/logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/logs"} />
+            <NavLink component={Link} href="/dashboard/user-management/access-logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/access-logs"} />
           </NavLink>
 
           <NavLink
@@ -613,11 +612,13 @@ export function DashboardAppShell({
             opened={settingsOpened}
             onChange={setSettingsOpened}
           >
-            <NavLink component={Link} href="/dashboard/settings/profile" label={t.companyProfile} leftSection={<IconBuilding size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/profile"} />
-            <NavLink component={Link} href="/dashboard/settings/condo" label={t.condoInfo} leftSection={<IconBuildingSkyscraper size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/condo"} />
-            <NavLink component={Link} href="/dashboard/settings/finance" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/finance"} />
-            <NavLink component={Link} href="/dashboard/settings/notifications" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notifications"} />
+            <NavLink component={Link} href="/dashboard/settings/company-profile" label={t.companyProfile} leftSection={<IconBuilding size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/company-profile"} />
+            <NavLink component={Link} href="/dashboard/settings/condo-info" label={t.condoInfo} leftSection={<IconBuildingSkyscraper size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/condo-info"} />
+            <NavLink component={Link} href="/dashboard/settings/currency-tax" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/currency-tax"} />
+            <NavLink component={Link} href="/dashboard/settings/notification-settings" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notification-settings"} />
             <NavLink component={Link} href="/dashboard/settings/backup" label={t.backup} leftSection={<IconDeviceFloppy size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/backup"} />
+            <NavLink component={Link} href="/dashboard/settings/payment-method" label="Payment Methods" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/payment-method"} />
+            <NavLink component={Link} href="/dashboard/settings/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/payment-type"} />
           </NavLink>
         </Box>
       </AppShell.Navbar>

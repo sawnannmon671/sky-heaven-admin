@@ -25,6 +25,14 @@ export default function FeedbackPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "FB-001", resident: "U Kyaw Swar", unit: "A-101", subject: "Noise Complaint", date: "2024-10-26 09:00 AM", status: "Resolved" },
+    { id: "FB-002", resident: "Daw Ni Ni", unit: "B-205", subject: "Garbage Collection Delay", date: "2024-10-25 04:30 PM", status: "In Progress" },
+    { id: "FB-003", resident: "Ko Htun", unit: "C-304", subject: "Security Guard Behavior", date: "2024-10-24 11:00 AM", status: "Pending" },
+    { id: "FB-004", resident: "Ma Hlaing", unit: "A-502", subject: "Gym Equipment Issue", date: "2024-10-23 02:15 PM", status: "Resolved" },
+    { id: "FB-005", resident: "U Zaw", unit: "D-102", subject: "Pool Cleanliness", date: "2024-10-22 10:00 AM", status: "In Progress" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function FeedbackPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Feedback ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Resident & Unit</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Subject</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="red" radius="md">
                       <IconMessageReport size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.resident}</Text>
+                      <Text size="xs" c="dimmed">Unit: {item.unit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.subject}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Resolved' ? 'green' : item.status === 'In Progress' ? 'blue' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

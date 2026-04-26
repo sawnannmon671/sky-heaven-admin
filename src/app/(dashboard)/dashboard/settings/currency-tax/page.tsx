@@ -67,28 +67,38 @@ export default function CurrencyTaxPage() {
           <Table.Thead bg="gray.0">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Rate / Value</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Description</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {[
+              { id: "TAX-001", type: "Commercial Tax", rate: "5%", desc: "Standard commercial tax applied to services", status: "Active" },
+              { id: "TAX-002", type: "Income Tax", rate: "2%", desc: "Withholding tax for specific transactions", status: "Active" },
+              { id: "CUR-001", type: "Exchange Rate (USD to MMK)", rate: "2,100 MMK", desc: "Official Central Bank exchange rate", status: "Active" },
+              { id: "CUR-002", type: "Exchange Rate (SGD to MMK)", rate: "1,550 MMK", desc: "Singapore Dollar conversion", status: "Inactive" },
+              { id: "TAX-003", type: "Maintenance Fee Tax", rate: "3%", desc: "Special tax for maintenance services", status: "Pending" }
+            ].map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
                       <IconCoin size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.type}</Text>
                   </Group>
                 </Table.Td>
+                <Table.Td><Text size="sm" fw={600}>{item.rate}</Text></Table.Td>
+                <Table.Td><Text size="sm">{item.desc}</Text></Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : item.status === 'Inactive' ? 'gray' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

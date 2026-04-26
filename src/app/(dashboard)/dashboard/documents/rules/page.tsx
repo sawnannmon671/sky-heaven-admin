@@ -25,6 +25,14 @@ export default function RulesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "RUL-001", name: "General Condo Rules", version: "v2.1", date: "2023-01-15", status: "Active" },
+    { id: "RUL-002", name: "Swimming Pool Guidelines", version: "v1.4", date: "2023-05-10", status: "Active" },
+    { id: "RUL-003", name: "Parking Regulations", version: "v3.0", date: "2024-02-20", status: "Active" },
+    { id: "RUL-004", name: "Pet Policy", version: "v1.1", date: "2022-11-05", status: "Archived" },
+    { id: "RUL-005", name: "Gym Usage Rules", version: "v1.0", date: "2023-08-12", status: "Active" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,36 @@ export default function RulesPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Rule ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Title & Version</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Last Updated</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
                       <IconShieldCheck size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.name}</Text>
+                      <Text size="xs" c="dimmed">Version: {item.version}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

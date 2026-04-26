@@ -9,6 +9,7 @@ const paymentTypes = [
   { id: 2, name: "Bank Transfer", description: "Direct bank deposits", status: "Active" },
   { id: 3, name: "Credit Card", description: "Online credit card payments", status: "Inactive" },
   { id: 4, name: "Mobile Wallet", description: "AYAPay, WavePay, etc.", status: "Active" },
+  { id: 5, name: "Cheque", description: "Company or personal cheques", status: "Active" },
 ];
 
 const translations = {
@@ -28,10 +29,12 @@ const translations = {
       "Bank Transfer": "Bank Transfer",
       "Credit Card": "Credit Card",
       "Mobile Wallet": "Mobile Wallet",
+      "Cheque": "Cheque",
       "Direct cash payments": "Direct cash payments",
       "Direct bank deposits": "Direct bank deposits",
       "Online credit card payments": "Online credit card payments",
-      "AYAPay, WavePay, etc.": "AYAPay, WavePay, etc."
+      "AYAPay, WavePay, etc.": "AYAPay, WavePay, etc.",
+      "Company or personal cheques": "Company or personal cheques"
     }
   },
   mm: {
@@ -50,10 +53,12 @@ const translations = {
       "Bank Transfer": "ဘဏ်မှတဆင့်ပေးချေမှု",
       "Credit Card": "ခရက်ဒစ်ကတ်",
       "Mobile Wallet": "မိုဘိုင်းပိုက်ဆံအိတ်",
+      "Cheque": "ချက်လက်မှတ်",
       "Direct cash payments": "လက်ငင်းငွေဖြင့် တိုက်ရိုက်ပေးချေမှုများ",
       "Direct bank deposits": "ဘဏ်မှတဆင့် တိုက်ရိုက်ငွေသွင်းမှုများ",
       "Online credit card payments": "အွန်လိုင်းခရက်ဒစ်ကတ်ဖြင့် ပေးချေမှုများ",
-      "AYAPay, WavePay, etc.": "AYAPay, WavePay, စသည်တို့"
+      "AYAPay, WavePay, etc.": "AYAPay, WavePay, စသည်တို့",
+      "Company or personal cheques": "ကုမ္ပဏီ သို့မဟုတ် ကိုယ်ပိုင် ချက်လက်မှတ်များ"
     }
   }
 };

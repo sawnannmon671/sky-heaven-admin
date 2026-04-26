@@ -25,6 +25,14 @@ export default function MoveInOutPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "REQ-001", type: "Move In", residentName: "U Tun Tun", unit: "A-101", date: "2024-05-01", status: "Approved" },
+    { id: "REQ-002", type: "Move Out", residentName: "Daw Mya Mya", unit: "B-205", date: "2024-04-15", status: "Pending" },
+    { id: "REQ-003", type: "Move In", residentName: "U Hlaing Bwar", unit: "C-304", date: "2024-06-01", status: "Approved" },
+    { id: "REQ-004", type: "Move Out", residentName: "Daw Thandar", unit: "A-502", date: "2024-03-20", status: "Completed" },
+    { id: "REQ-005", type: "Move In", residentName: "U Nyan Lin", unit: "D-102", date: "2024-05-10", status: "Rejected" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,41 @@ export default function MoveInOutPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Request ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Resident Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Unit</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color={item.type === 'Move In' ? 'green' : 'orange'} radius="md">
                       <IconUserPlus size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.type}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={500}>{item.residentName}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.unit}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Approved' ? 'blue' : item.status === 'Completed' ? 'green' : item.status === 'Rejected' ? 'red' : 'yellow'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

@@ -25,6 +25,14 @@ export default function AttendancePage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "AT-001", name: "U Kyaw Swar", role: "Security Guard", date: "2024-10-26", time: "07:55 AM - 04:05 PM", status: "Present" },
+    { id: "AT-002", name: "Daw Ni Ni", role: "Cleaner", date: "2024-10-26", time: "08:10 AM - --:--", status: "Late" },
+    { id: "AT-003", name: "Ko Htun", role: "Technician", date: "2024-10-26", time: "--:-- - --:--", status: "Absent" },
+    { id: "AT-004", name: "Ma Hlaing", role: "Cleaner", date: "2024-10-26", time: "07:50 AM - 04:00 PM", status: "Present" },
+    { id: "AT-005", name: "U Zaw", role: "Security Guard", date: "2024-10-26", time: "08:00 AM - --:--", status: "Present" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function AttendancePage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Record ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Employee Name & Role</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Clock In/Out</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="orange" radius="md">
                       <IconClock size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.name}</Text>
+                      <Text size="xs" c="dimmed">Role: {item.role}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.time}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Present' ? 'green' : item.status === 'Late' ? 'orange' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

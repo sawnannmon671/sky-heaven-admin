@@ -25,6 +25,14 @@ export default function NoticesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "NT-001", title: "Annual General Meeting", audience: "All Residents", date: "2024-10-25", status: "Active" },
+    { id: "NT-002", title: "Swimming Pool Closure", audience: "All Residents", date: "2024-10-20", status: "Expired" },
+    { id: "NT-003", title: "New Parking Regulations", audience: "Vehicle Owners", date: "2024-10-22", status: "Active" },
+    { id: "NT-004", title: "Holiday Decorations", audience: "All Residents", date: "2024-11-01", status: "Draft" },
+    { id: "NT-005", title: "Gym Equipment Update", audience: "Gym Members", date: "2024-10-18", status: "Active" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,37 @@ export default function NoticesPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Notice ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Title</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Target Audience</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
                     <ThemeIcon size="md" variant="light" color="blue" radius="md">
                       <IconFileText size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.title}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.audience}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : item.status === 'Draft' ? 'gray' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

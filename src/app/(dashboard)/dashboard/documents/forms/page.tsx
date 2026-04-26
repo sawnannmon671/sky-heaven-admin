@@ -25,6 +25,14 @@ export default function ResidentFormsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "FRM-001", name: "Move-In Registration", type: "Resident", downloads: 145, status: "Active" },
+    { id: "FRM-002", name: "Renovation Request", type: "Maintenance", downloads: 89, status: "Active" },
+    { id: "FRM-003", name: "Vehicle Registration", type: "Parking", downloads: 210, status: "Active" },
+    { id: "FRM-004", name: "Event Hall Booking", type: "Amenity", downloads: 56, status: "Active" },
+    { id: "FRM-005", name: "Pet Registration", type: "Resident", downloads: 34, status: "Draft" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,36 @@ export default function ResidentFormsPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Form ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Form Name & Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Downloads</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="teal" radius="md">
                       <IconClipboardList size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.name}</Text>
+                      <Text size="xs" c="dimmed">{item.type}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.downloads} times</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

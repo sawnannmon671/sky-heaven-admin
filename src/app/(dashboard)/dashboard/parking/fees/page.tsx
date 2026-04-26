@@ -25,6 +25,14 @@ export default function ParkingFeesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "FEE-001", vehicle: "YGN 1A-1234", slot: "P-101", type: "Monthly", amount: "50,000 MMK", date: "2024-10-01", status: "Paid" },
+    { id: "FEE-002", vehicle: "MDY 2B-5678", slot: "P-105", type: "Guest", amount: "5,000 MMK", date: "2024-10-15", status: "Paid" },
+    { id: "FEE-003", vehicle: "YGN 3C-9012", slot: "P-202", type: "Monthly", amount: "50,000 MMK", date: "2024-10-01", status: "Unpaid" },
+    { id: "FEE-004", vehicle: "YGN 4D-3456", slot: "P-305", type: "Monthly", amount: "50,000 MMK", date: "2024-10-01", status: "Pending" },
+    { id: "FEE-005", vehicle: "NPT 5E-7890", slot: "G-10", type: "Guest", amount: "2,000 MMK", date: "2024-10-16", status: "Paid" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,45 @@ export default function ParkingFeesPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Fee ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Vehicle & Slot</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Amount & Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="green" radius="md">
                       <IconCash size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.vehicle}</Text>
+                      <Text size="xs" c="dimmed">Slot: {item.slot}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Badge variant="light" color={item.type === 'Monthly' ? 'blue' : 'cyan'} fw={700}>
+                    {item.type}
+                  </Badge>
+                </Table.Td>
+                <Table.Td>
+                  <Stack gap={0}>
+                    <Text size="sm" fw={500}>{item.amount}</Text>
+                    <Text size="xs" c="dimmed">{item.date}</Text>
+                  </Stack>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Paid' ? 'green' : item.status === 'Pending' ? 'orange' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

@@ -25,6 +25,14 @@ export default function InvoiceGenerationPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "INV-2024-001", unit: "A-101", resident: "U Aung Aung", amount: "$150.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
+    { id: "INV-2024-002", unit: "B-205", resident: "Daw Su Su", amount: "$120.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Unpaid" },
+    { id: "INV-2024-003", unit: "C-304", resident: "U Kyaw Min", amount: "$200.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
+    { id: "INV-2024-004", unit: "A-502", resident: "Daw Hla Hla", amount: "$150.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Overdue" },
+    { id: "INV-2024-005", unit: "D-102", resident: "U Zaw Myo", amount: "$180.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,43 @@ export default function InvoiceGenerationPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Invoice ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Unit & Resident</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Amount</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date / Due Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
                     <ThemeIcon size="md" variant="light" color="blue" radius="md">
                       <IconFileInvoice size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.unit}</Text>
+                      <Text size="xs" c="dimmed">{item.resident}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={700} c="blue.7">{item.amount}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Stack gap={0}>
+                    <Text size="sm">{item.date}</Text>
+                    <Text size="xs" c="dimmed">Due: {item.dueDate}</Text>
+                  </Stack>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Paid' ? 'green' : item.status === 'Overdue' ? 'red' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

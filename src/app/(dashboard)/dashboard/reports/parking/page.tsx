@@ -25,6 +25,14 @@ export default function ParkingReportPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "REP-P01", title: "Resident Parking Usage", period: "Jan 2024", totalSlots: 300, occupied: 285, status: "High Demand" },
+    { id: "REP-P02", title: "Guest Parking Activity", period: "Feb 2024", totalSlots: 50, occupied: 20, status: "Normal" },
+    { id: "REP-P03", title: "VIP Parking Allocation", period: "Q1 2024", totalSlots: 20, occupied: 18, status: "High Demand" },
+    { id: "REP-P04", title: "Monthly Parking Revenue", period: "Mar 2024", totalSlots: "-", occupied: "-", status: "Generated" },
+    { id: "REP-P05", title: "Overnight Parking Log", period: "Apr 2024", totalSlots: 50, occupied: 45, status: "High Demand" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -59,36 +67,55 @@ export default function ParkingReportPage() {
             style={{ flex: 1, maxWidth: 400 }}
           />
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
+            Generate Report
           </Button>
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Report ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Report Title</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Period</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Total Slots</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Occupied</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700} c="dimmed">{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="violet" radius="md">
                       <IconCar size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={600} c="dark">{item.title}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" c="dimmed">{item.period}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500} c="dark">{item.totalSlots}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500} c="dark">{item.occupied}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge 
+                    variant="light" 
+                    color={
+                      item.status === 'High Demand' ? 'red' : 
+                      item.status === 'Normal' ? 'blue' : 'green'
+                    } 
+                    fw={700}
+                  >
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

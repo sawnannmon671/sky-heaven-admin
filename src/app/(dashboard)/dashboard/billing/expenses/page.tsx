@@ -25,6 +25,14 @@ export default function ExpenseTrackingPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "EXP-001", category: "Maintenance", description: "Elevator Repair", amount: "$450.00", date: "2024-10-02", status: "Paid" },
+    { id: "EXP-002", category: "Cleaning", description: "Monthly Cleaning Service", amount: "$200.00", date: "2024-10-05", status: "Paid" },
+    { id: "EXP-003", category: "Utilities", description: "Common Area Electricity", amount: "$350.00", date: "2024-10-10", status: "Pending" },
+    { id: "EXP-004", category: "Security", description: "Security Guard Salary", amount: "$800.00", date: "2024-10-15", status: "Approved" },
+    { id: "EXP-005", category: "Landscaping", description: "Garden Maintenance", amount: "$150.00", date: "2024-10-18", status: "Pending" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function ExpenseTrackingPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Expense ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Category & Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Amount</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="grape" radius="md">
                       <IconReportMoney size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.category}</Text>
+                      <Text size="xs" c="dimmed">{item.description}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={700} c="grape.7">{item.amount}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Paid' ? 'green' : item.status === 'Approved' ? 'blue' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

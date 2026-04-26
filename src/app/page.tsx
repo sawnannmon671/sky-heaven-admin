@@ -540,7 +540,7 @@ export default function HomePage() {
           <SimpleGrid cols={{ base: 1, md: 4 }} spacing={50}>
             <Stack gap="xl">
               <Group gap="sm">
-                <Box bg="white" p={6} radius="md" style={{ display: 'flex' }}>
+                <Box bg="white" p={6} style={{ display: 'flex', borderRadius: 'var(--mantine-radius-md)' }}>
                   <Image src="/sh.png" alt="Sky Haven Logo" h={36} w="auto" fit="contain" />
                 </Box>
                 <Title order={3} size="h3" fw={900} style={{ letterSpacing: -1 }}>

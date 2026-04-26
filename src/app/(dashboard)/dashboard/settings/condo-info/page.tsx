@@ -66,29 +66,39 @@ export default function CondoInfoPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Facility ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Facility Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Capacity</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Operating Hours</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {[
+              { id: "FAC-001", name: "Swimming Pool", capacity: "50 Persons", hours: "06:00 AM - 10:00 PM", status: "Open" },
+              { id: "FAC-002", name: "Gymnasium", capacity: "30 Persons", hours: "24 Hours", status: "Open" },
+              { id: "FAC-003", name: "Community Hall", capacity: "150 Persons", hours: "08:00 AM - 11:00 PM", status: "Maintenance" },
+              { id: "FAC-004", name: "Tower A Parking", capacity: "200 Vehicles", hours: "24 Hours", status: "Open" },
+              { id: "FAC-005", name: "BBQ Area", capacity: "20 Persons", hours: "10:00 AM - 10:00 PM", status: "Closed" }
+            ].map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="teal" radius="md">
                       <IconBuilding size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.name}</Text>
                   </Group>
                 </Table.Td>
+                <Table.Td><Text size="sm">{item.capacity}</Text></Table.Td>
+                <Table.Td><Text size="sm">{item.hours}</Text></Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Badge variant="light" color={item.status === 'Open' ? 'green' : item.status === 'Maintenance' ? 'orange' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

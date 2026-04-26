@@ -8,6 +8,8 @@ const elements = [
   { id: "REQ-101", unit: "101", category: "Plumbing", priority: "High", status: "In Progress", date: "2024-04-20", color: "red" },
   { id: "REQ-102", unit: "205", category: "Electrical", priority: "Medium", status: "Pending", date: "2024-04-22", color: "orange" },
   { id: "REQ-103", unit: "303", category: "Cleaning", priority: "Low", status: "Completed", date: "2024-04-18", color: "blue" },
+  { id: "REQ-104", unit: "402", category: "Plumbing", priority: "Medium", status: "Pending", date: "2024-04-25", color: "orange" },
+  { id: "REQ-105", unit: "108", category: "Electrical", priority: "High", status: "In Progress", date: "2024-04-26", color: "red" },
 ];
 
 const translations = {

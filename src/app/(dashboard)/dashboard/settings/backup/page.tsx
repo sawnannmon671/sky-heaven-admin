@@ -66,29 +66,39 @@ export default function BackupPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Backup ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Backup Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Frequency</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Last Run</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {[
+              { id: "BAK-001", name: "Daily Database Backup", frequency: "Daily", lastRun: "2024-04-26 02:00", status: "Success" },
+              { id: "BAK-002", name: "Weekly Full System", frequency: "Weekly", lastRun: "2024-04-21 03:00", status: "Success" },
+              { id: "BAK-003", name: "Monthly Archive", frequency: "Monthly", lastRun: "2024-04-01 01:00", status: "Success" },
+              { id: "BAK-004", name: "User Uploads Sync", frequency: "Daily", lastRun: "2024-04-26 04:00", status: "Failed" },
+              { id: "BAK-005", name: "Config Snapshot", frequency: "On Demand", lastRun: "2024-04-25 15:30", status: "Success" }
+            ].map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="violet" radius="md">
                       <IconDeviceFloppy size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.name}</Text>
                   </Group>
                 </Table.Td>
+                <Table.Td><Text size="sm">{item.frequency}</Text></Table.Td>
+                <Table.Td><Text size="sm">{item.lastRun}</Text></Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Badge variant="light" color={item.status === 'Success' ? 'green' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

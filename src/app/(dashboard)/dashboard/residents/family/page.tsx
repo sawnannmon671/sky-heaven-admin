@@ -25,6 +25,14 @@ export default function FamilyMembersPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "FAM-001", name: "Mg Aung Myint", relation: "Son", primaryResident: "U Aung Aung", unit: "A-101", age: 18, status: "Active" },
+    { id: "FAM-002", name: "Ma Su Mon", relation: "Daughter", primaryResident: "Daw Su Su", unit: "B-205", age: 22, status: "Active" },
+    { id: "FAM-003", name: "Daw Mya Sein", relation: "Mother", primaryResident: "U Kyaw Min", unit: "C-304", age: 65, status: "Active" },
+    { id: "FAM-004", name: "Mg Thura", relation: "Son", primaryResident: "Daw Hla Hla", unit: "A-502", age: 15, status: "Active" },
+    { id: "FAM-005", name: "Ma Khin Myo", relation: "Spouse", primaryResident: "U Zaw Myo", unit: "D-102", age: 35, status: "Active" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -67,28 +75,43 @@ export default function FamilyMembersPage() {
           <Table.Thead bg="gray.0">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Member Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Relation</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Primary Resident</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Unit</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="cyan" radius="md">
                       <IconUsers size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.name}</Text>
+                      <Text size="xs" c="dimmed">Age: {item.age}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.relation}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500}>{item.primaryResident}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500}>{item.unit}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

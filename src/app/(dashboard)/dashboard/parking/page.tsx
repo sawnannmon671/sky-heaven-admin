@@ -4,9 +4,11 @@ import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconCar } from "@ta
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
-  { id: "P-001", unit: "A-101", resident: "John Doe", type: "Resident", status: "Occupied", color: "blue" },
-  { id: "P-002", unit: "A-102", resident: "Jane Smith", type: "Resident", status: "Occupied", color: "blue" },
-  { id: "P-003", unit: "-", resident: "-", type: "Visitor", status: "Available", color: "green" },
+  { id: "P-101", unit: "A-101", resident: "U Aung Aung", type: "Resident", status: "Occupied", color: "blue" },
+  { id: "P-102", unit: "-", resident: "-", type: "Resident", status: "Available", color: "green" },
+  { id: "P-103", unit: "B-205", resident: "Daw Su Su", type: "Resident", status: "Occupied", color: "blue" },
+  { id: "G-01", unit: "-", resident: "U Kyaw", type: "Visitor", status: "Occupied", color: "teal" },
+  { id: "G-02", unit: "-", resident: "-", type: "Visitor", status: "Available", color: "green" },
 ];
 
 const translations = {

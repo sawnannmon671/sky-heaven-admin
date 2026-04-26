@@ -25,6 +25,14 @@ export default function MaintenanceReportPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "REP-M01", title: "Monthly HVAC Maintenance", period: "Jan 2024", cost: "$4,200", status: "Completed" },
+    { id: "REP-M02", title: "Elevator Inspection Report", period: "Q1 2024", cost: "$1,500", status: "Completed" },
+    { id: "REP-M03", title: "Plumbing Repairs Overview", period: "Feb 2024", cost: "$850", status: "Pending" },
+    { id: "REP-M04", title: "Pool Cleaning Log", period: "Mar 2024", cost: "$600", status: "Completed" },
+    { id: "REP-M05", title: "Gym Equipment Service", period: "Q1 2024", cost: "$1,200", status: "Scheduled" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -59,36 +67,51 @@ export default function MaintenanceReportPage() {
             style={{ flex: 1, maxWidth: 400 }}
           />
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
+            Generate Report
           </Button>
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Report ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Report Title</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Period</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Total Cost</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700} c="dimmed">{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
                       <IconTools size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={600} c="dark">{item.title}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" c="dimmed">{item.period}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500} c="dark">{item.cost}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge 
+                    variant="light" 
+                    color={
+                      item.status === 'Completed' ? 'green' : 
+                      item.status === 'Pending' ? 'orange' : 'blue'
+                    } 
+                    fw={700}
+                  >
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

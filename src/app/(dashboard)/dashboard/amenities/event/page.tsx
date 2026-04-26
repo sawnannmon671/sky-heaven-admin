@@ -25,6 +25,14 @@ export default function EventHallPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "EH-001", resident: "U Kyaw Swar", unit: "A-101", eventDate: "2024-11-01 10:00 AM", guests: 50, status: "Approved" },
+    { id: "EH-002", resident: "Daw Ni Ni", unit: "B-205", eventDate: "2024-11-05 06:00 PM", guests: 100, status: "Pending" },
+    { id: "EH-003", resident: "Ko Htun", unit: "C-304", eventDate: "2024-11-10 09:00 AM", guests: 30, status: "Approved" },
+    { id: "EH-004", resident: "Ma Hlaing", unit: "A-502", eventDate: "2024-11-15 05:00 PM", guests: 80, status: "Rejected" },
+    { id: "EH-005", resident: "U Zaw", unit: "D-102", eventDate: "2024-11-20 11:00 AM", guests: 40, status: "Approved" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function EventHallPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Reservation ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Resident & Unit</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Event Date</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Guests</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="grape" radius="md">
                       <IconGlassFull size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.resident}</Text>
+                      <Text size="xs" c="dimmed">Unit: {item.unit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.eventDate}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.guests}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Approved' ? 'green' : item.status === 'Rejected' ? 'red' : 'blue'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

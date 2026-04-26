@@ -25,6 +25,14 @@ export default function VisitorEntryPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "VE-001", visitor: "U Kyaw Swar", hostUnit: "A-101", purpose: "Personal", entryTime: "2024-10-26 09:00 AM", exitTime: "2024-10-26 11:30 AM", status: "Checked Out" },
+    { id: "VE-002", visitor: "Daw Ni Ni", hostUnit: "B-205", purpose: "Service", entryTime: "2024-10-26 10:15 AM", exitTime: "-", status: "Inside" },
+    { id: "VE-003", visitor: "Ko Htun", hostUnit: "C-304", purpose: "Personal", entryTime: "2024-10-26 11:00 AM", exitTime: "2024-10-26 01:00 PM", status: "Checked Out" },
+    { id: "VE-004", visitor: "Ma Hlaing", hostUnit: "A-502", purpose: "Meeting", entryTime: "2024-10-26 02:30 PM", exitTime: "-", status: "Inside" },
+    { id: "VE-005", visitor: "U Zaw", hostUnit: "D-102", purpose: "Delivery", entryTime: "2024-10-26 04:00 PM", exitTime: "2024-10-26 04:15 PM", status: "Checked Out" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,43 @@ export default function VisitorEntryPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Entry ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Visitor & Host</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Purpose</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Timings</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
                     <ThemeIcon size="md" variant="light" color="blue" radius="md">
                       <IconDoorEnter size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.visitor}</Text>
+                      <Text size="xs" c="dimmed">Host: {item.hostUnit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.purpose}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Stack gap={0}>
+                    <Text size="sm" c="green.7">In: {item.entryTime}</Text>
+                    <Text size="xs" c={item.exitTime === '-' ? 'dimmed' : 'red.7'}>Out: {item.exitTime}</Text>
+                  </Stack>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Inside' ? 'blue' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

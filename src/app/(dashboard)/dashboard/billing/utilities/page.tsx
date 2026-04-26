@@ -25,6 +25,14 @@ export default function UtilityBillsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "UTL-001", type: "Water", unit: "A-101", amount: "$25.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
+    { id: "UTL-002", type: "Electricity", unit: "B-205", amount: "$85.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Unpaid" },
+    { id: "UTL-003", type: "Water", unit: "C-304", amount: "$30.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
+    { id: "UTL-004", type: "Internet", unit: "A-502", amount: "$40.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Overdue" },
+    { id: "UTL-005", type: "Electricity", unit: "D-102", amount: "$90.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,43 @@ export default function UtilityBillsPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Utility ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Type / Unit</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Amount</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Month / Due Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="cyan" radius="md">
                       <IconDroplet size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.type}</Text>
+                      <Text size="xs" c="dimmed">Unit: {item.unit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={700} c="cyan.7">{item.amount}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Stack gap={0}>
+                    <Text size="sm">{item.month}</Text>
+                    <Text size="xs" c="dimmed">Due: {item.dueDate}</Text>
+                  </Stack>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Paid' ? 'green' : item.status === 'Overdue' ? 'red' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

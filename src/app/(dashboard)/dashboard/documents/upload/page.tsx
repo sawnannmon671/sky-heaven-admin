@@ -25,6 +25,14 @@ export default function UploadFilesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "DOC-001", name: "Annual Audit Report 2023", size: "2.4 MB", type: "PDF", uploader: "Admin John", date: "2024-01-10", status: "Uploaded" },
+    { id: "DOC-002", name: "Building Plan Schematics", size: "15.8 MB", type: "ZIP", uploader: "Eng. Smith", date: "2023-11-20", status: "Uploaded" },
+    { id: "DOC-003", name: "Vendor Contract - Cleaning", size: "1.2 MB", type: "PDF", uploader: "Admin Jane", date: "2024-02-05", status: "Pending Review" },
+    { id: "DOC-004", name: "Resident Directory Q1", size: "3.5 MB", type: "Excel", uploader: "Admin John", date: "2024-03-01", status: "Uploaded" },
+    { id: "DOC-005", name: "Maintenance Logs Jan-Mar", size: "4.1 MB", type: "CSV", uploader: "Tech Team", date: "2024-04-02", status: "Archived" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -59,36 +67,54 @@ export default function UploadFilesPage() {
             style={{ flex: 1, maxWidth: 400 }}
           />
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
+            Upload File
           </Button>
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">File ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">File Details</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Uploader</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700} c="dimmed">{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
                     <ThemeIcon size="md" variant="light" color="blue" radius="md">
                       <IconCloudUpload size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={600} c="dark">{item.name}</Text>
+                      <Text size="xs" c="dimmed">{item.type} • {item.size}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={500} c="dark">{item.uploader}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" c="dimmed">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge 
+                    variant="light" 
+                    color={
+                      item.status === 'Uploaded' ? 'green' : 
+                      item.status === 'Pending Review' ? 'orange' : 'gray'
+                    } 
+                    fw={700}
+                  >
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

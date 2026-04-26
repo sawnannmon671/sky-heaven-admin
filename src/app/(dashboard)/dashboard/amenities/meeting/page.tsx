@@ -25,6 +25,14 @@ export default function MeetingRoomPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "MR-001", organizer: "U Kyaw Swar", unit: "A-101", datetime: "2024-11-02 10:00 AM - 12:00 PM", room: "Room A", status: "Approved" },
+    { id: "MR-002", organizer: "Daw Ni Ni", unit: "B-205", datetime: "2024-11-03 02:00 PM - 04:00 PM", room: "Room B", status: "Pending" },
+    { id: "MR-003", organizer: "Ko Htun", unit: "C-304", datetime: "2024-11-04 09:00 AM - 11:00 AM", room: "Room A", status: "Approved" },
+    { id: "MR-004", organizer: "Ma Hlaing", unit: "A-502", datetime: "2024-11-05 01:00 PM - 03:00 PM", room: "Room C", status: "Rejected" },
+    { id: "MR-005", organizer: "U Zaw", unit: "D-102", datetime: "2024-11-06 03:00 PM - 05:00 PM", room: "Room B", status: "Approved" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,40 @@ export default function MeetingRoomPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Booking ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Organizer & Unit</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Meeting Date & Time</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Room</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
                       <IconArmchair size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.organizer}</Text>
+                      <Text size="xs" c="dimmed">Unit: {item.unit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.datetime}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.room}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Approved' ? 'green' : item.status === 'Rejected' ? 'red' : 'blue'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

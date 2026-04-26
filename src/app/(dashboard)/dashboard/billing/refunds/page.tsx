@@ -25,6 +25,14 @@ export default function RefundsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "REF-001", unit: "A-101", resident: "U Aung Aung", amount: "$50.00", reason: "Overpayment", date: "2024-10-08", status: "Completed" },
+    { id: "REF-002", unit: "B-205", resident: "Daw Su Su", amount: "$25.00", reason: "Deposit Return", date: "2024-10-10", status: "Pending" },
+    { id: "REF-003", unit: "C-304", resident: "U Kyaw Min", amount: "$15.00", reason: "Maintenance Error", date: "2024-10-12", status: "Processing" },
+    { id: "REF-004", unit: "A-502", resident: "Daw Hla Hla", amount: "$30.00", reason: "Overpayment", date: "2024-10-15", status: "Completed" },
+    { id: "REF-005", unit: "D-102", resident: "U Zaw Myo", amount: "$100.00", reason: "Move-out Deposit", date: "2024-10-20", status: "Pending" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,44 @@ export default function RefundsPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Refund ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Unit & Resident</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Amount</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Reason</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="orange" radius="md">
                       <IconRotate2 size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.unit}</Text>
+                      <Text size="xs" c="dimmed">{item.resident}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={700} c="orange.7">{item.amount}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.reason}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Completed' ? 'green' : item.status === 'Processing' ? 'blue' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

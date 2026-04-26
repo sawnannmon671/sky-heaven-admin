@@ -25,6 +25,14 @@ export default function PaymentReportPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "REP-PAY01", title: "Maintenance Fee Collection", period: "Jan 2024", totalAmount: "$45,000", collected: "$42,500", status: "Closed" },
+    { id: "REP-PAY02", title: "Utility Bills Payment", period: "Feb 2024", totalAmount: "$12,300", collected: "$11,000", status: "Ongoing" },
+    { id: "REP-PAY03", title: "Late Fees Report", period: "Q1 2024", totalAmount: "$2,100", collected: "$800", status: "Ongoing" },
+    { id: "REP-PAY04", title: "Parking Fees Collection", period: "Mar 2024", totalAmount: "$5,000", collected: "$4,800", status: "Closed" },
+    { id: "REP-PAY05", title: "Facility Booking Income", period: "Q1 2024", totalAmount: "$3,200", collected: "$3,200", status: "Closed" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -59,36 +67,54 @@ export default function PaymentReportPage() {
             style={{ flex: 1, maxWidth: 400 }}
           />
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
+            Generate Report
           </Button>
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Report ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Report Title</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Period</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Total Expected</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Collected</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700} c="dimmed">{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
                     <ThemeIcon size="md" variant="light" color="blue" radius="md">
                       <IconCash size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={600} c="dark">{item.title}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" c="dimmed">{item.period}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500} c="dark">{item.totalAmount}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500} c={item.collected === item.totalAmount ? "green" : "dark"}>{item.collected}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge 
+                    variant="light" 
+                    color={
+                      item.status === 'Closed' ? 'green' : 'orange'
+                    } 
+                    fw={700}
+                  >
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

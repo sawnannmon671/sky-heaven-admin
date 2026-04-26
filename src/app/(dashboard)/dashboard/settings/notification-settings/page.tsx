@@ -66,29 +66,39 @@ export default function NotificationSettingsPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Setting ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Notification Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Target Audience</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Delivery Method</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {[
+              { id: "NOT-001", type: "Payment Reminders", target: "All Residents", method: "Email & SMS", status: "Enabled" },
+              { id: "NOT-002", type: "Maintenance Alerts", target: "Specific Blocks", method: "Push Notification", status: "Enabled" },
+              { id: "NOT-003", type: "Monthly Newsletter", target: "Subscribed Users", method: "Email", status: "Disabled" },
+              { id: "NOT-004", type: "Security Announcements", target: "All Residents", method: "SMS & Push", status: "Enabled" },
+              { id: "NOT-005", type: "Visitor Arrival", target: "Specific Host", method: "Push Notification", status: "Enabled" }
+            ].map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="orange" radius="md">
                       <IconBellRinging size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.type}</Text>
                   </Group>
                 </Table.Td>
+                <Table.Td><Text size="sm">{item.target}</Text></Table.Td>
+                <Table.Td><Text size="sm">{item.method}</Text></Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Badge variant="light" color={item.status === 'Enabled' ? 'green' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

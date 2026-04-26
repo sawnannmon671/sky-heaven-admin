@@ -5,9 +5,11 @@ import { IconUserPlus, IconSearch, IconEye, IconTrash, IconClock, IconUserCheck,
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
-  { id: "1", name: "David Miller", unit: "101", purpose: "Delivery", checkIn: "10:30 AM", status: "Checked In", color: "cyan" },
-  { id: "2", name: "Sarah Connor", unit: "201", purpose: "Guest", checkIn: "09:15 AM", status: "Checked Out", color: "pink" },
-  { id: "3", name: "Mike Tyson", unit: "305", purpose: "Maintenance", checkIn: "11:00 AM", status: "Checked In", color: "orange" },
+  { id: "1", name: "U Kyaw Swar", unit: "A-101", purpose: "Guest", checkIn: "10:30 AM", status: "Checked In", color: "cyan" },
+  { id: "2", name: "Daw Ni Ni", unit: "B-205", purpose: "Delivery", checkIn: "09:15 AM", status: "Checked Out", color: "pink" },
+  { id: "3", name: "Ko Htun", unit: "C-304", purpose: "Maintenance", checkIn: "11:00 AM", status: "Checked In", color: "orange" },
+  { id: "4", name: "Ma Hlaing", unit: "A-502", purpose: "Guest", checkIn: "01:30 PM", status: "Checked In", color: "teal" },
+  { id: "5", name: "U Zaw", unit: "D-102", purpose: "Delivery", checkIn: "03:45 PM", status: "Checked Out", color: "indigo" },
 ];
 
 const translations = {

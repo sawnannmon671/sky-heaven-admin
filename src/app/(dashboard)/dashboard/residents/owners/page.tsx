@@ -5,6 +5,14 @@ import { IconUser, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, Ic
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
+const mockData = [
+  { id: "OWN-001", name: "U Aung Aung", phone: "+95 9 123 456 789", email: "aung@example.com", units: "A-101", status: "Active" },
+  { id: "OWN-002", name: "Daw Su Su", phone: "+95 9 987 654 321", email: "susu@example.com", units: "B-205, B-206", status: "Active" },
+  { id: "OWN-003", name: "U Kyaw Min", phone: "+95 9 555 666 777", email: "kyawmin@example.com", units: "C-304", status: "Inactive" },
+  { id: "OWN-004", name: "Daw Hla Hla", phone: "+95 9 111 222 333", email: "hlahla@example.com", units: "A-502", status: "Active" },
+  { id: "OWN-005", name: "U Zaw Myo", phone: "+95 9 444 888 999", email: "zawmyo@example.com", units: "D-102", status: "Active" },
+];
+
 export default function OwnersPage() {
   const { lang, mounted } = useTranslation();
 
@@ -67,28 +75,39 @@ export default function OwnersPage() {
           <Table.Thead bg="gray.0">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Owner Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Contact Info</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Units Owned</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="violet" radius="md">
                       <IconUser size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Text size="sm" fw={500}>{item.name}</Text>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Stack gap={0}>
+                    <Text size="sm">{item.phone}</Text>
+                    <Text size="xs" c="dimmed">{item.email}</Text>
+                  </Stack>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm" fw={500}>{item.units}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : 'gray'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

@@ -25,6 +25,14 @@ export default function LateFeesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "LF-001", unit: "A-502", resident: "Daw Hla Hla", amount: "$15.00", originalInvoice: "INV-2024-004", daysLate: 15, status: "Unpaid" },
+    { id: "LF-002", unit: "B-205", resident: "Daw Su Su", amount: "$10.00", originalInvoice: "INV-2024-002", daysLate: 5, status: "Paid" },
+    { id: "LF-003", unit: "C-101", resident: "U Tun Tun", amount: "$25.00", originalInvoice: "INV-2024-008", daysLate: 30, status: "Unpaid" },
+    { id: "LF-004", unit: "D-304", resident: "Daw Aye Aye", amount: "$15.00", originalInvoice: "INV-2024-010", daysLate: 12, status: "Waived" },
+    { id: "LF-005", unit: "A-202", resident: "U Kyaw Kyaw", amount: "$20.00", originalInvoice: "INV-2024-015", daysLate: 20, status: "Unpaid" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,44 @@ export default function LateFeesPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Fee ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Unit & Resident</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Amount</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Original Invoice</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Days Late</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="red" radius="md">
                       <IconAlertTriangle size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.unit}</Text>
+                      <Text size="xs" c="dimmed">{item.resident}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm" fw={700} c="red.7">{item.amount}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.originalInvoice}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.daysLate} Days</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Paid' ? 'green' : item.status === 'Waived' ? 'gray' : 'red'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

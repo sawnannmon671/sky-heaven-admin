@@ -1,13 +1,15 @@
 "use client";
 
-import { Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput } from "@mantine/core";
+import { Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput, Avatar } from "@mantine/core";
 import { IconSearch, IconPlus, IconEdit, IconTrash, IconWallet } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const paymentMethods = [
-  { id: 1, name: "AYA Bank", type: "Bank Transfer", account: "123-456-789", status: "Active" },
-  { id: 3, name: "AYAPay", type: "Mobile Wallet", account: "09123456789", status: "Active" },
-  { id: 4, name: "WavePay", type: "Mobile Wallet", account: "09987654321", status: "Active" },
+  { id: 1, name: "AYA Bank", type: "Bank Transfer", account: "123-456-789", status: "Active", logo: "https://ui-avatars.com/api/?name=AYA+Bank&background=ED1C24&color=fff" },
+  { id: 2, name: "AYA Pay", type: "Mobile Wallet", account: "09123456789", status: "Active", logo: "https://ui-avatars.com/api/?name=AYA+Pay&background=ED1C24&color=fff" },
+  { id: 3, name: "AYA Bank (Corporate)", type: "Bank Transfer", account: "111-222-333", status: "Active", logo: "https://ui-avatars.com/api/?name=AYA+Corp&background=ED1C24&color=fff" },
+  { id: 4, name: "Cash", type: "Cash", account: "N/A", status: "Active", logo: "https://ui-avatars.com/api/?name=Cash&background=008000&color=fff" },
+  { id: 5, name: "Credit Card (AYA)", type: "Card Payment", account: "xxxx-xxxx-xxxx-1234", status: "Inactive", logo: "https://ui-avatars.com/api/?name=AYA+Card&background=ED1C24&color=fff" },
 ];
 
 const translations = {
@@ -16,6 +18,7 @@ const translations = {
     subtitle: "Manage specific payment accounts and methods for receiving payments.",
     addBtn: "Add Payment Method",
     searchPlaceholder: "Search payment methods...",
+    thLogo: "Logo",
     thName: "Name",
     thType: "Type",
     thAccount: "Account Info",
@@ -25,7 +28,9 @@ const translations = {
     inactive: "Inactive",
     types: {
       "Bank Transfer": "Bank Transfer",
-      "Mobile Wallet": "Mobile Wallet"
+      "Mobile Wallet": "Mobile Wallet",
+      "Cash": "Cash",
+      "Card Payment": "Card Payment"
     }
   },
   mm: {
@@ -33,6 +38,7 @@ const translations = {
     subtitle: "ငွေလက်ခံရန်အတွက် သီးခြားငွေပေးချေမှုအကောင့်များနှင့် နည်းလမ်းများကို စီမံခန့်ခွဲပါ။",
     addBtn: "ငွေပေးချေမှုနည်းလမ်းအသစ်ထည့်ရန်",
     searchPlaceholder: "ရှာဖွေရန်...",
+    thLogo: "လိုဂို",
     thName: "အမည်",
     thType: "အမျိုးအစား",
     thAccount: "အကောင့်အချက်အလက်",
@@ -42,7 +48,9 @@ const translations = {
     inactive: "ရပ်နားထား",
     types: {
       "Bank Transfer": "ဘဏ်မှတဆင့်ပေးချေမှု",
-      "Mobile Wallet": "မိုဘိုင်းပိုက်ဆံအိတ်"
+      "Mobile Wallet": "မိုဘိုင်းပိုက်ဆံအိတ်",
+      "Cash": "ငွေသား",
+      "Card Payment": "ကတ်ဖြင့်ပေးချေမှု"
     }
   }
 };
@@ -55,6 +63,9 @@ export default function PaymentMethodPage() {
 
   const rows = paymentMethods.map((method) => (
     <Table.Tr key={method.id}>
+      <Table.Td>
+        <Avatar src={method.logo} alt={method.name} radius="xl" size="sm" />
+      </Table.Td>
       <Table.Td>
         <Group gap="sm">
           <ThemeIcon size="sm" variant="light" color="cyan">
@@ -99,6 +110,7 @@ export default function PaymentMethodPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
+              <Table.Th w={60}>{t.thLogo}</Table.Th>
               <Table.Th>{t.thName}</Table.Th>
               <Table.Th>{t.thType}</Table.Th>
               <Table.Th>{t.thAccount}</Table.Th>

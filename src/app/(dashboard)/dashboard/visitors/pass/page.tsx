@@ -25,6 +25,14 @@ export default function VisitorPassPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+  const mockData = [
+    { id: "VP-001", visitor: "U Kyaw Swar", hostUnit: "A-101", validFrom: "2024-10-26", validTo: "2024-10-28", type: "Multiple Entry", status: "Active" },
+    { id: "VP-002", visitor: "Daw Ni Ni", hostUnit: "B-205", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Expired" },
+    { id: "VP-003", visitor: "Ko Htun", hostUnit: "C-304", validFrom: "2024-10-27", validTo: "2024-10-27", type: "Single Entry", status: "Pending" },
+    { id: "VP-004", visitor: "Ma Hlaing", hostUnit: "A-502", validFrom: "2024-10-25", validTo: "2024-11-25", type: "Contractor", status: "Active" },
+    { id: "VP-005", visitor: "U Zaw", hostUnit: "D-102", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Active" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,43 @@ export default function VisitorPassPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Pass ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Visitor & Host</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Pass Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Validity</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
                       <IconIdBadge size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.visitor}</Text>
+                      <Text size="xs" c="dimmed">Host: {item.hostUnit}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Text size="sm">{item.type}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Stack gap={0}>
+                    <Text size="xs" c="dimmed">From: {item.validFrom}</Text>
+                    <Text size="xs" c="dimmed">To: {item.validTo}</Text>
+                  </Stack>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : item.status === 'Expired' ? 'red' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

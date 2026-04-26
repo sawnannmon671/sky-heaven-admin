@@ -25,6 +25,14 @@ export default function WorkOrdersPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
+const mockData = [
+    { id: "WO-001", task: "Fix Plumbing Leak", location: "Unit A-101", priority: "High", date: "2024-10-10", status: "Completed" },
+    { id: "WO-002", task: "Replace Corridor Lights", location: "2nd Floor", priority: "Medium", date: "2024-10-12", status: "In Progress" },
+    { id: "WO-003", task: "Elevator Inspection", location: "Main Elevator", priority: "High", date: "2024-10-15", status: "Pending" },
+    { id: "WO-004", task: "Garden Landscaping", location: "Courtyard", priority: "Low", date: "2024-10-18", status: "Scheduled" },
+    { id: "WO-005", task: "Paint Stairwell", location: "Block C", priority: "Medium", date: "2024-10-20", status: "Pending" },
+  ];
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -66,29 +74,42 @@ export default function WorkOrdersPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Name / Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Order ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Task & Location</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Priority</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">Date</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {[1, 2, 3].map((item) => (
-              <Table.Tr key={item}>
+            {mockData.map((item) => (
+              <Table.Tr key={item.id}>
                 <Table.Td>
-                  <Text size="sm" fw={700}>#00{item}</Text>
+                  <Text size="sm" fw={700}>{item.id}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                    <ThemeIcon size="md" variant="light" color="teal" radius="md">
                       <IconClipboardList size={18} />
                     </ThemeIcon>
-                    <Text size="sm" fw={500}>Sample Record {item}</Text>
+                    <Stack gap={0}>
+                      <Text size="sm" fw={500}>{item.task}</Text>
+                      <Text size="xs" c="dimmed">{item.location}</Text>
+                    </Stack>
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item === 1 ? 'green' : 'blue'} fw={700}>
-                    {item === 1 ? 'Active' : 'Pending'}
+                  <Badge variant="light" color={item.priority === 'High' ? 'red' : item.priority === 'Medium' ? 'orange' : 'blue'} fw={700}>
+                    {item.priority}
+                  </Badge>
+                </Table.Td>
+                <Table.Td>
+                  <Text size="sm">{item.date}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <Badge variant="light" color={item.status === 'Completed' ? 'green' : item.status === 'In Progress' ? 'blue' : item.status === 'Scheduled' ? 'cyan' : 'orange'} fw={700}>
+                    {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>

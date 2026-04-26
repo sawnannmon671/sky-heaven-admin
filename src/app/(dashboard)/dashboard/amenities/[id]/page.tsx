@@ -199,137 +199,183 @@ export default function AmenityDetailPage() {
   const data = amenityDetails[amenityId as keyof typeof amenityDetails] || amenityDetails["AMN-001"];
 
   return (
-    <Container size="xl" py="md">
-      <Stack gap="lg">
+    <Container size="xl" py="xl">
+      <Stack gap="xl">
         {/* Header Actions */}
         <Group justify="space-between">
           <Button 
-            variant="subtle" 
+            variant="light" 
             color="gray" 
-            leftSection={<IconArrowLeft size={16} />}
+            leftSection={<IconArrowLeft size={18} />}
             onClick={() => router.back()}
+            radius="md"
+            size="md"
           >
             {t.back}
           </Button>
           <Button 
-            variant="light" 
+            variant="filled" 
             color="#014F86" 
-            leftSection={<IconEdit size={16} />}
+            leftSection={<IconEdit size={18} />}
+            radius="md"
+            size="md"
+            style={{ boxShadow: '0 4px 15px rgba(1, 79, 134, 0.25)' }}
           >
             {t.edit}
           </Button>
         </Group>
 
         {/* Hero Section */}
-        <Paper radius="xl" shadow="md" style={{ overflow: 'hidden', position: 'relative' }}>
+        <Paper 
+          radius="2rem" 
+          shadow="xl" 
+          style={{ 
+            overflow: 'hidden', 
+            position: 'relative',
+            height: '500px',
+            border: '8px solid white',
+            boxShadow: '0 20px 40px rgba(0,0,0,0.1)'
+          }}
+        >
           <Image 
             src={data.image} 
-            h={400} 
+            h="100%" 
+            w="100%"
             alt={data.title}
-            fallbackSrc="https://placehold.co/1200x400?text=Amenity+Image"
+            fallbackSrc="https://placehold.co/1200x500?text=Amenity+Image"
+            style={{ objectFit: 'cover' }}
           />
           <Box 
             pos="absolute" 
             bottom={0} 
             left={0} 
             right={0} 
-            p="xl" 
+            p="3rem" 
             style={{ 
-              background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
-              color: 'white'
+              background: 'linear-gradient(transparent, rgba(0,0,0,0.85))',
+              color: 'white',
+              backdropFilter: 'blur(2px)'
             }}
           >
             <Group justify="space-between" align="flex-end">
-              <Stack gap={4}>
-                <Badge color="blue.4" variant="filled" size="sm">{t.idLabel}: {amenityId}</Badge>
-                <Title order={1} size="h1">
+              <Stack gap="xs">
+                <Badge 
+                  color="blue.4" 
+                  variant="filled" 
+                  size="lg" 
+                  radius="sm"
+                  style={{ fontWeight: 800, textTransform: 'uppercase', letterSpacing: '1px' }}
+                >
+                  {t.idLabel}: {amenityId}
+                </Badge>
+                <Title order={1} style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-2px' }}>
                   {t.amenityTitles[data.title as keyof typeof t.amenityTitles] || data.title}
                 </Title>
               </Stack>
-              <Button size="lg" color="white" c="#014F86" radius="md">
+              <Button 
+                size="xl" 
+                color="white" 
+                c="#014F86" 
+                radius="md"
+                style={{ 
+                  boxShadow: '0 10px 20px rgba(0,0,0,0.2)',
+                  fontWeight: 800
+                }}
+              >
                 {t.bookBtn}
               </Button>
             </Group>
           </Box>
         </Paper>
 
-        <Grid gutter="xl">
+        <Grid gutter={40}>
           {/* Main Info */}
           <Grid.Col span={{ base: 12, md: 8 }}>
-            <Stack gap="xl">
+            <Stack gap={40}>
               <Box>
-                <Title order={3} mb="md">{t.about}</Title>
-                <Text size="lg" c="dimmed" style={{ lineHeight: 1.6 }}>
+                <Group mb="xl" gap="xs">
+                  <ThemeIcon variant="light" color="blue" size="md" radius="sm">
+                    <IconInfoCircle size={20} />
+                  </ThemeIcon>
+                  <Title order={2} style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.about}</Title>
+                </Group>
+                <Text size="xl" c="gray.7" style={{ lineHeight: 1.8, fontWeight: 500 }}>
                   {data.description}
                 </Text>
               </Box>
 
-              <Divider />
-
-              <Box>
-                <Title order={3} mb="md">{t.rules}</Title>
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+              <Paper radius="lg" p="xl" style={{ border: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+                <Group mb="xl" gap="xs">
+                  <ThemeIcon variant="light" color="green" size="md" radius="sm">
+                    <IconShieldCheck size={20} />
+                  </ThemeIcon>
+                  <Title order={2} style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.rules}</Title>
+                </Group>
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xl">
                   {data.rules.map((rule, index) => (
-                    <Group key={index} gap="sm">
-                      <ThemeIcon color="green" variant="light" size="sm" radius="xl">
+                    <Group key={index} gap="md" align="flex-start" wrap="nowrap">
+                      <ThemeIcon color="green" variant="filled" size="sm" radius="xl" mt={4}>
                         <IconShieldCheck size={12} />
                       </ThemeIcon>
-                      <Text size="sm">{rule}</Text>
+                      <Text size="md" fw={600} c="gray.8">{rule}</Text>
                     </Group>
                   ))}
                 </SimpleGrid>
-              </Box>
+              </Paper>
             </Stack>
           </Grid.Col>
 
           {/* Side Info Cards */}
           <Grid.Col span={{ base: 12, md: 4 }}>
-            <Stack gap="md">
-              <Paper withBorder p="lg" radius="lg">
-                <Stack gap="md">
-                  <Group wrap="nowrap">
-                    <ThemeIcon size="lg" radius="md" variant="light" color="blue">
-                      <IconMapPin size={20} />
+            <Stack gap="xl">
+              <Paper radius="lg" p="xl" style={{ border: '1px solid #e9ecef', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
+                <Stack gap="xl">
+                  <Group wrap="nowrap" gap="lg">
+                    <ThemeIcon size={48} radius="lg" variant="light" color="blue">
+                      <IconMapPin size={24} />
                     </ThemeIcon>
                     <Box>
-                      <Text size="xs" c="dimmed" fw={700} tt="uppercase">{t.location}</Text>
-                      <Text fw={500}>{data.location}</Text>
+                      <Text size="xs" c="dimmed" fw={800} tt="uppercase" lts={1}>{t.location}</Text>
+                      <Text fw={700} size="lg">{data.location}</Text>
                     </Box>
                   </Group>
 
-                  <Group wrap="nowrap">
-                    <ThemeIcon size="lg" radius="md" variant="light" color="teal">
-                      <IconClock size={20} />
+                  <Group wrap="nowrap" gap="lg">
+                    <ThemeIcon size={48} radius="lg" variant="light" color="teal">
+                      <IconClock size={24} />
                     </ThemeIcon>
                     <Box>
-                      <Text size="xs" c="dimmed" fw={700} tt="uppercase">{t.schedule}</Text>
-                      <Text fw={500}>{data.schedule}</Text>
+                      <Text size="xs" c="dimmed" fw={800} tt="uppercase" lts={1}>{t.schedule}</Text>
+                      <Text fw={700} size="lg">{data.schedule}</Text>
                     </Box>
                   </Group>
 
-                  <Group wrap="nowrap">
-                    <ThemeIcon size="lg" radius="md" variant="light" color="orange">
-                      <IconInfoCircle size={20} />
+                  <Group wrap="nowrap" gap="lg">
+                    <ThemeIcon size={48} radius="lg" variant="light" color="orange">
+                      <IconInfoCircle size={24} />
                     </ThemeIcon>
                     <Box>
-                      <Text size="xs" c="dimmed" fw={700} tt="uppercase">{t.type}</Text>
-                      <Text fw={500}>{data.type}</Text>
+                      <Text size="xs" c="dimmed" fw={800} tt="uppercase" lts={1}>{t.type}</Text>
+                      <Text fw={700} size="lg">{data.type}</Text>
                     </Box>
                   </Group>
                 </Stack>
               </Paper>
 
-              <Paper withBorder p="lg" radius="lg" bg="gray.0">
-                <Stack gap="sm">
-                  <Text fw={700} size="sm">{t.capacity}</Text>
-                  <Group justify="space-between">
-                    <Text size="sm" c="dimmed">Max Occupancy</Text>
-                    <Text fw={700}>{data.capacity}</Text>
+              <Paper radius="lg" p="xl" style={{ backgroundColor: '#014F86', color: 'white' }}>
+                <Stack gap="lg">
+                  <Group gap="xs">
+                    <IconUsers size={20} />
+                    <Text fw={800} size="sm" tt="uppercase" lts={1}>{t.capacity}</Text>
                   </Group>
-                  <Divider variant="dotted" />
+                  <Group justify="space-between" align="flex-end">
+                    <Text size="xs" fw={500} opacity={0.8}>Max Occupancy</Text>
+                    <Text fw={900} size="xl">{data.capacity}</Text>
+                  </Group>
+                  <Divider opacity={0.2} />
                   <Group justify="space-between">
-                    <Text size="sm" c="dimmed">Available Today</Text>
-                    <Badge color="green">High</Badge>
+                    <Text size="sm" fw={600}>Available Today</Text>
+                    <Badge color="white" c="#014F86" fw={900}>High</Badge>
                   </Group>
                 </Stack>
               </Paper>

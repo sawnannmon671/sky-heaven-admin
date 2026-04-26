@@ -17,6 +17,8 @@ import {
   Progress,
   SimpleGrid,
   ActionIcon,
+  List,
+  ScrollArea,
 } from "@mantine/core";
 import {
   IconUsers,
@@ -28,46 +30,62 @@ import {
   IconArrowDownRight,
   IconCircleCheck,
   IconClock,
+  IconBell,
+  IconAlertTriangle,
+  IconMessageCircle,
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const stats = [
   {
-    id: "total_units",
-    title: "Total Units",
-    value: "120",
-    diff: 12,
+    id: "occupancy_rate",
+    title: "Occupancy Rate",
+    value: "85%",
+    diff: 5,
     icon: IconBuilding,
     color: "blue",
-    description: "4 units added this month",
+    description: "Up from 80% last month",
+  },
+  {
+    id: "pending_payments",
+    title: "Pending Payments",
+    value: "12",
+    diff: -8,
+    icon: IconReceipt,
+    color: "red",
+    description: "3 overdue by 7+ days",
+  },
+  {
+    id: "maintenance_tickets",
+    title: "Open Maintenance",
+    value: "8",
+    diff: -15,
+    icon: IconTools,
+    color: "orange",
+    description: "2 emergency, 6 normal",
   },
   {
     id: "active_residents",
     title: "Active Residents",
     value: "245",
-    diff: 5,
+    diff: 2,
     icon: IconUsers,
     color: "teal",
     description: "2 new move-ins this week",
   },
-  {
-    id: "open_requests",
-    title: "Open Requests",
-    value: "12",
-    diff: -3,
-    icon: IconTools,
-    color: "orange",
-    description: "3 resolved today",
-  },
-  {
-    id: "pending_bills",
-    title: "Pending Bills",
-    value: "8",
-    diff: -10,
-    icon: IconReceipt,
-    color: "red",
-    description: "Decreased from last month",
-  },
+];
+
+const recentVisitors = [
+  { id: 1, name: "David Miller", host: "A-202", time: "10:15 AM", type: "Guest", status: "In" },
+  { id: 2, name: "Wilson Delivery", host: "B-501", time: "09:45 AM", type: "Delivery", status: "Out" },
+  { id: 3, name: "Amanda Chen", host: "C-104", time: "09:30 AM", type: "Guest", status: "In" },
+  { id: 4, name: "Total Security", host: "System", time: "08:00 AM", type: "Service", status: "Out" },
+];
+
+const alerts = [
+  { id: 1, title: "Fire Alarm Test", msg: "Scheduled for Block A tomorrow at 10 AM", time: "1 hour ago", type: "info", icon: IconBell },
+  { id: 2, title: "Water Interruption", msg: "Emergency repair in Block B, Level 3", time: "3 hours ago", type: "error", icon: IconAlertTriangle },
+  { id: 3, title: "New Message", msg: "Resident from C-303 sent a query", time: "5 hours ago", type: "success", icon: IconMessageCircle },
 ];
 
 const recentActivities = [
@@ -79,18 +97,30 @@ const recentActivities = [
 
 const translations = {
   en: {
-    pageTitle: "Property Overview",
+    pageTitle: "Dashboard Overview",
     pageSubtitle: "Monitor your property performance and recent activities at a glance.",
     lastUpdate: "Last Update",
     stats: {
-      total_units: "Total Units",
+      occupancy_rate: "Occupancy Rate",
       active_residents: "Active Residents",
-      open_requests: "Open Requests",
-      pending_bills: "Pending Bills",
-      desc_units: "4 units added this month",
+      maintenance_tickets: "Maintenance Tickets",
+      pending_payments: "Pending Payments",
+      desc_occupancy: "Up from 80% last month",
       desc_residents: "2 new move-ins this week",
-      desc_requests: "3 resolved today",
-      desc_bills: "Decreased from last month",
+      desc_maintenance: "2 emergency, 6 normal",
+      desc_payments: "3 overdue by 7+ days",
+    },
+    visitors: {
+      title: "Recent Visitors",
+      thName: "Visitor Name",
+      thHost: "Host Unit",
+      thTime: "Entry Time",
+      thType: "Type",
+      thStatus: "Status",
+    },
+    alerts: {
+      title: "Alerts & Notifications",
+      viewAll: "Clear All",
     },
     activities: {
       title: "Recent Activities",
@@ -131,18 +161,30 @@ const translations = {
     }
   },
   mm: {
-    pageTitle: "အိမ်ခြံမြေအကျဉ်းချုပ်",
+    pageTitle: "ဒက်ရှ်ဘုတ်အကျဉ်းချုပ်",
     pageSubtitle: "သင်၏အိမ်ခြံမြေလုပ်ဆောင်ချက်များနှင့် လတ်တလောလှုပ်ရှားမှုများကို တစ်နေရာတည်းတွင် ကြည့်ရှုပါ။",
     lastUpdate: "နောက်ဆုံးပြင်ဆင်ချိန်",
     stats: {
-      total_units: "ယူနစ်စုစုပေါင်း",
+      occupancy_rate: "နေထိုင်မှုနှုန်း",
       active_residents: "နေထိုင်သူဦးရေ",
-      open_requests: "တောင်းဆိုချက်များ",
-      pending_bills: "ပေးဆောင်ရန်ကျန်ငွေတောင်းခံလွှာများ",
-      desc_units: "ယခုလတွင် ယူနစ် ၄ ခု ထပ်တိုးသည်",
+      maintenance_tickets: "ပြုပြင်ထိန်းသိမ်းမှုလက်မှတ်များ",
+      pending_payments: "ပေးဆောင်ရန်ကျန်ငွေများ",
+      desc_occupancy: "ပြီးခဲ့သည့်လက ၈၀% မှ မြင့်တက်လာသည်",
       desc_residents: "ယခုအပတ်တွင် အသစ် ၂ ဦး ပြောင်းရွှေ့လာသည်",
-      desc_requests: "ယနေ့ ၃ ခု ဖြေရှင်းပြီး",
-      desc_bills: "ပြီးခဲ့သည့်လထက် လျော့နည်းသွားသည်",
+      desc_maintenance: "အရေးပေါ် ၂ ခု၊ ပုံမှန် ၆ ခု",
+      desc_payments: "၇ ရက်ကျော် နောက်ကျနေသော ၃ ခု",
+    },
+    visitors: {
+      title: "လတ်တလောဧည့်သည်များ",
+      thName: "ဧည့်သည်အမည်",
+      thHost: "နေထိုင်သူယူနစ်",
+      thTime: "ဝင်ရောက်ချိန်",
+      thType: "အမျိုးအစား",
+      thStatus: "အခြေအနေ",
+    },
+    alerts: {
+      title: "သတိပေးချက်များနှင့် အကြောင်းကြားစာများ",
+      viewAll: "အားလုံးဖျက်ရန်",
     },
     activities: {
       title: "လတ်တလောလှုပ်ရှားမှုများ",
@@ -195,156 +237,301 @@ export default function DashboardPage() {
     const DiffIcon = stat.diff > 0 ? IconArrowUpRight : IconArrowDownRight;
     
     // Map descriptions to translation keys
-    const descKey = stat.id === "total_units" ? "desc_units" :
+    const descKey = stat.id === "occupancy_rate" ? "desc_occupancy" :
                     stat.id === "active_residents" ? "desc_residents" :
-                    stat.id === "open_requests" ? "desc_requests" : "desc_bills";
+                    stat.id === "maintenance_tickets" ? "desc_maintenance" : "desc_payments";
 
     return (
-      <Paper withBorder p="md" radius="md" key={stat.id} shadow="sm">
-        <Group justify="space-between">
+      <Paper 
+        p="lg" 
+        radius="lg" 
+        key={stat.id} 
+        style={{ 
+          border: '1px solid #e9ecef',
+          background: 'white',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          cursor: 'pointer'
+        }}
+        onMouseEnter={(e) => {
+          e.currentTarget.style.transform = 'translateY(-4px)';
+          e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.05)';
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.transform = 'translateY(0)';
+          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.03)';
+        }}
+      >
+        <Group justify="space-between" align="flex-start">
           <ThemeIcon
             size="xl"
             radius="md"
             variant="light"
             color={stat.color}
+            style={{ 
+              backgroundColor: `var(--mantine-color-${stat.color}-0)`,
+              color: `var(--mantine-color-${stat.color}-7)`
+            }}
           >
-            <Icon size={28} />
+            <Icon size={24} />
           </ThemeIcon>
           <Badge
             color={stat.diff > 0 ? "teal" : "red"}
             variant="light"
-            leftSection={<DiffIcon size={12} />}
+            size="sm"
+            leftSection={<DiffIcon size={10} />}
+            style={{ fontWeight: 600 }}
           >
             {Math.abs(stat.diff)}%
           </Badge>
         </Group>
 
-        <Stack gap={2} mt="md">
-          <Text size="xs" c="dimmed" fw={700} tt="uppercase">
+        <Stack gap={0} mt="lg">
+          <Text size="xs" c="dimmed" fw={600} tt="uppercase" lts={1}>
             {t.stats[stat.id as keyof typeof t.stats]}
           </Text>
-          <Title order={2}>{stat.value}</Title>
+          <Title order={2} style={{ fontSize: '1.75rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
+            {stat.value}
+          </Title>
         </Stack>
 
-        <Text c="dimmed" size="xs" mt="sm">
-          <Text component="span" c={stat.diff > 0 ? "teal" : "red"} fw={700}>
+        <Group gap={4} mt="xs">
+          <Text c="dimmed" size="xs">
             {t.stats[descKey as keyof typeof t.stats]}
           </Text>
-        </Text>
+        </Group>
       </Paper>
     );
   });
 
   return (
-    <Stack gap="xl">
-      <Group justify="space-between">
-        <Stack gap={0}>
-          <Title order={2}>{t.pageTitle}</Title>
-          <Text c="dimmed" size="sm">{t.pageSubtitle}</Text>
+    <Stack gap="xl" p="md">
+      <Group justify="space-between" align="flex-end">
+        <Stack gap={4}>
+          <Title order={1} style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.pageTitle}</Title>
+          <Text c="dimmed" size="md" fw={500}>{t.pageSubtitle}</Text>
         </Stack>
-        <Badge size="lg" variant="light" color="#014F86" leftSection={<IconClock size={14} />}>
-          {t.lastUpdate}: April 24, 2026
-        </Badge>
+        <Paper withBorder px="md" py="xs" radius="md" bg="gray.0">
+          <Group gap="xs">
+            <IconClock size={16} color="var(--mantine-color-blue-6)" />
+            <Text size="xs" fw={700} c="dimmed">{t.lastUpdate}: April 24, 2026</Text>
+          </Group>
+        </Paper>
       </Group>
 
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="xl">
+      <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="lg">
         {cards}
       </SimpleGrid>
 
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>
-          <Paper withBorder p="md" radius="md" shadow="sm">
-            <Group justify="space-between" mb="xl">
-              <Stack gap={0}>
-                <Title order={4}>{t.activities.title}</Title>
-                <Text size="xs" c="dimmed">{t.activities.subtitle}</Text>
-              </Stack>
-              <Button variant="subtle" size="xs" color="#014F86">{t.activities.viewAll}</Button>
-            </Group>
-            <Table verticalSpacing="sm" highlightOnHover>
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th>{t.activities.thUser}</Table.Th>
-                  <Table.Th>{t.activities.thType}</Table.Th>
-                  <Table.Th>{t.activities.thStatus}</Table.Th>
-                  <Table.Th ta="right">{t.activities.thTime}</Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>
-                {recentActivities.map((item) => (
-                  <Table.Tr key={item.id}>
-                    <Table.Td>
-                      <Group gap="sm">
-                        <Avatar color={item.color} radius="xl" size="sm" variant="light">{item.user[0]}</Avatar>
-                        <div>
-                          <Text size="sm" fw={500}>{item.user}</Text>
-                          <Text size="xs" c="dimmed">{item.unit}</Text>
-                        </div>
-                      </Group>
-                    </Table.Td>
-                    <Table.Td>
-                      <Text size="sm">{t.activities.types[item.activity as keyof typeof t.activities.types] || item.activity}</Text>
-                    </Table.Td>
-                    <Table.Td>
-                      <Badge color={item.color} variant="dot" size="sm">
-                        {t.activities.status[item.status as keyof typeof t.activities.status] || item.status}
-                      </Badge>
-                    </Table.Td>
-                    <Table.Td ta="right">
-                      <Text size="xs" c="dimmed">{t.activities.times[item.date as keyof typeof t.activities.times] || item.date}</Text>
-                    </Table.Td>
-                  </Table.Tr>
-                ))}
-              </Table.Tbody>
-            </Table>
-          </Paper>
+          <Stack gap="xl">
+            {/* Recent Activities */}
+            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+                <Group justify="space-between">
+                  <Stack gap={0}>
+                    <Title order={4} style={{ fontWeight: 800 }}>{t.activities.title}</Title>
+                    <Text size="xs" c="dimmed" fw={500}>{t.activities.subtitle}</Text>
+                  </Stack>
+                  <Button variant="light" size="xs" color="blue" radius="md">{t.activities.viewAll}</Button>
+                </Group>
+              </Box>
+              <ScrollArea>
+                <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
+                  <Table.Thead bg="gray.0">
+                    <Table.Tr>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thUser}</Table.Th>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thType}</Table.Th>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thStatus}</Table.Th>
+                      <Table.Th ta="right" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.activities.thTime}</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {recentActivities.map((item) => (
+                      <Table.Tr key={item.id} style={{ transition: 'background-color 0.2s ease' }}>
+                        <Table.Td>
+                          <Group gap="sm">
+                            <Avatar color={item.color} radius="md" size="sm" variant="light" fw={700}>{item.user[0]}</Avatar>
+                            <div>
+                              <Text size="sm" fw={600}>{item.user}</Text>
+                              <Text size="xs" c="dimmed">{item.unit}</Text>
+                            </div>
+                          </Group>
+                        </Table.Td>
+                        <Table.Td>
+                          <Text size="sm" fw={500}>{t.activities.types[item.activity as keyof typeof t.activities.types] || item.activity}</Text>
+                        </Table.Td>
+                        <Table.Td>
+                          <Badge color={item.color} variant="light" size="sm" radius="sm" fw={700}>
+                            {t.activities.status[item.status as keyof typeof t.activities.status] || item.status}
+                          </Badge>
+                        </Table.Td>
+                        <Table.Td ta="right">
+                          <Text size="xs" c="dimmed" fw={500}>{t.activities.times[item.date as keyof typeof t.activities.times] || item.date}</Text>
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
+            </Paper>
+
+            {/* Recent Visitors */}
+            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+                <Group justify="space-between">
+                  <Title order={4} style={{ fontWeight: 800 }}>{t.visitors.title}</Title>
+                  <Button variant="light" size="xs" color="blue" radius="md">View History</Button>
+                </Group>
+              </Box>
+              <ScrollArea>
+                <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
+                  <Table.Thead bg="gray.0">
+                    <Table.Tr>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thName}</Table.Th>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thHost}</Table.Th>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thTime}</Table.Th>
+                      <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thType}</Table.Th>
+                      <Table.Th ta="right" style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.visitors.thStatus}</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {recentVisitors.map((visitor) => (
+                      <Table.Tr key={visitor.id}>
+                        <Table.Td>
+                          <Group gap="sm">
+                            <Avatar size="sm" radius="md" fw={700} color="blue" variant="light">{visitor.name[0]}</Avatar>
+                            <Text size="sm" fw={600}>{visitor.name}</Text>
+                          </Group>
+                        </Table.Td>
+                        <Table.Td><Text size="sm" fw={500}>{visitor.host}</Text></Table.Td>
+                        <Table.Td><Text size="sm" fw={500}>{visitor.time}</Text></Table.Td>
+                        <Table.Td>
+                          <Badge size="xs" variant="outline" color={visitor.type === "Guest" ? "blue" : "gray"}	radius="sm">
+                            {visitor.type}
+                          </Badge>
+                        </Table.Td>
+                        <Table.Td ta="right">
+                          <Badge size="sm" color={visitor.status === "In" ? "green" : "gray"} variant="filled" radius="sm">
+                            {visitor.status}
+                          </Badge>
+                        </Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
+            </Paper>
+          </Stack>
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, lg: 4 }}>
           <Stack gap="xl">
-            <Paper withBorder p="md" radius="md" shadow="sm">
-              <Group justify="space-between" mb="md">
-                <Title order={4}>{t.occupancy.title}</Title>
-                <ActionIcon variant="subtle" color="gray"><IconArrowUpRight size={16} /></ActionIcon>
-              </Group>
-              <Group justify="center" mb="md">
-                <RingProgress
-                  size={160}
-                  thickness={16}
-                  roundCaps
-                  sections={[{ value: 85, color: "#014F86" }]}
-                  label={
-                    <Stack gap={0} align="center">
-                      <Text ta="center" size="xl" fw={800}>85%</Text>
-                      <Text ta="center" size="xs" c="dimmed" fw={500}>{t.occupancy.occupied}</Text>
-                    </Stack>
-                  }
-                />
-              </Group>
-              <Stack gap="xs">
+            {/* Alerts & Notifications */}
+            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
-                  <Text size="sm" fw={500}>{t.occupancy.available}</Text>
-                  <Text size="sm" fw={700} c="#014F86">18 / 120</Text>
+                  <Title order={4} style={{ fontWeight: 800 }}>{t.alerts.title}</Title>
+                  <ActionIcon variant="light" color="gray" radius="md">
+                    <IconBell size={18} />
+                  </ActionIcon>
                 </Group>
-                <Progress value={85} color="#014F86" size="sm" radius="xl" />
+              </Box>
+              <Stack gap="0">
+                {alerts.map((alert, index) => {
+                  const Icon = alert.icon;
+                  return (
+                    <Box 
+                      key={alert.id} 
+                      p="lg" 
+                      style={{ 
+                        borderBottom: index === alerts.length - 1 ? 'none' : '1px solid #f1f3f5',
+                        backgroundColor: alert.type === 'error' ? 'var(--mantine-color-red-0)' : 'transparent',
+                        transition: 'background-color 0.2s ease',
+                        cursor: 'pointer'
+                      }}
+                    >
+                      <Group wrap="nowrap" align="flex-start" gap="md">
+                        <ThemeIcon color={alert.type === 'info' ? 'blue' : alert.type === 'error' ? 'red' : 'green'} variant="light" size="md" radius="md">
+                          <Icon size={16} />
+                        </ThemeIcon>
+                        <Stack gap={4}>
+                          <Text size="sm" fw={700}>{alert.title}</Text>
+                          <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>{alert.msg}</Text>
+                          <Text size="xs" c="dimmed" fw={600} mt={4}>{alert.time}</Text>
+                        </Stack>
+                      </Group>
+                    </Box>
+                  );
+                })}
               </Stack>
+              <Box p="sm" bg="gray.0" style={{ textAlign: 'center', borderTop: '1px solid #f1f3f5' }}>
+                <Button variant="subtle" size="xs" color="blue" fullWidth>{t.alerts.viewAll}</Button>
+              </Box>
             </Paper>
 
-            <Paper withBorder p="lg" radius="md" shadow="md" style={{ backgroundColor: "#014F86", color: "white", backgroundImage: "linear-gradient(135deg, #014F86 0%, #2C7dA0 100%)" }}>
-              <Group justify="space-between" mb="xs">
-                <Text fw={600} size="sm" tt="uppercase" lts={1}>{t.revenue.title}</Text>
-                <ThemeIcon variant="white" color="#014F86" size="sm" radius="xl">
-                  <IconTrendingUp size={14} />
+            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+                <Group justify="space-between">
+                  <Title order={4} style={{ fontWeight: 800 }}>{t.occupancy.title}</Title>
+                  <ActionIcon variant="light" color="blue" radius="md"><IconArrowUpRight size={18} /></ActionIcon>
+                </Group>
+              </Box>
+              <Box p="xl">
+                <Group justify="center" mb="xl">
+                  <RingProgress
+                    size={180}
+                    thickness={18}
+                    roundCaps
+                    sections={[{ value: 85, color: "#014F86" }]}
+                    label={
+                      <Stack gap={0} align="center">
+                        <Text ta="center" style={{ fontSize: '1.8rem', fontWeight: 900 }}>85%</Text>
+                        <Text ta="center" size="xs" c="dimmed" fw={700} tt="uppercase" lts={1}>{t.occupancy.occupied}</Text>
+                      </Stack>
+                    }
+                  />
+                </Group>
+                <Stack gap="xs">
+                  <Group justify="space-between">
+                    <Text size="sm" fw={600}>{t.occupancy.available}</Text>
+                    <Text size="sm" fw={800} c="#014F86">18 / 120</Text>
+                  </Group>
+                  <Progress value={85} color="#014F86" size="md" radius="xl" />
+                </Stack>
+              </Box>
+            </Paper>
+
+            <Paper 
+              p="xl" 
+              radius="lg" 
+              shadow="lg" 
+              style={{ 
+                backgroundColor: "#014F86", 
+                color: "white", 
+                backgroundImage: "linear-gradient(135deg, #014F86 0%, #2C7dA0 100%)",
+                position: 'relative',
+                overflow: 'hidden'
+              }}
+            >
+              <Box pos="absolute" top={-20} right={-20} style={{ opacity: 0.1 }}>
+                <IconTrendingUp size={150} />
+              </Box>
+              <Group justify="space-between" mb="lg">
+                <Text fw={700} size="xs" tt="uppercase" lts={2} opacity={0.9}>{t.revenue.title}</Text>
+                <ThemeIcon variant="white" color="#014F86" size="md" radius="md">
+                  <IconTrendingUp size={18} />
                 </ThemeIcon>
               </Group>
-              <Title order={2} mb="md">$42,500.00</Title>
-              <Stack gap={4}>
+              <Title order={1} style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '1.5rem' }}>$42,500.00</Title>
+              <Stack gap="md">
                 <Group justify="space-between">
-                  <Text size="xs" fw={500}>{t.revenue.progress}</Text>
-                  <Text size="xs" fw={700}>70%</Text>
+                  <Text size="xs" fw={700} tt="uppercase" lts={1}>{t.revenue.progress}</Text>
+                  <Text size="xs" fw={900}>70%</Text>
                 </Group>
                 <Progress value={70} color="white" size="xs" radius="xl" />
-                <Text size="xs" mt={4} opacity={0.8}>{t.revenue.remaining}</Text>
+                <Text size="xs" fw={500} opacity="0.9">{t.revenue.remaining}</Text>
               </Stack>
             </Paper>
           </Stack>

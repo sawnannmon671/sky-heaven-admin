@@ -103,96 +103,118 @@ export default function AmenitiesPage() {
   
   const t = translations[lang as keyof typeof translations] || translations.en;
 
-  const rows = amenities.map((item) => (
-    <Table.Tr key={item.title}>
-      <Table.Td>
-        <Group gap="sm">
-          <ThemeIcon variant="light" color={item.color} size="lg" radius="md">
-            {item.icon}
-          </ThemeIcon>
-          <Stack gap={0}>
-            <Text fw={600} size="sm">
-              {t.amenityTitles[item.title as keyof typeof t.amenityTitles] || item.title}
-            </Text>
-            <Text size="xs" c="dimmed">ID: AMN-{(amenities.indexOf(item) + 1).toString().padStart(3, '0')}</Text>
-          </Stack>
-        </Group>
-      </Table.Td>
-      <Table.Td>
-        <Badge 
-          variant="dot" 
-          color={item.status === "Open" ? "green" : item.status === "Reserved" ? "blue" : "red"}
-          size="md"
-        >
-          {t.statuses[item.status as keyof typeof t.statuses]}
-        </Badge>
-      </Table.Td>
-      <Table.Td>
-        <Text size="sm">{item.capacity}</Text>
-      </Table.Td>
-      <Table.Td>
-        <Text size="sm">{item.schedule}</Text>
-      </Table.Td>
-      <Table.Td>
-        <Group gap={8}>
-          <ActionIcon 
-            variant="subtle" 
-            color="gray" 
-            title="Details"
-            component={Link}
-            href={`/dashboard/amenities/AMN-${(amenities.indexOf(item) + 1).toString().padStart(3, '0')}`}
+  const rows = amenities.map((item) => {
+    const id = `AMN-${(amenities.indexOf(item) + 1).toString().padStart(3, '0')}`;
+    return (
+      <Table.Tr key={item.title} style={{ transition: 'all 0.2s ease' }}>
+        <Table.Td>
+          <Group gap="md">
+            <ThemeIcon 
+              variant="light" 
+              color={item.color} 
+              size={42} 
+              radius="lg"
+              style={{ boxShadow: `0 4px 10px var(--mantine-color-${item.color}-1)` }}
+            >
+              {item.icon}
+            </ThemeIcon>
+            <Stack gap={0}>
+              <Text fw={700} size="sm">
+                {t.amenityTitles[item.title as keyof typeof t.amenityTitles] || item.title}
+              </Text>
+              <Text size="xs" c="dimmed" fw={600} lts={0.5}>{id}</Text>
+            </Stack>
+          </Group>
+        </Table.Td>
+        <Table.Td>
+          <Badge 
+            variant="light" 
+            color={item.status === "Open" ? "teal" : item.status === "Reserved" ? "blue" : "red"}
+            size="md"
+            radius="sm"
+            style={{ fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px' }}
           >
-            <IconExternalLink size={16} />
-          </ActionIcon>
-          <ActionIcon variant="subtle" color="blue" title="Edit">
-            <IconEdit size={16} />
-          </ActionIcon>
-          <ActionIcon variant="subtle" color="red" title="Delete">
-            <IconTrash size={16} />
-          </ActionIcon>
-        </Group>
-      </Table.Td>
-    </Table.Tr>
-  ));
+            {t.statuses[item.status as keyof typeof t.statuses]}
+          </Badge>
+        </Table.Td>
+        <Table.Td>
+          <Text size="sm" fw={600} c="gray.7">{item.capacity}</Text>
+        </Table.Td>
+        <Table.Td>
+          <Group gap={6}>
+            <Text size="sm" fw={600} c="gray.7">{item.schedule}</Text>
+          </Group>
+        </Table.Td>
+        <Table.Td>
+          <Group gap={4} justify="flex-end">
+            <ActionIcon 
+              variant="light" 
+              color="blue" 
+              radius="md"
+              size="lg"
+              title="Details"
+              component={Link}
+              href={`/dashboard/amenities/${id}`}
+            >
+              <IconExternalLink size={18} />
+            </ActionIcon>
+            <ActionIcon variant="light" color="blue" radius="md" size="lg" title="Edit">
+              <IconEdit size={18} />
+            </ActionIcon>
+            <ActionIcon variant="light" color="red" radius="md" size="lg" title="Delete">
+              <IconTrash size={18} />
+            </ActionIcon>
+          </Group>
+        </Table.Td>
+      </Table.Tr>
+    );
+  });
 
   return (
-    <Stack gap="xl">
-      <Group justify="space-between">
-        <Stack gap={0}>
-          <Title order={2}>{t.title}</Title>
-          <Text c="dimmed" size="sm">{t.subtitle}</Text>
+    <Stack gap="xl" p="md">
+      <Group justify="space-between" align="flex-end">
+        <Stack gap={4}>
+          <Title order={1} style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.title}</Title>
+          <Text c="dimmed" size="md" fw={500}>{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+        <Button 
+          leftSection={<IconPlus size={18} />} 
+          color="#014F86" 
+          radius="md" 
+          size="md"
+          style={{ boxShadow: '0 4px 15px rgba(1, 79, 134, 0.25)' }}
+        >
           {t.addBtn}
         </Button>
       </Group>
 
-      <Paper shadow="xs" p="md" radius="md" withBorder>
-        <Stack gap="md">
+      <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+        <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
           <Group justify="space-between">
             <TextInput
               placeholder={t.searchPlaceholder}
-              leftSection={<IconSearch size={16} />}
-              style={{ width: 300 }}
+              leftSection={<IconSearch size={18} color="var(--mantine-color-blue-6)" />}
+              style={{ width: 350 }}
               radius="md"
+              size="sm"
             />
           </Group>
+        </Box>
 
-          <Table.ScrollContainer minWidth={800}>
-            <Table verticalSpacing="sm" highlightOnHover>
-              <Table.Thead bg="gray.0">
-                <Table.Tr>
-                  <Table.Th>{t.tableHeaders.amenity}</Table.Th>
-                  <Table.Th>{t.tableHeaders.status}</Table.Th>
-                  <Table.Th>{t.tableHeaders.capacity}</Table.Th>
-                  <Table.Th>{t.tableHeaders.schedule}</Table.Th>
-                  <Table.Th>{t.tableHeaders.actions}</Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>{rows}</Table.Tbody>
-            </Table>
-          </Table.ScrollContainer>
-        </Stack>
+        <Table.ScrollContainer minWidth={800}>
+          <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
+            <Table.Thead bg="gray.0">
+              <Table.Tr>
+                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.amenity}</Table.Th>
+                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.status}</Table.Th>
+                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.capacity}</Table.Th>
+                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }}>{t.tableHeaders.schedule}</Table.Th>
+                <Table.Th style={{ fontSize: '11px', textTransform: 'uppercase', letterSpacing: '1px', color: '#868e96' }} ta="right">{t.tableHeaders.actions}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
       </Paper>
     </Stack>
   );

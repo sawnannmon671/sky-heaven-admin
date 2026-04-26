@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon , Pagination } from "@mantine/core";
-import { IconPlus, IconSearch, IconEye, IconReceipt, IconCreditCard, IconBuildingBank, IconCash } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {  IconPlus, IconSearch, IconEye, IconReceipt, IconCreditCard, IconBuildingBank, IconCash , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
@@ -72,6 +72,24 @@ const getMethodIcon = (method: string) => {
 };
 
 export default function PaymentsPage() {
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = [...elements].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
+    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -80,7 +98,7 @@ export default function PaymentsPage() {
 
   if (!mounted) return null;
 
-  const rows = elements.map((element) => (
+  const rows = sortedData.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
         <Group gap="sm">
@@ -141,10 +159,62 @@ export default function PaymentsPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>{t.table.paymentId}</Table.Th>
-              <Table.Th>{t.table.resident}</Table.Th>
-              <Table.Th>{t.table.amount}</Table.Th>
-              <Table.Th>{t.table.method}</Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.paymentId}</span>
+                    <Center>
+                      {sortConfig?.key === 'id' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('resident')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.resident}</span>
+                    <Center>
+                      {sortConfig?.key === 'resident' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('amount')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.amount}</span>
+                    <Center>
+                      {sortConfig?.key === 'amount' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('method')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.method}</span>
+                    <Center>
+                      {sortConfig?.key === 'method' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
               <Table.Th>{t.table.date}</Table.Th>
               <Table.Th>{t.table.status}</Table.Th>
               <Table.Th ta="right">{t.table.actions}</Table.Th>

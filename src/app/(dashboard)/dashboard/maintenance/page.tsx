@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination } from "@mantine/core";
-import { IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {  IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
@@ -81,6 +81,24 @@ const translations = {
 };
 
 export default function MaintenancePage() {
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = [...elements].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
+    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -89,7 +107,7 @@ export default function MaintenancePage() {
 
   if (!mounted) return null;
 
-  const rows = elements.map((element) => (
+  const rows = sortedData.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
         <Group gap="sm">
@@ -161,10 +179,62 @@ export default function MaintenancePage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>{t.table.requestId}</Table.Th>
-              <Table.Th>{t.table.unit}</Table.Th>
-              <Table.Th>{t.table.category}</Table.Th>
-              <Table.Th>{t.table.priority}</Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.requestId}</span>
+                    <Center>
+                      {sortConfig?.key === 'id' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('unit')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.unit}</span>
+                    <Center>
+                      {sortConfig?.key === 'unit' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('category')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.category}</span>
+                    <Center>
+                      {sortConfig?.key === 'category' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('priority')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.priority}</span>
+                    <Center>
+                      {sortConfig?.key === 'priority' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
               <Table.Th>{t.table.status}</Table.Th>
               <Table.Th>{t.table.date}</Table.Th>
               <Table.Th ta="right">{t.table.actions}</Table.Th>

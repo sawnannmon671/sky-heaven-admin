@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Paper, Table, Group, Button, Badge, Stack, Text, Avatar, TextInput, ActionIcon , Pagination } from "@mantine/core";
-import { IconUserPlus, IconSearch, IconShieldLock, IconEdit, IconTrash, IconEye } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Avatar, TextInput, ActionIcon , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {  IconUserPlus, IconSearch, IconShieldLock, IconEdit, IconTrash, IconEye , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
@@ -57,6 +57,24 @@ const translations = {
 };
 
 export default function StaffPage() {
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = [...elements].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
+    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -65,7 +83,7 @@ export default function StaffPage() {
 
   if (!mounted) return null;
 
-  const rows = elements.map((element) => (
+  const rows = sortedData.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
         <Group gap="sm">
@@ -117,9 +135,48 @@ export default function StaffPage() {
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>
             <Table.Tr>
-              <Table.Th>{t.table.user}</Table.Th>
-              <Table.Th>{t.table.role}</Table.Th>
-              <Table.Th>{t.table.status}</Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.user}</span>
+                    <Center>
+                      {sortConfig?.key === 'id' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('name')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.role}</span>
+                    <Center>
+                      {sortConfig?.key === 'name' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th>
+                <UnstyledButton onClick={() => handleSort('email')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.table.status}</span>
+                    <Center>
+                      {sortConfig?.key === 'email' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
               <Table.Th ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>

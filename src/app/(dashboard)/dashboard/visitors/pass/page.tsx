@@ -1,12 +1,24 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination } from "@mantine/core";
-import { IconIdBadge, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {  IconIdBadge, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function VisitorPassPage() {
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  
+
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -36,6 +48,14 @@ export default function VisitorPassPage() {
     { id: "VP-004", visitor: "Ma Hlaing", hostUnit: "A-502", validFrom: "2024-10-25", validTo: "2024-11-25", type: "Contractor", status: "Active" },
     { id: "VP-005", visitor: "U Zaw", hostUnit: "D-102", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Active" },
   ];
+
+  const sortedData = [...mockData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
+    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   return (
     <Stack gap="xl" p="md">
@@ -78,16 +98,68 @@ export default function VisitorPassPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">Pass ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Visitor & Host</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Pass Type</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Validity</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>Pass ID</span>
+                    <Center>
+                      {sortConfig?.key === 'id' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('visitor')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>Visitor & Host</span>
+                    <Center>
+                      {sortConfig?.key === 'visitor' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('hostUnit')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>Pass Type</span>
+                    <Center>
+                      {sortConfig?.key === 'hostUnit' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('validFrom')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>Validity</span>
+                    <Center>
+                      {sortConfig?.key === 'validFrom' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {mockData.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage).map((item) => (
+            {sortedData.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage).map((item) => (
               <Table.Tr key={item.id}>
                 <Table.Td>
                   <Text size="sm" fw={700}>{item.id}</Text>

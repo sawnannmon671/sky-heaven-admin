@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge , Pagination } from "@mantine/core";
-import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuilding } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuilding , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -46,6 +46,24 @@ const translations = {
 };
 
 export default function BuildingsPage() {
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const sortedData = [...elements].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
+    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -54,7 +72,7 @@ export default function BuildingsPage() {
 
   if (!mounted) return null;
 
-  const rows = elements.map((element) => (
+  const rows = sortedData.map((element) => (
     <Table.Tr key={element.id}>
       <Table.Td>
         <Group gap="sm">
@@ -113,10 +131,62 @@ export default function BuildingsPage() {
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="gray.0">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thBuilding}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thFloors}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thUnits}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thStatus}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.thBuilding}</span>
+                    <Center>
+                      {sortConfig?.key === 'id' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('name')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.thFloors}</span>
+                    <Center>
+                      {sortConfig?.key === 'name' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('floors')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.thUnits}</span>
+                    <Center>
+                      {sortConfig?.key === 'floors' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
+              <Table.Th fw={700} fz="sm" c="dark">
+                <UnstyledButton onClick={() => handleSort('units')} style={{ width: '100%', color: 'inherit' }}>
+                  <Group justify="space-between" wrap="nowrap">
+                    <span>{t.thStatus}</span>
+                    <Center>
+                      {sortConfig?.key === 'units' ? (
+                        sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
+                      ) : (
+                        <IconSelector size={14} color="gray" />
+                      )}
+                    </Center>
+                  </Group>
+                </UnstyledButton>
+              </Table.Th>
               <Table.Th fw={700} fz="sm" c="dark" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>

@@ -1,6 +1,6 @@
 "use client";
 
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider } from "@mantine/core";
+import {  Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider , SimpleGrid, Badge, Box } from "@mantine/core";
 import { IconChevronLeft, IconInfoCircle } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
@@ -45,31 +45,39 @@ export default function DetailPage() {
         </Button>
       </Group>
 
-      <Paper p="xl" radius="md" withBorder shadow="sm" style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+      <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 900, backgroundColor: '#ffffff' }}>
         {item ? (
-          <Stack gap="md">
-            <Group justify="space-between" wrap="nowrap" align="flex-start">
-              <Text size="sm" fw={600} c="dimmed" style={{ minWidth: 150 }}>ID</Text>
-              <Text size="sm" fw={600} style={{ flex: 1 }}>{id}</Text>
-            </Group>
-            <Divider my="sm" variant="dotted" />
-            
-            {Object.entries(item).map(([key, value]) => {
-              if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
-              return (
-                <div key={key}>
-                  <Group justify="space-between" wrap="nowrap" align="flex-start">
-                    <Text size="sm" fw={600} c="dimmed" style={{ minWidth: 150, textTransform: 'capitalize' }}>
-                      {key.replace(/([A-Z])/g, ' $1').trim()}
+          <Stack gap="xl">
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
+              <Box>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4}>ID</Text>
+                <Text size="lg" fw={500}>{id}</Text>
+              </Box>
+              
+              {Object.entries(item).map(([key, value]) => {
+                if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
+                
+                const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
+                const isStatus = key.toLowerCase().includes('status');
+                
+                return (
+                  <Box key={key}>
+                    <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4} style={{ textTransform: 'capitalize' }}>
+                      {formattedKey}
                     </Text>
-                    <Text size="sm" style={{ flex: 1 }}>
-                      {String(value)}
-                    </Text>
-                  </Group>
-                  <Divider my="sm" variant="dotted" />
-                </div>
-              );
-            })}
+                    {isStatus ? (
+                      <Badge color={(item as any).color || 'blue'} variant="light" size="lg" radius="md">
+                        {String(value)}
+                      </Badge>
+                    ) : (
+                      <Text size="lg" fw={500} style={{ wordBreak: 'break-word' }}>
+                        {String(value)}
+                      </Text>
+                    )}
+                  </Box>
+                );
+              })}
+            </SimpleGrid>
           </Stack>
         ) : (
           <Text c="dimmed" ta="center" py="xl">Record not found.</Text>

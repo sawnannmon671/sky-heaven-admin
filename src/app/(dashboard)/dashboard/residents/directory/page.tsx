@@ -1,11 +1,15 @@
 "use client";
 
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge } from "@mantine/core";
+import { useState } from "react";
+import {  Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination } from "@mantine/core";
 import { IconAddressBook, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function ResidentDirectoryPage() {
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+
   const { lang, mounted } = useTranslation();
 
   if (!mounted) return null;
@@ -84,7 +88,7 @@ const mockData = [
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {mockData.map((item) => (
+            {mockData.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage).map((item) => (
               <Table.Tr key={item.id}>
                 <Table.Td>
                   <Text size="sm" fw={700}>{item.id}</Text>
@@ -127,6 +131,13 @@ const mockData = [
             ))}
           </Table.Tbody>
         </Table>
+        <Group justify="space-between" mt="md">
+          <Text size="sm" c="dimmed">
+            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, mockData.length)} of {mockData.length} entries
+          </Text>
+          <Pagination total={Math.ceil(mockData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+        </Group>
+      
       </Paper>
     </Stack>
   );

@@ -1,10 +1,18 @@
 "use client";
 
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Grid, Badge, Box } from "@mantine/core";
-import { IconChevronLeft, IconInfoCircle, IconFileDescription } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider } from "@mantine/core";
+import { IconChevronLeft, IconInfoCircle } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+
+const mockData = [
+    { id: "PAY-001", invoiceId: "INV-2024-001", resident: "U Aung Aung", amount: "$150.00", method: "Bank Transfer", date: "2024-10-05", status: "Completed" },
+    { id: "PAY-002", invoiceId: "INV-2024-003", resident: "U Kyaw Min", amount: "$200.00", method: "Cash", date: "2024-10-10", status: "Completed" },
+    { id: "PAY-003", invoiceId: "INV-2024-005", resident: "U Zaw Myo", amount: "$180.00", method: "Credit Card", date: "2024-10-12", status: "Completed" },
+    { id: "PAY-004", invoiceId: "INV-2024-002", resident: "Daw Su Su", amount: "$120.00", method: "Mobile Wallet", date: "2024-10-15", status: "Processing" },
+    { id: "PAY-005", invoiceId: "INV-2024-004", resident: "Daw Hla Hla", amount: "$150.00", method: "Bank Transfer", date: "2024-10-16", status: "Failed" },
+  ];
 
 export default function DetailPage() {
   const { mounted } = useTranslation();
@@ -12,6 +20,8 @@ export default function DetailPage() {
   const id = params.id as string;
 
   if (!mounted) return null;
+
+  const item = mockData.find((d: any) => String(d.id) === String(id));
 
   return (
     <Stack gap="xl" p="md">
@@ -21,9 +31,9 @@ export default function DetailPage() {
             <ThemeIcon variant="light" color="blue" size="lg" radius="md">
               <IconInfoCircle size={20} />
             </ThemeIcon>
-            <Title order={1}>Payment Details</Title>
+            <Title order={2}>Payment Details</Title>
           </Group>
-          <Text c="dimmed" size="md">Viewing details for payment ID: {id}</Text>
+          <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
         </Stack>
         <Button 
           component={Link} 
@@ -36,66 +46,36 @@ export default function DetailPage() {
         </Button>
       </Group>
 
-      <Grid>
-        <Grid.Col span={{ base: 12, md: 8 }}>
-          <Paper p="xl" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
-            <Stack gap="lg">
-              <Group justify="space-between" align="flex-start">
-                <div>
-                  <Text size="xs" tt="uppercase" fw={700} c="dimmed">Payment ID</Text>
-                  <Text size="xl" fw={700} mt={4}>{id}</Text>
+      <Paper p="xl" radius="md" withBorder shadow="sm" style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        {item ? (
+          <Stack gap="md">
+            <Group justify="space-between" wrap="nowrap" align="flex-start">
+              <Text size="sm" fw={600} c="dimmed" style={{ minWidth: 150 }}>ID</Text>
+              <Text size="sm" fw={600} style={{ flex: 1 }}>{id}</Text>
+            </Group>
+            <Divider my="sm" variant="dotted" />
+            
+            {Object.entries(item).map(([key, value]) => {
+              if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
+              return (
+                <div key={key}>
+                  <Group justify="space-between" wrap="nowrap" align="flex-start">
+                    <Text size="sm" fw={600} c="dimmed" style={{ minWidth: 150, textTransform: 'capitalize' }}>
+                      {key.replace(/([A-Z])/g, ' $1').trim()}
+                    </Text>
+                    <Text size="sm" style={{ flex: 1 }}>
+                      {String(value)}
+                    </Text>
+                  </Group>
+                  <Divider my="sm" variant="dotted" />
                 </div>
-                <Badge size="lg" variant="light" color="blue">Active</Badge>
-              </Group>
-
-              <Grid>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Date Created</Text>
-                  <Text fw={500}>Oct 1, 2024</Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Assigned To</Text>
-                  <Text fw={500}>Resident / User</Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Amount / Value</Text>
-                  <Text fw={700} c="blue.7">$150.00</Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Status</Text>
-                  <Badge variant="dot" color="green">Processed</Badge>
-                </Grid.Col>
-              </Grid>
-
-              <Box mt="md">
-                <Text size="sm" c="dimmed" mb={8}>Description / Notes</Text>
-                <Paper p="md" bg="gray.0" radius="md">
-                  <Text size="sm">
-                    This is a detailed view for the selected record. Additional information, metadata, and related transactions would be displayed here depending on the specific module.
-                  </Text>
-                </Paper>
-              </Box>
-            </Stack>
-          </Paper>
-        </Grid.Col>
-        
-        <Grid.Col span={{ base: 12, md: 4 }}>
-          <Paper p="xl" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
-            <Stack gap="md">
-              <Group gap="xs">
-                <IconFileDescription size={20} color="gray" />
-                <Title order={4}>Summary</Title>
-              </Group>
-              <Text size="sm" c="dimmed">
-                Overview of the current payment. Use the actions below to manage this entry.
-              </Text>
-              <Button fullWidth color="blue" mt="sm">Print / Download</Button>
-              <Button fullWidth variant="light" color="blue">Edit Payment</Button>
-              <Button fullWidth variant="light" color="red">Delete</Button>
-            </Stack>
-          </Paper>
-        </Grid.Col>
-      </Grid>
+              );
+            })}
+          </Stack>
+        ) : (
+          <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
+        )}
+      </Paper>
     </Stack>
   );
 }

@@ -297,7 +297,7 @@ export default function AmenityDetailPage() {
                   <ThemeIcon variant="light" color="blue" size="md" radius="sm">
                     <IconInfoCircle size={20} />
                   </ThemeIcon>
-                  <Title order={2} style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.about}</Title>
+                  <Title order={2} style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Amenities Details</Title>
                 </Group>
                 <Text size="xl" c="gray.7" style={{ lineHeight: 1.8, fontWeight: 500 }}>
                   {data.description}

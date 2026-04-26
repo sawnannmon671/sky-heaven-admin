@@ -1,6 +1,7 @@
 "use client";
 
-import { Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon, ThemeIcon, Avatar, Box, TextInput } from "@mantine/core";
+import { useState } from "react";
+import {  Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon, ThemeIcon, Avatar, Box, TextInput , Pagination } from "@mantine/core";
 import { 
   IconPlus, 
   IconSearch, 
@@ -97,6 +98,9 @@ const translations = {
 };
 
 export default function AmenitiesPage() {
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+
   const { lang, mounted } = useTranslation();
   
   if (!mounted) return null;
@@ -212,8 +216,15 @@ export default function AmenitiesPage() {
                 <Table.Th fw={700} fz="sm" c="dark" ta="right">{t.tableHeaders.actions}</Table.Th>
               </Table.Tr>
             </Table.Thead>
-            <Table.Tbody>{rows}</Table.Tbody>
+            <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>
           </Table>
+        <Group justify="space-between" mt="md">
+          <Text size="sm" c="dimmed">
+            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, rows.length)} of {rows.length} entries
+          </Text>
+          <Pagination total={Math.ceil(rows.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+        </Group>
+      
         </Table.ScrollContainer>
       </Paper>
     </Stack>

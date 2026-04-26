@@ -1,10 +1,18 @@
 "use client";
 
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Grid, Badge, Box } from "@mantine/core";
-import { IconChevronLeft, IconInfoCircle, IconFileDescription } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider } from "@mantine/core";
+import { IconChevronLeft, IconInfoCircle } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+
+const mockData = [
+    { id: "FAM-001", name: "Mg Aung Myint", relation: "Son", primaryResident: "U Aung Aung", unit: "A-101", age: 18, status: "Active" },
+    { id: "FAM-002", name: "Ma Su Mon", relation: "Daughter", primaryResident: "Daw Su Su", unit: "B-205", age: 22, status: "Active" },
+    { id: "FAM-003", name: "Daw Mya Sein", relation: "Mother", primaryResident: "U Kyaw Min", unit: "C-304", age: 65, status: "Active" },
+    { id: "FAM-004", name: "Mg Thura", relation: "Son", primaryResident: "Daw Hla Hla", unit: "A-502", age: 15, status: "Active" },
+    { id: "FAM-005", name: "Ma Khin Myo", relation: "Spouse", primaryResident: "U Zaw Myo", unit: "D-102", age: 35, status: "Active" },
+  ];
 
 export default function DetailPage() {
   const { mounted } = useTranslation();
@@ -12,6 +20,8 @@ export default function DetailPage() {
   const id = params.id as string;
 
   if (!mounted) return null;
+
+  const item = mockData.find((d: any) => String(d.id) === String(id));
 
   return (
     <Stack gap="xl" p="md">
@@ -21,9 +31,9 @@ export default function DetailPage() {
             <ThemeIcon variant="light" color="blue" size="lg" radius="md">
               <IconInfoCircle size={20} />
             </ThemeIcon>
-            <Title order={1}>Family Member Details</Title>
+            <Title order={2}>Family Member Details</Title>
           </Group>
-          <Text c="dimmed" size="md">Viewing details for family member ID: {id}</Text>
+          <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
         </Stack>
         <Button 
           component={Link} 
@@ -36,66 +46,36 @@ export default function DetailPage() {
         </Button>
       </Group>
 
-      <Grid>
-        <Grid.Col span={{ base: 12, md: 8 }}>
-          <Paper p="xl" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
-            <Stack gap="lg">
-              <Group justify="space-between" align="flex-start">
-                <div>
-                  <Text size="xs" tt="uppercase" fw={700} c="dimmed">Member ID</Text>
-                  <Text size="xl" fw={700} mt={4}>{id}</Text>
+      <Paper p="xl" radius="md" withBorder shadow="sm" style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        {item ? (
+          <Stack gap="md">
+            <Group justify="space-between" wrap="nowrap" align="flex-start">
+              <Text size="sm" fw={600} c="dimmed" style={{ minWidth: 150 }}>ID</Text>
+              <Text size="sm" fw={600} style={{ flex: 1 }}>{id}</Text>
+            </Group>
+            <Divider my="sm" variant="dotted" />
+            
+            {Object.entries(item).map(([key, value]) => {
+              if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
+              return (
+                <div key={key}>
+                  <Group justify="space-between" wrap="nowrap" align="flex-start">
+                    <Text size="sm" fw={600} c="dimmed" style={{ minWidth: 150, textTransform: 'capitalize' }}>
+                      {key.replace(/([A-Z])/g, ' $1').trim()}
+                    </Text>
+                    <Text size="sm" style={{ flex: 1 }}>
+                      {String(value)}
+                    </Text>
+                  </Group>
+                  <Divider my="sm" variant="dotted" />
                 </div>
-                <Badge size="lg" variant="light" color="blue">Active</Badge>
-              </Group>
-
-              <Grid>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Date Created</Text>
-                  <Text fw={500}>Oct 1, 2024</Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Assigned To</Text>
-                  <Text fw={500}>System User</Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Last Updated</Text>
-                  <Text fw={500}>Oct 15, 2024</Text>
-                </Grid.Col>
-                <Grid.Col span={6}>
-                  <Text size="sm" c="dimmed" mb={4}>Status</Text>
-                  <Badge variant="dot" color="green">Processed</Badge>
-                </Grid.Col>
-              </Grid>
-
-              <Box mt="md">
-                <Text size="sm" c="dimmed" mb={8}>Description / Notes</Text>
-                <Paper p="md" bg="gray.0" radius="md">
-                  <Text size="sm">
-                    This is a detailed view for the selected family member. Additional information, metadata, and related transactions would be displayed here depending on the specific module.
-                  </Text>
-                </Paper>
-              </Box>
-            </Stack>
-          </Paper>
-        </Grid.Col>
-        
-        <Grid.Col span={{ base: 12, md: 4 }}>
-          <Paper p="xl" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
-            <Stack gap="md">
-              <Group gap="xs">
-                <IconFileDescription size={20} color="gray" />
-                <Title order={4}>Summary</Title>
-              </Group>
-              <Text size="sm" c="dimmed">
-                Overview of the current family member. Use the actions below to manage this entry.
-              </Text>
-              <Button fullWidth color="blue" mt="sm">Print / Download</Button>
-              <Button fullWidth variant="light" color="blue">Edit Member</Button>
-              <Button fullWidth variant="light" color="red">Delete</Button>
-            </Stack>
-          </Paper>
-        </Grid.Col>
-      </Grid>
+              );
+            })}
+          </Stack>
+        ) : (
+          <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
+        )}
+      </Paper>
     </Stack>
   );
 }

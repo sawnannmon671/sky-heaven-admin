@@ -1,6 +1,7 @@
 "use client";
 
-import { Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput, Avatar } from "@mantine/core";
+import { useState } from "react";
+import {  Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput, Avatar , Pagination } from "@mantine/core";
 import { IconSearch, IconPlus, IconEdit, IconTrash, IconWallet } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -56,6 +57,9 @@ const translations = {
 };
 
 export default function PaymentMethodPage() {
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
@@ -118,8 +122,15 @@ export default function PaymentMethodPage() {
               <Table.Th ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
+          <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>
         </Table>
+        <Group justify="space-between" mt="md">
+          <Text size="sm" c="dimmed">
+            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, rows.length)} of {rows.length} entries
+          </Text>
+          <Pagination total={Math.ceil(rows.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+        </Group>
+      
       </Paper>
     </Stack>
   );

@@ -1,24 +1,51 @@
 "use client";
 
-import { Title, Paper, Table, Group, Button, Badge, Stack, Text, SimpleGrid, Card, Image, ActionIcon, ThemeIcon } from "@mantine/core";
-import { IconPlus, IconCalendar, IconUsers, IconClock, IconSettings } from "@tabler/icons-react";
+import { Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon, ThemeIcon, Avatar, Box, TextInput } from "@mantine/core";
+import { 
+  IconPlus, 
+  IconSearch, 
+  IconEdit, 
+  IconTrash, 
+  IconExternalLink, 
+  IconMicrophone, 
+  IconGlass, 
+  IconMoodBoy, 
+  IconBallFootball, 
+  IconBooks, 
+  IconDeviceTv, 
+  IconSwimming,
+  IconBarbell,
+  IconMeat
+} from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import Link from "next/link";
 
 const amenities = [
-  { title: "Swimming Pool", status: "Open", capacity: "20 people", schedule: "06:00 - 22:00", image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?w=400&q=80" },
-  { title: "Gym Center", status: "Open", capacity: "15 people", schedule: "24/7", image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=400&q=80" },
-  { title: "BBQ Area", status: "Reserved", capacity: "10 people", schedule: "17:00 - 23:00", image: "https://images.unsplash.com/photo-1555939594-58d7cb561ad1?w=400&q=80" },
-  { title: "Function Hall", status: "Maintenance", capacity: "100 people", schedule: "Closed", image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&q=80" },
+  { title: "Swimming Pool", status: "Open", capacity: "20 people", schedule: "06:00 - 22:00", icon: <IconSwimming size={20} />, color: "blue" },
+  { title: "Gym Center", status: "Open", capacity: "15 people", schedule: "24/7", icon: <IconBarbell size={20} />, color: "teal" },
+  { title: "BBQ Area", status: "Reserved", capacity: "10 people", schedule: "17:00 - 23:00", icon: <IconMeat size={20} />, color: "orange" },
+  { title: "Function Hall", status: "Maintenance", capacity: "100 people", schedule: "Closed", icon: <IconPlus size={20} />, color: "red" },
+  { title: "Karaoke Room", status: "Open", capacity: "8 people", schedule: "10:00 - 00:00", icon: <IconMicrophone size={20} />, color: "pink" },
+  { title: "Sky Bar", status: "Open", capacity: "50 people", schedule: "16:00 - 02:00", icon: <IconGlass size={20} />, color: "indigo" },
+  { title: "Children Playground", status: "Open", capacity: "30 people", schedule: "08:00 - 20:00", icon: <IconMoodBoy size={20} />, color: "yellow" },
+  { title: "Futsal Court", status: "Open", capacity: "12 people", schedule: "06:00 - 22:00", icon: <IconBallFootball size={20} />, color: "green" },
+  { title: "Reading Lounge", status: "Open", capacity: "20 people", schedule: "08:00 - 21:00", icon: <IconBooks size={20} />, color: "cyan" },
+  { title: "Cinema Room", status: "Reserved", capacity: "12 people", schedule: "10:00 - 22:00", icon: <IconDeviceTv size={20} />, color: "grape" },
 ];
 
 const translations = {
   en: {
     title: "Amenities & Facilities",
-    subtitle: "Explore and reserve property amenities and common areas.",
+    subtitle: "Manage property amenities and track usage status.",
     addBtn: "Add Amenity",
-    bookBtn: "Book Now",
-    capacityLabel: "Capacity",
-    scheduleLabel: "Schedule",
+    searchPlaceholder: "Search amenities...",
+    tableHeaders: {
+      amenity: "Amenity Name",
+      status: "Status",
+      capacity: "Capacity",
+      schedule: "Schedule",
+      actions: "Actions",
+    },
     statuses: {
       Open: "Open",
       Reserved: "Reserved",
@@ -29,15 +56,26 @@ const translations = {
       "Gym Center": "Gym Center",
       "BBQ Area": "BBQ Area",
       "Function Hall": "Function Hall",
+      "Karaoke Room": "Karaoke Room",
+      "Sky Bar": "Sky Bar",
+      "Children Playground": "Children Playground",
+      "Futsal Court": "Futsal Court",
+      "Reading Lounge": "Reading Lounge",
+      "Cinema Room": "Cinema Room",
     },
   },
   mm: {
     title: "သာယာအဆင်ပြေမှုများနှင့် အဆောက်အအုံများ",
-    subtitle: "အိမ်ခြံမြေ၏ သာယာအဆင်ပြေမှုများနှင့် အများသုံးနေရာများကို ရှာဖွေပြီး ကြိုတင်မှာယူပါ။",
+    subtitle: "အိမ်ခြံမြေ၏ ဝန်ဆောင်မှုများနှင့် အခြေအနေများကို စီမံခန့်ခွဲပါ။",
     addBtn: "ဝန်ဆောင်မှုအသစ်ထည့်ရန်",
-    bookBtn: "ကြိုတင်မှာယူရန်",
-    capacityLabel: "ဆံ့ဝင်ဦးရေ",
-    scheduleLabel: "အချိန်ဇယား",
+    searchPlaceholder: "ရှာဖွေရန်...",
+    tableHeaders: {
+      amenity: "ဝန်ဆောင်မှုအမည်",
+      status: "အခြေအနေ",
+      capacity: "ဆံ့ဝင်ဦးရေ",
+      schedule: "အချိန်ဇယား",
+      actions: "လုပ်ဆောင်ချက်များ",
+    },
     statuses: {
       Open: "ဖွင့်လှစ်ထား",
       Reserved: "ကြိုတင်မှာယူထား",
@@ -48,71 +86,73 @@ const translations = {
       "Gym Center": "အားကစားခန်းမ",
       "BBQ Area": "အကင်စားသောက်ရန်နေရာ",
       "Function Hall": "အခမ်းအနားခန်းမ",
+      "Karaoke Room": "ကာရာအိုကေခန်း",
+      "Sky Bar": "Sky Bar",
+      "Children Playground": "ကလေးကစားကွင်း",
+      "Futsal Court": "ဖူဆယ်ကွင်း",
+      "Reading Lounge": "စာဖတ်ခန်း",
+      "Cinema Room": "ရုပ်ရှင်ခန်း",
     },
   },
 };
 
 export default function AmenitiesPage() {
   const { lang, mounted } = useTranslation();
-  const t = translations[lang];
-
+  
   if (!mounted) return null;
+  
+  const t = translations[lang as keyof typeof translations] || translations.en;
 
-  const cards = amenities.map((item) => (
-    <Card key={item.title} shadow="sm" padding="0" radius="md" withBorder>
-      <Card.Section>
-        <Image
-          src={item.image}
-          height={160}
-          alt={item.title}
-        />
-      </Card.Section>
-
-      <Stack p="md" gap="xs">
-        <Group justify="space-between">
-          <Text fw={700} size="lg">
-            {t.amenityTitles[item.title as keyof typeof t.amenityTitles] || item.title}
-          </Text>
-          <Badge 
-            variant="light" 
-            color={item.status === "Open" ? "green" : item.status === "Reserved" ? "blue" : "red"}
-          >
-            {t.statuses[item.status as keyof typeof t.statuses]}
-          </Badge>
+  const rows = amenities.map((item) => (
+    <Table.Tr key={item.title}>
+      <Table.Td>
+        <Group gap="sm">
+          <ThemeIcon variant="light" color={item.color} size="lg" radius="md">
+            {item.icon}
+          </ThemeIcon>
+          <Stack gap={0}>
+            <Text fw={600} size="sm">
+              {t.amenityTitles[item.title as keyof typeof t.amenityTitles] || item.title}
+            </Text>
+            <Text size="xs" c="dimmed">ID: AMN-{(amenities.indexOf(item) + 1).toString().padStart(3, '0')}</Text>
+          </Stack>
         </Group>
-
-        <Stack gap={8} mt="xs">
-          <Group gap={8}>
-            <ThemeIcon variant="light" size="sm" color="gray">
-              <IconUsers size={14} />
-            </ThemeIcon>
-            <Text size="sm" c="dimmed">{t.capacityLabel}: {item.capacity}</Text>
-          </Group>
-          <Group gap={8}>
-            <ThemeIcon variant="light" size="sm" color="gray">
-              <IconClock size={14} />
-            </ThemeIcon>
-            <Text size="sm" c="dimmed">{t.scheduleLabel}: {item.schedule}</Text>
-          </Group>
-        </Stack>
-
-        <Group gap="sm" mt="md">
-          <Button 
-            variant="filled" 
-            color="#014F86" 
-            flex={1} 
-            radius="md" 
-            leftSection={<IconCalendar size={16} />}
-            disabled={item.status === "Maintenance"}
+      </Table.Td>
+      <Table.Td>
+        <Badge 
+          variant="dot" 
+          color={item.status === "Open" ? "green" : item.status === "Reserved" ? "blue" : "red"}
+          size="md"
+        >
+          {t.statuses[item.status as keyof typeof t.statuses]}
+        </Badge>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm">{item.capacity}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Text size="sm">{item.schedule}</Text>
+      </Table.Td>
+      <Table.Td>
+        <Group gap={8}>
+          <ActionIcon 
+            variant="subtle" 
+            color="gray" 
+            title="Details"
+            component={Link}
+            href={`/dashboard/amenities/AMN-${(amenities.indexOf(item) + 1).toString().padStart(3, '0')}`}
           >
-            {t.bookBtn}
-          </Button>
-          <ActionIcon variant="light" size="lg" color="gray" radius="md">
-            <IconSettings size={18} />
+            <IconExternalLink size={16} />
+          </ActionIcon>
+          <ActionIcon variant="subtle" color="blue" title="Edit">
+            <IconEdit size={16} />
+          </ActionIcon>
+          <ActionIcon variant="subtle" color="red" title="Delete">
+            <IconTrash size={16} />
           </ActionIcon>
         </Group>
-      </Stack>
-    </Card>
+      </Table.Td>
+    </Table.Tr>
   ));
 
   return (
@@ -122,12 +162,38 @@ export default function AmenitiesPage() {
           <Title order={2}>{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          {t.addBtn}
+        </Button>
       </Group>
 
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 3, lg: 4 }} spacing="xl">
-        {cards}
-      </SimpleGrid>
+      <Paper shadow="xs" p="md" radius="md" withBorder>
+        <Stack gap="md">
+          <Group justify="space-between">
+            <TextInput
+              placeholder={t.searchPlaceholder}
+              leftSection={<IconSearch size={16} />}
+              style={{ width: 300 }}
+              radius="md"
+            />
+          </Group>
+
+          <Table.ScrollContainer minWidth={800}>
+            <Table verticalSpacing="sm" highlightOnHover>
+              <Table.Thead bg="gray.0">
+                <Table.Tr>
+                  <Table.Th>{t.tableHeaders.amenity}</Table.Th>
+                  <Table.Th>{t.tableHeaders.status}</Table.Th>
+                  <Table.Th>{t.tableHeaders.capacity}</Table.Th>
+                  <Table.Th>{t.tableHeaders.schedule}</Table.Th>
+                  <Table.Th>{t.tableHeaders.actions}</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>{rows}</Table.Tbody>
+            </Table>
+          </Table.ScrollContainer>
+        </Stack>
+      </Paper>
     </Stack>
   );
 }

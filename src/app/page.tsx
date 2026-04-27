@@ -248,6 +248,32 @@ export default function HomePage() {
   const featuresReveal = useReveal();
   const statsReveal = useReveal();
   const [scrolled, setScrolled] = useState(false);
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const heroSlides = [
+    {
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+      title: t.hero.title,
+      subtitle: t.hero.subtitle
+    },
+    {
+      image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2070&auto=format&fit=crop",
+      title: lang === 'mm' ? "ခေတ်မီရေကူးကန်" : "Signature Infinity Pool",
+      subtitle: lang === 'mm' ? "အပန်းဖြေအနားယူရန် အကောင်းဆုံးနေရာ" : "Relax and unwind in our temperature-controlled luxury pool."
+    },
+    {
+      image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=2070&auto=format&fit=crop",
+      title: lang === 'mm' ? "အဆင့်မြင့်အားကစားခန်းမ" : "Elite Fitness Center",
+      subtitle: lang === 'mm' ? "ကျန်းမာကြံ့ခိုင်သော လူနေမှုဘဝ" : "Achieve your fitness goals with world-class equipment."
+    }
+  ];
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setActiveSlide((prev) => (prev + 1) % heroSlides.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, [heroSlides.length]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -347,31 +373,65 @@ export default function HomePage() {
         bg="#012a4a"
         style={{ overflow: 'hidden', display: 'flex', alignItems: 'center' }}
       >
-        <Box
-          className={classes.heroImage}
-          pos="absolute"
-          inset={0}
-          style={{ 
-            backgroundImage: 'url("https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=2070&auto=format&fit=crop")',
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
-            zIndex: 0,
-            backgroundColor: '#012a4a'
-          }}
-        />
+        {heroSlides.map((slide, index) => (
+          <Box
+            key={index}
+            className={classes.heroImage}
+            pos="absolute"
+            inset={0}
+            style={{ 
+              backgroundImage: `url("${slide.image}")`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center',
+              zIndex: 0,
+              backgroundColor: '#012a4a',
+              opacity: activeSlide === index ? 1 : 0,
+              transition: 'opacity 1.5s ease-in-out',
+              transform: activeSlide === index ? 'scale(1.05)' : 'scale(1)',
+            }}
+          />
+        ))}
+        
         <Overlay color="#000" backgroundOpacity={0.6} zIndex={1} />
+        
         <Container size="lg" h="100%" pos="relative" style={{ zIndex: 2, display: 'flex', alignItems: 'center' }}>
-          <Stack justify="center" gap="xl" maw={800} className={classes.heroContent}>
+          <Stack justify="center" gap="xl" maw={800} className={classes.heroContent} style={{ width: '100%' }}>
             <Badge variant="filled" color="blue.7" size="lg" radius="sm" style={{ alignSelf: 'flex-start' }}>
               {lang === 'mm' ? 'အဆင့်မြင့် လူနေမှုဘဝ' : 'ESTABLISHED 2026'}
             </Badge>
-            <Title order={1} c="white" size={72} fw={900} style={{ lineHeight: 1.1, letterSpacing: '-1px' }}>
-              {t.hero.title}
-            </Title>
-            <Text c="gray.1" size="xl" fw={400} maw={600} style={{ lineHeight: 1.6 }}>
-              {t.hero.subtitle}
-            </Text>
-            <Group gap="md" mt="lg">
+            
+            <Box style={{ height: 240 }}> {/* Fixed height container to prevent layout shift */}
+              <Title 
+                order={1} 
+                c="white" 
+                size={72} 
+                fw={900} 
+                style={{ 
+                  lineHeight: 1.1, 
+                  letterSpacing: '-1px',
+                  opacity: 1,
+                  transition: 'all 0.5s ease'
+                }}
+              >
+                {heroSlides[activeSlide].title}
+              </Title>
+              <Text 
+                c="gray.1" 
+                size="xl" 
+                fw={400} 
+                maw={600} 
+                mt="xl"
+                style={{ 
+                  lineHeight: 1.6,
+                  opacity: 1,
+                  transition: 'all 0.5s ease'
+                }}
+              >
+                {heroSlides[activeSlide].subtitle}
+              </Text>
+            </Box>
+
+            <Group gap="md" mt="xl">
               <Button 
                 component={Link} 
                 href="/login" 
@@ -388,12 +448,30 @@ export default function HomePage() {
                 variant="white" 
                 color="dark" 
                 size="xl" 
-                radius="md"
+                radius="md" 
                 px={40}
                 onClick={() => document.getElementById('amenities')?.scrollIntoView({ behavior: 'smooth' })}
               >
                 {t.hero.amenitiesBtn}
               </Button>
+            </Group>
+
+            {/* Slide Indicators */}
+            <Group gap="xs" mt={50}>
+              {heroSlides.map((_, index) => (
+                <Box
+                  key={index}
+                  onClick={() => setActiveSlide(index)}
+                  style={{
+                    width: activeSlide === index ? 40 : 10,
+                    height: 10,
+                    borderRadius: 5,
+                    backgroundColor: activeSlide === index ? '#014F86' : 'rgba(255,255,255,0.5)',
+                    cursor: 'pointer',
+                    transition: 'all 0.3s ease'
+                  }}
+                />
+              ))}
             </Group>
           </Stack>
         </Container>

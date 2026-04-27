@@ -311,9 +311,9 @@ export default function DashboardPage() {
         </Stack>
         <Paper withBorder px="md" py="xs" radius="md" bg="gray.0">
           <Group gap="xs">
-            <IconClock size={16} color="var(--mantine-color-blue-6)" />
-            <Text size="xs" fw={700} c="dimmed">{t.lastUpdate}: April 24, 2026</Text>
-          </Group>
+               <IconClock size={16} color="black" />
+               <Text size="xs" fw={500} c="black">{t.lastUpdate}: April 24, 2026</Text>
+             </Group>
         </Paper>
       </Group>
 

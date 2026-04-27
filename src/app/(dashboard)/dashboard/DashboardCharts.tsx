@@ -2,6 +2,7 @@
 
 import { Paper, Title, Text, Box, Group, Grid, useMantineTheme } from '@mantine/core';
 import { ReactNode } from 'react';
+import { useTranslation } from '@/hooks/useTranslation';
 import {
   LineChart,
   Line,
@@ -53,6 +54,55 @@ const COLORS = ['#014F86', '#FF6B6B', '#FFA94D', '#38D9A9'];
 
 export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }) {
   const theme = useMantineTheme();
+  const { lang } = useTranslation();
+
+  const t = {
+    en: {
+      billingTrends: "Billing Trends",
+      billingSub: "Monthly billing revenue",
+      financeOverview: "Finance Overview",
+      financeSub: "Income vs Expenses",
+      bookingBills: "Booking Bills",
+      bookingSub: "Distribution of booking bill statuses",
+      labels: {
+        utilities: "Utilities",
+        bills: "Bills",
+        maintenance: "Maintenance",
+        other: "Other",
+        income: "Income",
+        expense: "Expense",
+        paid: "Paid",
+        pending: "Pending",
+        overdue: "Overdue",
+        cancelled: "Cancelled"
+      }
+    },
+    mm: {
+      billingTrends: "ငွေတောင်းခံမှု အလားအလာများ",
+      billingSub: "လစဉ် ငွေတောင်းခံမှု ဝင်ငွေ",
+      financeOverview: "ဘဏ္ဍာရေး အကျဉ်းချုပ်",
+      financeSub: "ဝင်ငွေ နှင့် အသုံးစရိတ်",
+      bookingBills: "ဘွတ်ကင် ငွေတောင်းခံလွှာများ",
+      bookingSub: "ဘွတ်ကင် ငွေတောင်းခံလွှာ အခြေအနေများ ပြသမှု",
+      labels: {
+        utilities: "အသုံးအဆောင်များ",
+        bills: "ဘေလ်များ",
+        maintenance: "ပြုပြင်ထိန်းသိမ်းမှု",
+        other: "အခြား",
+        income: "ဝင်ငွေ",
+        expense: "အသုံးစရိတ်",
+        paid: "ပေးချေပြီး",
+        pending: "စောင့်ဆိုင်းဆဲ",
+        overdue: "ရက်လွန်",
+        cancelled: "ပယ်ဖျက်ပြီး"
+      }
+    }
+  }[lang === "mm" ? "mm" : "en"];
+
+  const translatedBookingData = bookingData.map(item => ({
+    ...item,
+    name: t.labels[item.name.toLowerCase() as keyof typeof t.labels] || item.name
+  }));
 
   return (
     <Grid gutter="xl">
@@ -60,8 +110,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: occupancyCard ? 8 : 12 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Title order={3}>Billing Trends</Title>
-            <Text size="xs" c="dimmed" fw={500}>Monthly billing revenue</Text>
+            <Title order={3}>{t.billingTrends}</Title>
+            <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
           </Box>
           <Box p="md" h={350}>
             <ResponsiveContainer width="100%" height="100%">
@@ -75,10 +125,10 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                   cursor={{ fill: 'transparent' }}
                 />
                 <Legend iconType="square" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="utilities" name="Utilities" stackId="1" fill="#014F86" maxBarSize={40} />
-                <Bar dataKey="bills" name="Bills" stackId="1" fill="#FF6B6B" maxBarSize={40} />
-                <Bar dataKey="maintenance" name="Maintenance" stackId="1" fill="#FFA94D" maxBarSize={40} />
-                <Bar dataKey="other" name="Other" stackId="1" fill="#38D9A9" maxBarSize={40} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="utilities" name={t.labels.utilities} stackId="1" fill="#014F86" maxBarSize={40} />
+                <Bar dataKey="bills" name={t.labels.bills} stackId="1" fill="#FF6B6B" maxBarSize={40} />
+                <Bar dataKey="maintenance" name={t.labels.maintenance} stackId="1" fill="#FFA94D" maxBarSize={40} />
+                <Bar dataKey="other" name={t.labels.other} stackId="1" fill="#38D9A9" maxBarSize={40} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </Box>
@@ -96,8 +146,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: 8 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Title order={3}>Finance Overview</Title>
-            <Text size="xs" c="dimmed" fw={500}>Income vs Expenses</Text>
+            <Title order={3}>{t.financeOverview}</Title>
+            <Text size="xs" c="dimmed" fw={500}>{t.financeSub}</Text>
           </Box>
           <Box p="md" h={350}>
             <ResponsiveContainer width="100%" height="100%">
@@ -110,8 +160,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                   cursor={{ fill: '#f8f9fa' }}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="income" name="Income" fill="#014F86" radius={[4, 4, 0, 0]} maxBarSize={40} />
-                <Bar dataKey="expense" name="Expense" fill={theme.colors.red[5]} radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Bar dataKey="income" name={t.labels.income} fill="#014F86" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Bar dataKey="expense" name={t.labels.expense} fill={theme.colors.red[5]} radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
             </ResponsiveContainer>
           </Box>
@@ -122,14 +172,14 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Title order={3}>Booking Bills</Title>
-            <Text size="xs" c="dimmed" fw={500}>Distribution of booking bill statuses</Text>
+            <Title order={3}>{t.bookingBills}</Title>
+            <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
           </Box>
           <Box p="md" h={350}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie
-                  data={bookingData}
+                  data={translatedBookingData}
                   cx="50%"
                   cy="50%"
                   innerRadius={60}

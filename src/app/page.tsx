@@ -247,6 +247,16 @@ export default function HomePage() {
   // Reveal hooks for each section
   const featuresReveal = useReveal();
   const statsReveal = useReveal();
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   const amenitiesReveal = useReveal();
   const testimonialsReveal = useReveal();
 
@@ -263,27 +273,67 @@ export default function HomePage() {
         right={0} 
         style={{ 
           zIndex: 100, 
-          background: 'rgba(255, 255, 255, 0.8)', 
-          backdropFilter: 'blur(10px)',
-          borderBottom: '1px solid rgba(0,0,0,0.05)'
+          background: scrolled ? 'rgba(255, 255, 255, 0.95)' : 'transparent', 
+          backdropFilter: scrolled ? 'blur(10px)' : 'none',
+          borderBottom: scrolled ? '1px solid rgba(0,0,0,0.05)' : 'none',
+          transition: 'all 0.3s ease'
         }}
-        py="md"
+        py={scrolled ? "xs" : "md"}
       >
         <Container size="lg">
           <Group justify="space-between">
             <Group gap="sm">
-              <Image src="/sh.png" alt="Logo" h={30} w="auto" />
-              <Title order={3} size="h4" fw={900} c="#014F86">
+              <Image 
+                src="/sh.png" 
+                alt="Logo" 
+                h={scrolled ? 30 : 35} 
+                w="auto" 
+                style={{ 
+                  filter: scrolled ? 'none' : 'brightness(0) invert(1)',
+                  transition: 'all 0.3s ease'
+                }} 
+              />
+              <Title 
+                order={3} 
+                size="h4" 
+                fw={900} 
+                c={scrolled ? "#014F86" : "white"}
+                style={{ transition: 'color 0.3s ease' }}
+              >
                 Sky Haven
               </Title>
             </Group>
             <Group gap="xl" visibleFrom="sm">
-              <Text component={Link} href="#features" fw={600} size="sm" c="gray.7" style={{ cursor: 'pointer' }}>Features</Text>
-              <Text component={Link} href="#amenities" fw={600} size="sm" c="gray.7" style={{ cursor: 'pointer' }}>Facilities</Text>
-              <Text component={Link} href="/login" fw={600} size="sm" c="gray.7">Login</Text>
-              <Button component={Link} href="/dashboard" color="#014F86" radius="md" size="sm">
-                Dashboard
-              </Button>
+              <Text 
+                component={Link} 
+                href="#features" 
+                fw={600} 
+                size="sm" 
+                c={scrolled ? "gray.7" : "gray.1"} 
+                style={{ cursor: 'pointer', transition: 'color 0.3s ease' }}
+              >
+                Features
+              </Text>
+              <Text 
+                component={Link} 
+                href="#amenities" 
+                fw={600} 
+                size="sm" 
+                c={scrolled ? "gray.7" : "gray.1"} 
+                style={{ cursor: 'pointer', transition: 'color 0.3s ease' }}
+              >
+                Facilities
+              </Text>
+              <Text 
+                component={Link} 
+                href="/login" 
+                fw={600} 
+                size="sm" 
+                c={scrolled ? "gray.7" : "gray.1"}
+                style={{ transition: 'color 0.3s ease' }}
+              >
+                Login
+              </Text>
             </Group>
           </Group>
         </Container>

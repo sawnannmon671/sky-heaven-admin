@@ -6,7 +6,7 @@ import {  IconShieldCheck, IconChevronLeft, IconSearch, IconEye, IconEdit, IconT
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
-export default function SecurityApprovalPage() {
+export default function VisitorApprovalPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
 
   const handleSort = (key: string) => {
@@ -28,16 +28,16 @@ export default function SecurityApprovalPage() {
 
   const t = {
     en: {
-      title: "Security Approval",
-      subtitle: "Review and approve visitor access requests from security.",
+      title: "Approval",
+      subtitle: "Review and approve visitor access requests.",
       back: "Back to Visitors",
-      comingSoon: "Security approval system is coming soon.",
+      comingSoon: "Approval system is coming soon.",
     },
     mm: {
-      title: "လုံခြုံရေးအတည်ပြုချက်",
-      subtitle: "လုံခြုံရေးမှတစ်ဆင့် ဧည့်သည်ဝင်ရောက်ခွင့်တောင်းဆိုမှုများကို ပြန်လည်သုံးသပ်ပြီး အတည်ပြုပါ။",
+      title: "အတည်ပြုချက်",
+      subtitle: "ဧည့်သည်ဝင်ရောက်ခွင့်တောင်းဆိုမှုများကို ပြန်လည်သုံးသပ်ပြီး အတည်ပြုပါ။",
       back: "ဧည့်သည်စီမံခန့်ခွဲမှုသို့ ပြန်သွားရန်",
-      comingSoon: "လုံခြုံရေးအတည်ပြုချက်စနစ်အား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
+      comingSoon: "အတည်ပြုချက်စနစ်အား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
     },
   }[lang === "mm" ? "mm" : "en"];
 

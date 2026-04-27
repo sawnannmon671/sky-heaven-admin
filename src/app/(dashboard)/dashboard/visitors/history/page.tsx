@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconIdBadge, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {  IconDoorEnter, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
-export default function VisitorPassPage() {
+export default function VisitorHistoryPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
 
   const handleSort = (key: string) => {
@@ -28,25 +28,25 @@ export default function VisitorPassPage() {
 
   const t = {
     en: {
-      title: "Visitor Pass",
-      subtitle: "Issue and manage digital passes for pre-authorized visitors.",
+      title: "Visitor History",
+      subtitle: "Track visitor arrivals and departures over time.",
       back: "Back to Visitors",
-      comingSoon: "Visitor pass management is coming soon.",
+      comingSoon: "Visitor history tracking is coming soon.",
     },
     mm: {
-      title: "ဧည့်သည်ဝင်ခွင့်ကတ်",
-      subtitle: "ကြိုတင်ခွင့်ပြုထားသော ဧည့်သည်များအတွက် ဒစ်ဂျစ်တယ်ဝင်ခွင့်ကတ်များ ထုတ်ပေးခြင်းနှင့် စီမံခန့်ခွဲခြင်း။",
+      title: "ဧည့်သည်မှတ်တမ်း",
+      subtitle: "ဧည့်သည်များ အဝင်အထွက်ကို မှတ်တမ်းထားရှိခြင်းနှင့် ခြေရာခံခြင်း။",
       back: "ဧည့်သည်စီမံခန့်ခွဲမှုသို့ ပြန်သွားရန်",
-      comingSoon: "ဧည့်သည်ဝင်ခွင့်ကတ်စီမံခန့်ခွဲမှုအား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
+      comingSoon: "ဧည့်သည်မှတ်တမ်းစနစ်အား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
     },
   }[lang === "mm" ? "mm" : "en"];
 
   const mockData = [
-    { id: "VP-001", visitor: "U Kyaw Swar", hostUnit: "A-101", validFrom: "2024-10-26", validTo: "2024-10-28", type: "Multiple Entry", status: "Active" },
-    { id: "VP-002", visitor: "Daw Ni Ni", hostUnit: "B-205", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Expired" },
-    { id: "VP-003", visitor: "Ko Htun", hostUnit: "C-304", validFrom: "2024-10-27", validTo: "2024-10-27", type: "Single Entry", status: "Pending" },
-    { id: "VP-004", visitor: "Ma Hlaing", hostUnit: "A-502", validFrom: "2024-10-25", validTo: "2024-11-25", type: "Contractor", status: "Active" },
-    { id: "VP-005", visitor: "U Zaw", hostUnit: "D-102", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Active" },
+    { id: "VE-001", visitor: "U Kyaw Swar", hostUnit: "A-101", purpose: "Personal", entryTime: "2024-10-26 09:00 AM", exitTime: "2024-10-26 11:30 AM", status: "Checked Out" },
+    { id: "VE-002", visitor: "Daw Ni Ni", hostUnit: "B-205", purpose: "Service", entryTime: "2024-10-26 10:15 AM", exitTime: "-", status: "Inside" },
+    { id: "VE-003", visitor: "Ko Htun", hostUnit: "C-304", purpose: "Personal", entryTime: "2024-10-26 11:00 AM", exitTime: "2024-10-26 01:00 PM", status: "Checked Out" },
+    { id: "VE-004", visitor: "Ma Hlaing", hostUnit: "A-502", purpose: "Meeting", entryTime: "2024-10-26 02:30 PM", exitTime: "-", status: "Inside" },
+    { id: "VE-005", visitor: "U Zaw", hostUnit: "D-102", purpose: "Delivery", entryTime: "2024-10-26 04:00 PM", exitTime: "2024-10-26 04:15 PM", status: "Checked Out" },
   ];
 
   const sortedData = [...mockData].sort((a, b) => {
@@ -62,8 +62,8 @@ export default function VisitorPassPage() {
       <Group justify="space-between">
         <Stack gap={4}>
           <Group gap="xs">
-            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
-              <IconIdBadge size={20} />
+            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
+              <IconDoorEnter size={20} />
             </ThemeIcon>
             <Title order={1}>{t.title}</Title>
           </Group>
@@ -101,7 +101,7 @@ export default function VisitorPassPage() {
               <Table.Th fw={700} fz="sm" c="dark">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
-                    <span>Pass ID</span>
+                    <span>Entry ID</span>
                     <Center>
                       {sortConfig?.key === 'id' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
@@ -129,7 +129,7 @@ export default function VisitorPassPage() {
               <Table.Th fw={700} fz="sm" c="dark">
                 <UnstyledButton onClick={() => handleSort('hostUnit')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
-                    <span>Pass Type</span>
+                    <span>Purpose</span>
                     <Center>
                       {sortConfig?.key === 'hostUnit' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
@@ -141,11 +141,11 @@ export default function VisitorPassPage() {
                 </UnstyledButton>
               </Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">
-                <UnstyledButton onClick={() => handleSort('validFrom')} style={{ width: '100%', color: 'inherit' }}>
+                <UnstyledButton onClick={() => handleSort('purpose')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
-                    <span>Validity</span>
+                    <span>Timings</span>
                     <Center>
-                      {sortConfig?.key === 'validFrom' ? (
+                      {sortConfig?.key === 'purpose' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
                       ) : (
                         <IconSelector size={14} color="gray" />
@@ -166,8 +166,8 @@ export default function VisitorPassPage() {
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
-                      <IconIdBadge size={18} />
+                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                      <IconDoorEnter size={18} />
                     </ThemeIcon>
                     <Stack gap={0}>
                       <Text size="sm" fw={500}>{item.visitor}</Text>
@@ -176,16 +176,16 @@ export default function VisitorPassPage() {
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Text size="sm">{item.type}</Text>
+                  <Text size="sm">{item.purpose}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Stack gap={0}>
-                    <Text size="xs" c="dimmed">From: {item.validFrom}</Text>
-                    <Text size="xs" c="dimmed">To: {item.validTo}</Text>
+                    <Text size="sm" c="green.7">In: {item.entryTime}</Text>
+                    <Text size="xs" c={item.exitTime === '-' ? 'dimmed' : 'red.7'}>Out: {item.exitTime}</Text>
                   </Stack>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item.status === 'Active' ? 'green' : item.status === 'Expired' ? 'red' : 'orange'} fw={700}>
+                  <Badge variant="light" color={item.status === 'Inside' ? 'blue' : 'gray'} fw={700}>
                     {item.status}
                   </Badge>
                 </Table.Td>

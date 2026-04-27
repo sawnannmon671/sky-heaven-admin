@@ -79,7 +79,7 @@ export default function DetailPage() {
               <Box>
                 <Text c="dimmed" size="xs" fw={700} tt="uppercase" lts={1} mb={4}>Total Amount</Text>
                 <Title order={1} style={{ fontSize: '2.5rem', fontWeight: 800, color: '#2C2E33', letterSpacing: '-1px' }}>
-                  {item.amount || item.totalAmount || '-'}
+                  {item.amount || (item as any).totalAmount || '-'}
                 </Title>
                 <Text c="dimmed" mt="sm" fw={500}>Reference: <Text component="span" fw={600} c="dark">{item.id}</Text></Text>
               </Box>

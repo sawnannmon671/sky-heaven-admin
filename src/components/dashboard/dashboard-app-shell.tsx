@@ -541,10 +541,10 @@ export function DashboardAppShell({
             opened={visitorOpened}
             onChange={setVisitorOpened}
           >
-            <NavLink component={Link} href="/dashboard/visitors/entry" label={t.visitorEntry} leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/entry"} />
-            <NavLink component={Link} href="/dashboard/visitors/pass" label={t.visitorPass} leftSection={<IconIdBadge size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/pass"} />
+            <NavLink component={Link} href="/dashboard/visitors/registration" label="Visitor Registration" leftSection={<IconIdBadge size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/registration"} />
             <NavLink component={Link} href="/dashboard/visitors/delivery" label={t.deliveryLogs} leftSection={<IconTruck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/delivery"} />
-            <NavLink component={Link} href="/dashboard/visitors/security" label={t.securityApproval} leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/security"} />
+            <NavLink component={Link} href="/dashboard/visitors/approval" label="Approval" leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/approval"} />
+            <NavLink component={Link} href="/dashboard/visitors/history" label="History" leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/history"} />
           </NavLink>
 
           <NavLink

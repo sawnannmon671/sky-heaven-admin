@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconDoorEnter, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Modal } from "@mantine/core";
+import {  IconIdBadge, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconQrcode } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
+import { QRCodeSVG } from "qrcode.react";
 
-export default function VisitorEntryPage() {
+export default function VisitorRegistrationPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [qrModalOpen, setQrModalOpen] = useState(false);
+  const [selectedVisitor, setSelectedVisitor] = useState<any>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -15,6 +18,11 @@ export default function VisitorEntryPage() {
       direction = 'desc';
     }
     setSortConfig({ key, direction });
+  };
+
+  const openQrModal = (visitor: any) => {
+    setSelectedVisitor(visitor);
+    setQrModalOpen(true);
   };
 
   
@@ -28,25 +36,25 @@ export default function VisitorEntryPage() {
 
   const t = {
     en: {
-      title: "Visitor Entry",
-      subtitle: "Register and track visitor arrivals and departures.",
+      title: "Visitor Registration",
+      subtitle: "Register visitors, manage entry passes, and generate QR codes.",
       back: "Back to Visitors",
-      comingSoon: "Visitor entry registration is coming soon.",
+      comingSoon: "Visitor registration management is coming soon.",
     },
     mm: {
-      title: "ဧည့်သည်အဝင်",
-      subtitle: "ဧည့်သည်များ အဝင်အထွက်ကို မှတ်ပုံတင်ခြင်းနှင့် ခြေရာခံခြင်း။",
+      title: "ဧည့်သည်မှတ်ပုံတင်ခြင်း",
+      subtitle: "ဧည့်သည်များ မှတ်ပုံတင်ခြင်း၊ ဝင်ခွင့်ကတ်များ စီမံခန့်ခွဲခြင်းနှင့် QR ကုဒ်များ ထုတ်ပေးခြင်း။",
       back: "ဧည့်သည်စီမံခန့်ခွဲမှုသို့ ပြန်သွားရန်",
-      comingSoon: "ဧည့်သည်အဝင်မှတ်ပုံတင်ခြင်းစနစ်အား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
+      comingSoon: "ဧည့်သည်မှတ်ပုံတင်ခြင်းအား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
     },
   }[lang === "mm" ? "mm" : "en"];
 
   const mockData = [
-    { id: "VE-001", visitor: "U Kyaw Swar", hostUnit: "A-101", purpose: "Personal", entryTime: "2024-10-26 09:00 AM", exitTime: "2024-10-26 11:30 AM", status: "Checked Out" },
-    { id: "VE-002", visitor: "Daw Ni Ni", hostUnit: "B-205", purpose: "Service", entryTime: "2024-10-26 10:15 AM", exitTime: "-", status: "Inside" },
-    { id: "VE-003", visitor: "Ko Htun", hostUnit: "C-304", purpose: "Personal", entryTime: "2024-10-26 11:00 AM", exitTime: "2024-10-26 01:00 PM", status: "Checked Out" },
-    { id: "VE-004", visitor: "Ma Hlaing", hostUnit: "A-502", purpose: "Meeting", entryTime: "2024-10-26 02:30 PM", exitTime: "-", status: "Inside" },
-    { id: "VE-005", visitor: "U Zaw", hostUnit: "D-102", purpose: "Delivery", entryTime: "2024-10-26 04:00 PM", exitTime: "2024-10-26 04:15 PM", status: "Checked Out" },
+    { id: "VP-001", visitor: "U Kyaw Swar", hostUnit: "A-101", validFrom: "2024-10-26", validTo: "2024-10-28", type: "Multiple Entry", status: "Active" },
+    { id: "VP-002", visitor: "Daw Ni Ni", hostUnit: "B-205", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Expired" },
+    { id: "VP-003", visitor: "Ko Htun", hostUnit: "C-304", validFrom: "2024-10-27", validTo: "2024-10-27", type: "Single Entry", status: "Pending" },
+    { id: "VP-004", visitor: "Ma Hlaing", hostUnit: "A-502", validFrom: "2024-10-25", validTo: "2024-11-25", type: "Contractor", status: "Active" },
+    { id: "VP-005", visitor: "U Zaw", hostUnit: "D-102", validFrom: "2024-10-26", validTo: "2024-10-26", type: "Single Entry", status: "Active" },
   ];
 
   const sortedData = [...mockData].sort((a, b) => {
@@ -62,8 +70,8 @@ export default function VisitorEntryPage() {
       <Group justify="space-between">
         <Stack gap={4}>
           <Group gap="xs">
-            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-              <IconDoorEnter size={20} />
+            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
+              <IconIdBadge size={20} />
             </ThemeIcon>
             <Title order={1}>{t.title}</Title>
           </Group>
@@ -101,7 +109,7 @@ export default function VisitorEntryPage() {
               <Table.Th fw={700} fz="sm" c="dark">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
-                    <span>Entry ID</span>
+                    <span>Pass ID</span>
                     <Center>
                       {sortConfig?.key === 'id' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
@@ -129,7 +137,7 @@ export default function VisitorEntryPage() {
               <Table.Th fw={700} fz="sm" c="dark">
                 <UnstyledButton onClick={() => handleSort('hostUnit')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
-                    <span>Purpose</span>
+                    <span>Pass Type</span>
                     <Center>
                       {sortConfig?.key === 'hostUnit' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
@@ -141,11 +149,11 @@ export default function VisitorEntryPage() {
                 </UnstyledButton>
               </Table.Th>
               <Table.Th fw={700} fz="sm" c="dark">
-                <UnstyledButton onClick={() => handleSort('purpose')} style={{ width: '100%', color: 'inherit' }}>
+                <UnstyledButton onClick={() => handleSort('validFrom')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
-                    <span>Timings</span>
+                    <span>Validity</span>
                     <Center>
-                      {sortConfig?.key === 'purpose' ? (
+                      {sortConfig?.key === 'validFrom' ? (
                         sortConfig.direction === 'asc' ? <IconChevronUp size={14} /> : <IconChevronDown size={14} />
                       ) : (
                         <IconSelector size={14} color="gray" />
@@ -166,8 +174,8 @@ export default function VisitorEntryPage() {
                 </Table.Td>
                 <Table.Td>
                   <Group gap="sm">
-                    <ThemeIcon size="md" variant="light" color="blue" radius="md">
-                      <IconDoorEnter size={18} />
+                    <ThemeIcon size="md" variant="light" color="indigo" radius="md">
+                      <IconIdBadge size={18} />
                     </ThemeIcon>
                     <Stack gap={0}>
                       <Text size="sm" fw={500}>{item.visitor}</Text>
@@ -176,22 +184,25 @@ export default function VisitorEntryPage() {
                   </Group>
                 </Table.Td>
                 <Table.Td>
-                  <Text size="sm">{item.purpose}</Text>
+                  <Text size="sm">{item.type}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Stack gap={0}>
-                    <Text size="sm" c="green.7">In: {item.entryTime}</Text>
-                    <Text size="xs" c={item.exitTime === '-' ? 'dimmed' : 'red.7'}>Out: {item.exitTime}</Text>
+                    <Text size="xs" c="dimmed">From: {item.validFrom}</Text>
+                    <Text size="xs" c="dimmed">To: {item.validTo}</Text>
                   </Stack>
                 </Table.Td>
                 <Table.Td>
-                  <Badge variant="light" color={item.status === 'Inside' ? 'blue' : 'gray'} fw={700}>
+                  <Badge variant="light" color={item.status === 'Active' ? 'green' : item.status === 'Expired' ? 'red' : 'orange'} fw={700}>
                     {item.status}
                   </Badge>
                 </Table.Td>
                 <Table.Td>
                   <Group gap={4} justify="flex-end">
-                    <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
+                    <ActionIcon variant="subtle" color="teal" onClick={() => openQrModal(item)} title="Generate QR">
+                      <IconQrcode size={16} />
+                    </ActionIcon>
+                    <ActionIcon component={Link} href={`/dashboard/visitors/registration/${item.id}`} variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
                     <ActionIcon variant="subtle" color="blue"><IconEdit size={16} /></ActionIcon>
                     <ActionIcon variant="subtle" color="red"><IconTrash size={16} /></ActionIcon>
                   </Group>
@@ -208,6 +219,22 @@ export default function VisitorEntryPage() {
         </Group>
       
       </Paper>
+
+      <Modal opened={qrModalOpen} onClose={() => setQrModalOpen(false)} title="Visitor QR Code" centered>
+        {selectedVisitor && (
+          <Stack align="center" gap="md" p="md">
+            <QRCodeSVG value={JSON.stringify(selectedVisitor)} size={200} />
+            <Text fw={700} size="lg">{selectedVisitor.visitor}</Text>
+            <Text size="sm" c="dimmed">Pass ID: {selectedVisitor.id}</Text>
+            <Badge color={selectedVisitor.status === 'Active' ? 'green' : selectedVisitor.status === 'Expired' ? 'red' : 'orange'}>
+              {selectedVisitor.status}
+            </Badge>
+            <Text size="xs" ta="center" mt="sm">
+              Scan this QR code at the entrance for verification.
+            </Text>
+          </Stack>
+        )}
+      </Modal>
     </Stack>
   );
 }

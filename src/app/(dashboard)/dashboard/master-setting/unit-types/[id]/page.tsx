@@ -18,7 +18,7 @@ export default function DetailPage() {
   const params = useParams();
   const id = params.id as string;
 
-  if (!mounted) return null;
+  
 
   const item = elements.find((d: any) => String(d.id) === String(id));
 

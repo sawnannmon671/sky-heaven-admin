@@ -103,7 +103,7 @@ export default function AmenitiesPage() {
 
   const { lang, mounted } = useTranslation();
   
-  if (!mounted) return null;
+  
   
   const t = translations[lang as keyof typeof translations] || translations.en;
 

@@ -63,7 +63,7 @@ export default function PaymentMethodPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
-  if (!mounted) return null;
+  
 
   const rows = paymentMethods.map((method) => (
     <Table.Tr key={method.id}>

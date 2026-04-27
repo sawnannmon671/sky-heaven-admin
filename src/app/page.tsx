@@ -249,7 +249,7 @@ export default function HomePage() {
   const amenitiesReveal = useReveal();
   const testimonialsReveal = useReveal();
 
-  if (!mounted) return null;
+  
 
   return (
     <Box component="main" style={{ overflowX: 'hidden', minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>

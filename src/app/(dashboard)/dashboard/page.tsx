@@ -230,7 +230,7 @@ export default function DashboardPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
-  if (!mounted) return null;
+  
 
   const cards = stats.map((stat) => {
     const Icon = stat.icon;

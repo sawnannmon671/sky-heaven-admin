@@ -87,7 +87,7 @@ export default function UnitsPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
-  if (!mounted) return null;
+  
 
   const rows = sortedData.map((element) => (
     <Table.Tr key={element.id}>

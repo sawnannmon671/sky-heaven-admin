@@ -24,7 +24,7 @@ export default function ParkingFeesPage() {
 
   const { lang, mounted } = useTranslation();
 
-  if (!mounted) return null;
+  
 
   const t = {
     en: {

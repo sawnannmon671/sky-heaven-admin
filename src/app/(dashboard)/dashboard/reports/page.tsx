@@ -61,7 +61,7 @@ export default function ReportsPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
-  if (!mounted) return null;
+  
 
   return (
     <Stack gap="xl">

@@ -19,7 +19,7 @@ export default function DetailPage() {
   const params = useParams();
   const id = params.id as string;
 
-  if (!mounted) return null;
+  
 
   const item = mockData.find((d: any) => String(d.id) === String(id));
 

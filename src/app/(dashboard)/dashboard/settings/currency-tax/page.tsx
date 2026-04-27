@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function CurrencyTaxPage() {
   const { lang, mounted } = useTranslation();
 
-  if (!mounted) return null;
+  
 
   const t = {
     en: {

@@ -8,7 +8,7 @@ import Link from "next/link";
 export default function CondoInfoPage() {
   const { lang, mounted } = useTranslation();
 
-  if (!mounted) return null;
+  
 
   const t = {
     en: {

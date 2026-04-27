@@ -40,7 +40,7 @@ export default function AnnouncementsPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
-  if (!mounted) return null;
+  
 
   return (
     <Stack gap="xl">

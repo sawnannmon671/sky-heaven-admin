@@ -24,7 +24,7 @@ export default function BroadcastPage() {
 
   const { lang, mounted } = useTranslation();
 
-  if (!mounted) return null;
+  
 
   const t = {
     en: {

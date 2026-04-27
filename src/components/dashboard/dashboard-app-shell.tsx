@@ -94,6 +94,7 @@ export function DashboardAppShell({
   const [reportsOpened, setReportsOpened] = useState(false);
   const [userManagementOpened, setUserManagementOpened] = useState(false);
   const [settingsOpened, setSettingsOpened] = useState(false);
+  const [masterSettingOpened, setMasterSettingOpened] = useState(false);
   const { lang, setLang, mounted } = useTranslation();
   const [opened, { toggle }] = useDisclosure(true);
 
@@ -108,6 +109,7 @@ export function DashboardAppShell({
     en: {
       home: "Home",
       dashboard: "Dashboard",
+      masterSetting: "Master Setting",
       propertyManagement: "Property",
       buildings: "Buildings / Towers",
       floors: "Floors",
@@ -188,6 +190,7 @@ export function DashboardAppShell({
     mm: {
       home: "ပင်မစာမျက်နှာ",
       dashboard: "ဒက်ရှ်ဘုတ်",
+      masterSetting: "အခြေခံဆက်တင်များ",
       propertyManagement: "အိမ်ခြံမြေ",
       buildings: "အဆောက်အဦးများ / မျှော်စင်များ",
       floors: "အလွှာများ",
@@ -273,7 +276,6 @@ export function DashboardAppShell({
     if (pathname.includes("/dashboard/buildings") || 
         pathname.includes("/dashboard/floors") || 
         pathname.includes("/dashboard/units") || 
-        pathname.includes("/dashboard/unit-types") || 
         pathname.includes("/dashboard/facilities")) {
       setPropertyOpened(true);
     }
@@ -313,12 +315,13 @@ export function DashboardAppShell({
     if (pathname.includes("/dashboard/user-management")) {
       setUserManagementOpened(true);
     }
+    if (pathname.includes("/dashboard/master-setting") || pathname.includes("/dashboard/master-setting/unit-types")) {
+      setMasterSettingOpened(true);
+    }
     if (pathname.includes("/dashboard/settings")) {
       setSettingsOpened(true);
     }
   }, [pathname]);
-
-  if (!mounted) return null;
 
   return (
     <AppShell
@@ -402,6 +405,26 @@ export function DashboardAppShell({
           />
 
           <NavLink
+            label={t.masterSetting}
+            leftSection={<IconSettings size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={masterSettingOpened}
+            onChange={setMasterSettingOpened}
+          >
+            <NavLink
+              component={Link}
+              href="/dashboard/master-setting/unit-types"
+              label={t.unitTypes}
+              leftSection={<IconPalette size={18} />}
+              className={classes.navLink}
+              active={pathname === "/dashboard/master-setting/unit-types"}
+            />
+            <NavLink component={Link} href="/dashboard/master-setting/payment-method" label="Payment Methods" leftSection={<IconCreditCard size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-method"} />
+            <NavLink component={Link} href="/dashboard/master-setting/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-type"} />
+          </NavLink>
+
+          <NavLink
             label={t.propertyManagement}
             leftSection={<IconBuilding size={20} />}
             childrenOffset={28}
@@ -432,14 +455,6 @@ export function DashboardAppShell({
               leftSection={<IconHome size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/units"}
-            />
-            <NavLink
-              component={Link}
-              href="/dashboard/unit-types"
-              label={t.unitTypes}
-              leftSection={<IconPalette size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/unit-types"}
             />
             <NavLink
               component={Link}
@@ -626,8 +641,6 @@ export function DashboardAppShell({
             <NavLink component={Link} href="/dashboard/settings/currency-tax" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/currency-tax"} />
             <NavLink component={Link} href="/dashboard/settings/notification-settings" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notification-settings"} />
             <NavLink component={Link} href="/dashboard/settings/backup" label={t.backup} leftSection={<IconDeviceFloppy size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/backup"} />
-            <NavLink component={Link} href="/dashboard/settings/payment-method" label="Payment Methods" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/payment-method"} />
-            <NavLink component={Link} href="/dashboard/settings/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/payment-type"} />
           </NavLink>
         </Box>
       </AppShell.Navbar>

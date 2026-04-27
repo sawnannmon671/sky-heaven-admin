@@ -55,7 +55,7 @@ export default function FamilyMemberDetailPage() {
       </Group>
 
       {item ? (
-        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
           <Group align="flex-start" mb="xl">
             <Avatar size="xl" radius="md" color="cyan">{item.name.charAt(0)}</Avatar>
             <Stack gap="xs" style={{ flex: 1 }}>
@@ -117,7 +117,7 @@ export default function FamilyMemberDetailPage() {
           </Group>
         </Paper>
       ) : (
-        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
           <Text c="dimmed" ta="center" py="xl">Family member record not found.</Text>
         </Paper>
       )}

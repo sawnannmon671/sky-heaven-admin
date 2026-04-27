@@ -112,7 +112,7 @@ export default function ResidentDirectoryPage() {
         </Stack>
       </Group>
 
-      <Paper p="md" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
+      <Paper p="md" radius="md" withBorder shadow="sm">
         <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="md" color="#014F86">
           <Tabs.List>
             {residentTypes.map(type => {

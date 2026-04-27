@@ -67,7 +67,7 @@ export default function FloorDetailPage() {
         {/* Left Column: Status */}
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Stack gap="md">
-            <Paper p="xl" radius="lg" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#F8F9FA' }}>
+            <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#F8F9FA' }}>
               <Stack align="center" gap="lg">
                 <Box p="xl" bg="white" style={{ borderRadius: 16, boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
                   <IconLayoutBoardSplit size={80} color="var(--mantine-color-indigo-6)" />
@@ -88,7 +88,7 @@ export default function FloorDetailPage() {
               </Stack>
             </Paper>
 
-            <Paper p="md" radius="lg" withBorder style={{ border: '1px solid #E9ECEF' }}>
+            <Paper p="md" radius="md" withBorder style={{ border: '1px solid #E9ECEF' }}>
               <Stack gap="sm">
                 <Text fw={600} size="sm" c="dimmed" tt="uppercase">Quick Actions</Text>
                 <Button variant="light" color="indigo" fullWidth>Edit Floor Info</Button>
@@ -102,7 +102,7 @@ export default function FloorDetailPage() {
         <Grid.Col span={{ base: 12, md: 8 }}>
           <Stack gap="xl">
             {/* Stats Info Card */}
-            <Paper p="xl" radius="lg" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
+            <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
               <Group gap="sm" mb="xl">
                 <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
                   <IconBuildingSkyscraper size={20} />
@@ -144,7 +144,7 @@ export default function FloorDetailPage() {
             </Paper>
 
             {/* Additional Info */}
-            <Paper p="xl" radius="lg" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
+            <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
               <Group gap="sm" mb="md">
                 <ThemeIcon variant="light" color="gray" size="lg" radius="md">
                   <IconFileDescription size={20} />

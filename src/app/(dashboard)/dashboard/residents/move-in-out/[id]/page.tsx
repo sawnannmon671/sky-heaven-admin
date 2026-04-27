@@ -61,7 +61,7 @@ export default function MoveInOutDetailPage() {
       </Group>
 
       {item ? (
-        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
           <Group align="center" justify="space-between" mb="xl">
             <Group>
               <ThemeIcon size="xl" radius="md" color={getTypeColor(item.type)} variant="light">
@@ -128,7 +128,7 @@ export default function MoveInOutDetailPage() {
           </Group>
         </Paper>
       ) : (
-        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
           <Text c="dimmed" ta="center" py="xl">Request record not found.</Text>
         </Paper>
       )}

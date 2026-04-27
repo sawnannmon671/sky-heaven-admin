@@ -63,7 +63,7 @@ export default function ResidentDetailPage() {
       </Group>
 
       {item ? (
-        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
           <Group align="flex-start" mb="xl">
             <Avatar size="xl" radius="md" color="indigo">{item.name.charAt(0)}</Avatar>
             <Stack gap="xs" style={{ flex: 1 }}>
@@ -125,7 +125,7 @@ export default function ResidentDetailPage() {
           </Group>
         </Paper>
       ) : (
-        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+        <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
           <Text c="dimmed" ta="center" py="xl">Resident record not found.</Text>
         </Paper>
       )}

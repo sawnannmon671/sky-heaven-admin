@@ -304,7 +304,7 @@ export default function AmenityDetailPage() {
                 </Text>
               </Box>
 
-              <Paper radius="lg" p="xl" style={{ border: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+              <Paper radius="md" p="xl" style={{ border: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group mb="xl" gap="xs">
                   <ThemeIcon variant="light" color="green" size="md" radius="sm">
                     <IconShieldCheck size={20} />
@@ -328,7 +328,7 @@ export default function AmenityDetailPage() {
           {/* Side Info Cards */}
           <Grid.Col span={{ base: 12, md: 4 }}>
             <Stack gap="xl">
-              <Paper radius="lg" p="xl" style={{ border: '1px solid #e9ecef', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
+              <Paper radius="md" p="xl" style={{ border: '1px solid #e9ecef', boxShadow: '0 4px 20px rgba(0,0,0,0.03)' }}>
                 <Stack gap="xl">
                   <Group wrap="nowrap" gap="lg">
                     <ThemeIcon size={48} radius="lg" variant="light" color="blue">
@@ -362,7 +362,7 @@ export default function AmenityDetailPage() {
                 </Stack>
               </Paper>
 
-              <Paper radius="lg" p="xl" style={{ backgroundColor: '#014F86', color: 'white' }}>
+              <Paper radius="md" p="xl" style={{ backgroundColor: '#014F86', color: 'white' }}>
                 <Stack gap="lg">
                   <Group gap="xs">
                     <IconUsers size={20} />

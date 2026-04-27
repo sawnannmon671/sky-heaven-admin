@@ -75,7 +75,7 @@ export default function DeliveryLogsDetailPage() {
         {/* Left Column: Status */}
         <Grid.Col span={{ base: 12, md: 4 }}>
           <Stack gap="md">
-            <Paper p="xl" radius="lg" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#F8F9FA' }}>
+            <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#F8F9FA' }}>
               <Stack align="center" gap="lg">
                 <Box p="xl" bg="white" style={{ borderRadius: 16, boxShadow: '0 4px 20px rgba(0,0,0,0.05)' }}>
                   <IconTruck size={80} color="var(--mantine-color-orange-6)" />
@@ -96,7 +96,7 @@ export default function DeliveryLogsDetailPage() {
               </Stack>
             </Paper>
 
-            <Paper p="md" radius="lg" withBorder style={{ border: '1px solid #E9ECEF' }}>
+            <Paper p="md" radius="md" withBorder style={{ border: '1px solid #E9ECEF' }}>
               <Stack gap="sm">
                 <Text fw={600} size="sm" c="dimmed" tt="uppercase">Quick Actions</Text>
                 {item.status === 'Pending' && (
@@ -115,7 +115,7 @@ export default function DeliveryLogsDetailPage() {
         <Grid.Col span={{ base: 12, md: 8 }}>
           <Stack gap="xl">
             {/* Delivery Info Card */}
-            <Paper p="xl" radius="lg" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
+            <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
               <Group gap="sm" mb="xl">
                 <ThemeIcon variant="light" color="orange" size="lg" radius="md">
                   <IconBox size={20} />
@@ -158,7 +158,7 @@ export default function DeliveryLogsDetailPage() {
             </Paper>
 
             {/* Recipient & Timings Card */}
-            <Paper p="xl" radius="lg" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
+            <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
               <Group gap="sm" mb="xl">
                 <ThemeIcon variant="light" color="teal" size="lg" radius="md">
                   <IconBuildingSkyscraper size={20} />

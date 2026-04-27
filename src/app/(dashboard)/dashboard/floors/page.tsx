@@ -120,7 +120,7 @@ export default function FloorsPage() {
         <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">{t.addBtn}</Button>
       </Group>
 
-      <Paper p="md" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
+      <Paper p="md" radius="md" withBorder shadow="sm">
         <Group mb="xl">
           <TextInput
             placeholder={t.searchPlaceholder}

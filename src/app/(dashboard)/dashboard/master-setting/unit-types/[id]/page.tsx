@@ -45,7 +45,7 @@ export default function DetailPage() {
         </Button>
       </Group>
 
-      <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 900, backgroundColor: '#ffffff' }}>
+      <Paper p="xl" radius="md" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 900, backgroundColor: '#ffffff' }}>
         {item ? (
           <Stack gap="xl">
             <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">

@@ -81,7 +81,7 @@ export default function AttendancePage() {
       </Group>
 
       
-      <Paper p="md" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
+      <Paper p="md" radius="md" withBorder shadow="sm">
         <Group justify="space-between" mb="md">
           <TextInput
             placeholder="Search..."

@@ -116,7 +116,7 @@ export default function UnitsPage() {
       </Table.Td>
       <Table.Td>
         <Group gap={4} justify="flex-end">
-          <ActionIcon variant="subtle" color="gray">
+          <ActionIcon component={Link} href={`/dashboard/units/${element.id}`} variant="subtle" color="gray">
             <IconEye size={16} />
           </ActionIcon>
           <ActionIcon variant="subtle" color="blue">

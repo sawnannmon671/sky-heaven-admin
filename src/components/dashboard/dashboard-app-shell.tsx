@@ -423,7 +423,7 @@ export function DashboardAppShell({
       <AppShell.Navbar className={classes.navbar}>
         <Box className={classes.navbarLinks}>
           <NavLink
-            component={Link} prefetch={true}
+            component={Link}
             href="/dashboard"
             label={t.dashboard}
             leftSection={<IconPalette size={20} />}
@@ -440,19 +440,19 @@ export function DashboardAppShell({
             onChange={setMasterSettingOpened}
           >
             <NavLink
-              component={Link} prefetch={true}
+              component={Link}
               href="/dashboard/master-setting/unit-types"
               label={t.unitTypes}
               leftSection={<IconPalette size={18} />}
               className={classes.navLink}
               active={pathname === "/dashboard/master-setting/unit-types"}
             />
-            <NavLink component={Link} prefetch={true} href="/dashboard/master-setting/payment-method" label="Payment Methods" leftSection={<IconCreditCard size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-method"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/master-setting/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-type"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/master-setting/document-type" label="Document Types" leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/document-type"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/master-setting/staff-type" label="Staff Types" leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/staff-type"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/master-setting/resident-type" label="Resident Types" leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/resident-type"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/master-setting/utility-bills-type" label={t.utilityBillsType} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/utility-bills-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/payment-method" label="Payment Methods" leftSection={<IconCreditCard size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-method"} />
+            <NavLink component={Link} href="/dashboard/master-setting/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/document-type" label="Document Types" leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/document-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/staff-type" label="Staff Types" leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/staff-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/resident-type" label="Resident Types" leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/resident-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/utility-bills-type" label={t.utilityBillsType} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/utility-bills-type"} />
           </NavLink>
 
           <NavLink
@@ -464,7 +464,7 @@ export function DashboardAppShell({
             onChange={setPropertyOpened}
           >
             <NavLink
-              component={Link} prefetch={true}
+              component={Link}
               href="/dashboard/buildings"
               label={t.buildings}
               leftSection={<IconBuilding size={18} />}
@@ -472,7 +472,7 @@ export function DashboardAppShell({
               active={pathname === "/dashboard/buildings"}
             />
             <NavLink
-              component={Link} prefetch={true}
+              component={Link}
               href="/dashboard/floors"
               label={t.floors}
               leftSection={<IconDatabase size={18} />}
@@ -480,7 +480,7 @@ export function DashboardAppShell({
               active={pathname === "/dashboard/floors"}
             />
             <NavLink
-              component={Link} prefetch={true}
+              component={Link}
               href="/dashboard/units"
               label={t.units}
               leftSection={<IconHome size={18} />}
@@ -488,7 +488,7 @@ export function DashboardAppShell({
               active={pathname === "/dashboard/units"}
             />
             <NavLink
-              component={Link} prefetch={true}
+              component={Link}
               href="/dashboard/facilities"
               label={t.facilities}
               leftSection={<IconBuilding size={18} />}
@@ -505,9 +505,9 @@ export function DashboardAppShell({
             opened={residentOpened}
             onChange={setResidentOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/residents/directory" label="Resident List" leftSection={<IconAddressBook size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/directory"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/residents/family" label={t.familyMembers} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/family"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/residents/move-in-out" label={t.moveInOut} leftSection={<IconUserPlus size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/move-in-out"} />
+            <NavLink component={Link} href="/dashboard/residents/directory" label="Resident List" leftSection={<IconAddressBook size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/directory"} />
+            <NavLink component={Link} href="/dashboard/residents/family" label={t.familyMembers} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/family"} />
+            <NavLink component={Link} href="/dashboard/residents/move-in-out" label={t.moveInOut} leftSection={<IconUserPlus size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/move-in-out"} />
           </NavLink>
 
           <NavLink
@@ -518,14 +518,14 @@ export function DashboardAppShell({
             opened={financeOpened}
             onChange={setFinanceOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/invoice" label={t.invoiceGeneration} leftSection={<IconFileInvoice size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/invoice"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/maintenance" label={t.maintenanceFees} leftSection={<IconTools size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/maintenance"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/utilities" label={t.utilityBills} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/utilities"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/late-fees" label={t.lateFees} leftSection={<IconAlertTriangle size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/late-fees"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/payments" label={t.paymentRecords} leftSection={<IconHistory size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/payments"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/refunds" label={t.refunds} leftSection={<IconRotate2 size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/refunds"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/expenses" label={t.expenseTracking} leftSection={<IconReportMoney size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/expenses"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/billing/reports" label={t.financialReports} leftSection={<IconChartPie size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/reports"} />
+            <NavLink component={Link} href="/dashboard/billing/invoice" label={t.invoiceGeneration} leftSection={<IconFileInvoice size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/invoice"} />
+            <NavLink component={Link} href="/dashboard/billing/maintenance" label={t.maintenanceFees} leftSection={<IconTools size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/maintenance"} />
+            <NavLink component={Link} href="/dashboard/billing/utilities" label={t.utilityBills} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/utilities"} />
+            <NavLink component={Link} href="/dashboard/billing/late-fees" label={t.lateFees} leftSection={<IconAlertTriangle size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/late-fees"} />
+            <NavLink component={Link} href="/dashboard/billing/payments" label={t.paymentRecords} leftSection={<IconHistory size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/payments"} />
+            <NavLink component={Link} href="/dashboard/billing/refunds" label={t.refunds} leftSection={<IconRotate2 size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/refunds"} />
+            <NavLink component={Link} href="/dashboard/billing/expenses" label={t.expenseTracking} leftSection={<IconReportMoney size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/expenses"} />
+            <NavLink component={Link} href="/dashboard/billing/reports" label={t.financialReports} leftSection={<IconChartPie size={18} />} className={classes.navLink} active={pathname === "/dashboard/billing/reports"} />
           </NavLink>
 
           <NavLink
@@ -536,11 +536,11 @@ export function DashboardAppShell({
             opened={operationsOpened}
             onChange={setOperationsOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/maintenance/create" label={t.createTicket} leftSection={<IconTicket size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/create"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/maintenance/orders" label={t.workOrders} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/orders"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/maintenance/technician" label={t.technicianAssignment} leftSection={<IconUserCog size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/technician"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/maintenance/preventive" label={t.preventiveMaintenance} leftSection={<IconCalendarStats size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/preventive"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/maintenance/complaints" label={t.complaintManagement} leftSection={<IconMessageExclamation size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/complaints"} />
+            <NavLink component={Link} href="/dashboard/maintenance/create" label={t.createTicket} leftSection={<IconTicket size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/create"} />
+            <NavLink component={Link} href="/dashboard/maintenance/orders" label={t.workOrders} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/orders"} />
+            <NavLink component={Link} href="/dashboard/maintenance/technician" label={t.technicianAssignment} leftSection={<IconUserCog size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/technician"} />
+            <NavLink component={Link} href="/dashboard/maintenance/preventive" label={t.preventiveMaintenance} leftSection={<IconCalendarStats size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/preventive"} />
+            <NavLink component={Link} href="/dashboard/maintenance/complaints" label={t.complaintManagement} leftSection={<IconMessageExclamation size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/complaints"} />
           </NavLink>
 
           {/* Parking Menu Hidden
@@ -552,9 +552,9 @@ export function DashboardAppShell({
             opened={parkingOpened}
             onChange={setParkingOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/parking/slots" label={t.parkingSlots} leftSection={<IconParkingCircle size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/slots"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/parking/registration" label={t.vehicleRegistration} leftSection={<IconId size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/registration"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/parking/guest" label={t.guestParking} leftSection={<IconUserCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/guest"} />
+            <NavLink component={Link} href="/dashboard/parking/slots" label={t.parkingSlots} leftSection={<IconParkingCircle size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/slots"} />
+            <NavLink component={Link} href="/dashboard/parking/registration" label={t.vehicleRegistration} leftSection={<IconId size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/registration"} />
+            <NavLink component={Link} href="/dashboard/parking/guest" label={t.guestParking} leftSection={<IconUserCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/parking/guest"} />
           </NavLink>
           */}
 
@@ -566,10 +566,10 @@ export function DashboardAppShell({
             opened={visitorOpened}
             onChange={setVisitorOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/visitors/registration" label="Visitor Registration" leftSection={<IconIdBadge size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/registration"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/visitors/delivery" label={t.deliveryLogs} leftSection={<IconTruck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/delivery"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/visitors/approval" label="Approval" leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/approval"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/visitors/history" label="History" leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/history"} />
+            <NavLink component={Link} href="/dashboard/visitors/registration" label="Visitor Registration" leftSection={<IconIdBadge size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/registration"} />
+            <NavLink component={Link} href="/dashboard/visitors/delivery" label={t.deliveryLogs} leftSection={<IconTruck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/delivery"} />
+            <NavLink component={Link} href="/dashboard/visitors/approval" label="Approval" leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/approval"} />
+            <NavLink component={Link} href="/dashboard/visitors/history" label="History" leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/visitors/history"} />
           </NavLink>
 
           <NavLink
@@ -580,10 +580,10 @@ export function DashboardAppShell({
             opened={amenitiesOpened}
             onChange={setAmenitiesOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/amenities/gym" label={t.gymBooking} leftSection={<IconBarbell size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/gym"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/amenities/pool" label={t.poolBooking} leftSection={<IconPool size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/pool"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/amenities/meeting" label={t.meetingRoom} leftSection={<IconArmchair size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/meeting"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/amenities/event" label={t.eventHall} leftSection={<IconGlassFull size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/event"} />
+            <NavLink component={Link} href="/dashboard/amenities/gym" label={t.gymBooking} leftSection={<IconBarbell size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/gym"} />
+            <NavLink component={Link} href="/dashboard/amenities/pool" label={t.poolBooking} leftSection={<IconPool size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/pool"} />
+            <NavLink component={Link} href="/dashboard/amenities/meeting" label={t.meetingRoom} leftSection={<IconArmchair size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/meeting"} />
+            <NavLink component={Link} href="/dashboard/amenities/event" label={t.eventHall} leftSection={<IconGlassFull size={18} />} className={classes.navLink} active={pathname === "/dashboard/amenities/event"} />
           </NavLink>
 
           <NavLink
@@ -594,10 +594,10 @@ export function DashboardAppShell({
             opened={communicationOpened}
             onChange={setCommunicationOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/announcements" label={t.announcements} leftSection={<IconSpeakerphone size={18} />} className={classes.navLink} active={pathname === "/dashboard/announcements"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/communication/notices" label={t.notices} leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/notices"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/communication/broadcast" label={t.broadcast} leftSection={<IconMail size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/broadcast"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/communication/feedback" label={t.feedback} leftSection={<IconMessageReport size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/feedback"} />
+            <NavLink component={Link} href="/dashboard/announcements" label={t.announcements} leftSection={<IconSpeakerphone size={18} />} className={classes.navLink} active={pathname === "/dashboard/announcements"} />
+            <NavLink component={Link} href="/dashboard/communication/notices" label={t.notices} leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/notices"} />
+            <NavLink component={Link} href="/dashboard/communication/broadcast" label={t.broadcast} leftSection={<IconMail size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/broadcast"} />
+            <NavLink component={Link} href="/dashboard/communication/feedback" label={t.feedback} leftSection={<IconMessageReport size={18} />} className={classes.navLink} active={pathname === "/dashboard/communication/feedback"} />
           </NavLink>
 
           <NavLink
@@ -608,9 +608,9 @@ export function DashboardAppShell({
             opened={staffOpened}
             onChange={setStaffOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/staff/list" label={t.staffList} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/list"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/staff/attendance" label={t.attendance} leftSection={<IconClock size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/attendance"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/staff/shift" label={t.shiftSchedule} leftSection={<IconCalendarTime size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/shift"} />
+            <NavLink component={Link} href="/dashboard/staff/list" label={t.staffList} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/list"} />
+            <NavLink component={Link} href="/dashboard/staff/attendance" label={t.attendance} leftSection={<IconClock size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/attendance"} />
+            <NavLink component={Link} href="/dashboard/staff/shift" label={t.shiftSchedule} leftSection={<IconCalendarTime size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/shift"} />
           </NavLink>
 
           <NavLink
@@ -621,7 +621,7 @@ export function DashboardAppShell({
             opened={adminOpened}
             onChange={setAdminOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/documents/list" label="Document List" leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/list"} />
+            <NavLink component={Link} href="/dashboard/documents/list" label="Document List" leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/list"} />
           </NavLink>
 
           <NavLink
@@ -632,11 +632,11 @@ export function DashboardAppShell({
             opened={reportsOpened}
             onChange={setReportsOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/reports/payment" label={t.paymentReport} leftSection={<IconCash size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/payment"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/reports/occupancy" label={t.occupancyReport} leftSection={<IconHome size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/occupancy"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/reports/maintenance" label={t.maintenanceReport} leftSection={<IconTools size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/maintenance"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/reports/visitor" label={t.visitorReport} leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/visitor"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/reports/parking" label={t.parkingReport} leftSection={<IconCar size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/parking"} />
+            <NavLink component={Link} href="/dashboard/reports/payment" label={t.paymentReport} leftSection={<IconCash size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/payment"} />
+            <NavLink component={Link} href="/dashboard/reports/occupancy" label={t.occupancyReport} leftSection={<IconHome size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/occupancy"} />
+            <NavLink component={Link} href="/dashboard/reports/maintenance" label={t.maintenanceReport} leftSection={<IconTools size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/maintenance"} />
+            <NavLink component={Link} href="/dashboard/reports/visitor" label={t.visitorReport} leftSection={<IconDoorEnter size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/visitor"} />
+            <NavLink component={Link} href="/dashboard/reports/parking" label={t.parkingReport} leftSection={<IconCar size={18} />} className={classes.navLink} active={pathname === "/dashboard/reports/parking"} />
           </NavLink>
 
           <NavLink
@@ -647,9 +647,9 @@ export function DashboardAppShell({
             opened={userManagementOpened}
             onChange={setUserManagementOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/user-management/users" label={t.users} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/users"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/user-management/roles" label={t.roles} leftSection={<IconLock size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/roles"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/user-management/access-logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/access-logs"} />
+            <NavLink component={Link} href="/dashboard/user-management/users" label={t.users} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/users"} />
+            <NavLink component={Link} href="/dashboard/user-management/roles" label={t.roles} leftSection={<IconLock size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/roles"} />
+            <NavLink component={Link} href="/dashboard/user-management/access-logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/access-logs"} />
           </NavLink>
 
           <NavLink
@@ -660,11 +660,11 @@ export function DashboardAppShell({
             opened={settingsOpened}
             onChange={setSettingsOpened}
           >
-            <NavLink component={Link} prefetch={true} href="/dashboard/settings/company-profile" label={t.companyProfile} leftSection={<IconBuilding size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/company-profile"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/settings/condo-info" label={t.condoInfo} leftSection={<IconBuildingSkyscraper size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/condo-info"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/settings/currency-tax" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/currency-tax"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/settings/notification-settings" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notification-settings"} />
-            <NavLink component={Link} prefetch={true} href="/dashboard/settings/backup" label={t.backup} leftSection={<IconDeviceFloppy size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/backup"} />
+            <NavLink component={Link} href="/dashboard/settings/company-profile" label={t.companyProfile} leftSection={<IconBuilding size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/company-profile"} />
+            <NavLink component={Link} href="/dashboard/settings/condo-info" label={t.condoInfo} leftSection={<IconBuildingSkyscraper size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/condo-info"} />
+            <NavLink component={Link} href="/dashboard/settings/currency-tax" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/currency-tax"} />
+            <NavLink component={Link} href="/dashboard/settings/notification-settings" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notification-settings"} />
+            <NavLink component={Link} href="/dashboard/settings/backup" label={t.backup} leftSection={<IconDeviceFloppy size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/backup"} />
           </NavLink>
         </Box>
       </AppShell.Navbar>

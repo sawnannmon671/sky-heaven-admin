@@ -1,43 +1,57 @@
 "use client";
 
-import {  Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider , SimpleGrid, Badge, Box } from "@mantine/core";
-import { IconChevronLeft, IconInfoCircle } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider, SimpleGrid, Badge, Box } from "@mantine/core";
+import { IconChevronLeft, IconUserPlus, IconUser, IconHome, IconCalendarEvent, IconActivity } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const mockData = [
-    { id: "REQ-001", type: "Move In", residentName: "U Tun Tun", unit: "A-101", date: "2024-05-01", status: "Approved" },
-    { id: "REQ-002", type: "Move Out", residentName: "Daw Mya Mya", unit: "B-205", date: "2024-04-15", status: "Pending" },
-    { id: "REQ-003", type: "Move In", residentName: "U Hlaing Bwar", unit: "C-304", date: "2024-06-01", status: "Approved" },
-    { id: "REQ-004", type: "Move Out", residentName: "Daw Thandar", unit: "A-502", date: "2024-03-20", status: "Completed" },
-    { id: "REQ-005", type: "Move In", residentName: "U Nyan Lin", unit: "D-102", date: "2024-05-10", status: "Rejected" },
-  ];
+  { id: "REQ-001", type: "Move In", residentName: "U Tun Tun", unit: "A-101", date: "2024-05-01", status: "Approved" },
+  { id: "REQ-002", type: "Move Out", residentName: "Daw Mya Mya", unit: "B-205", date: "2024-04-15", status: "Pending" },
+  { id: "REQ-003", type: "Move In", residentName: "U Hlaing Bwar", unit: "C-304", date: "2024-06-01", status: "Approved" },
+  { id: "REQ-004", type: "Move Out", residentName: "Daw Thandar", unit: "A-502", date: "2024-03-20", status: "Completed" },
+  { id: "REQ-005", type: "Move In", residentName: "U Nyan Lin", unit: "D-102", date: "2024-05-10", status: "Rejected" },
+];
 
-export default function DetailPage() {
-  const { mounted } = useTranslation();
+export default function MoveInOutDetailPage() {
+  const { lang, mounted } = useTranslation();
   const params = useParams();
   const id = params.id as string;
 
-  
+  const item = mockData.find((d) => d.id === id);
 
-  const item = mockData.find((d: any) => String(d.id) === String(id));
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'approved': return 'blue';
+      case 'completed': return 'green';
+      case 'rejected': return 'red';
+      case 'pending': return 'yellow';
+      default: return 'gray';
+    }
+  };
+
+  const getTypeColor = (type: string) => {
+    return type === 'Move In' ? 'green' : 'orange';
+  };
+
+  if (!mounted) return null;
 
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
           <Group gap="xs">
-            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-              <IconInfoCircle size={20} />
+            <ThemeIcon variant="light" color="orange" size="lg" radius="md">
+              <IconUserPlus size={20} />
             </ThemeIcon>
-            <Title order={2}>Move Record Details</Title>
+            <Title order={2}>Move In / Move Out Request</Title>
           </Group>
-          <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
+          <Text c="dimmed" size="sm">Request details for {id}</Text>
         </Stack>
         <Button 
           component={Link} 
-          href="../" 
+          href="/dashboard/residents/move-in-out" 
           variant="subtle" 
           leftSection={<IconChevronLeft size={16} />}
           color="gray"
@@ -46,44 +60,78 @@ export default function DetailPage() {
         </Button>
       </Group>
 
-      <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 900, backgroundColor: '#ffffff' }}>
-        {item ? (
-          <Stack gap="xl">
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
-              <Box>
-                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4}>ID</Text>
-                <Text size="lg" fw={500}>{id}</Text>
-              </Box>
-              
-              {Object.entries(item).map(([key, value]) => {
-                if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
-                
-                const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
-                const isStatus = key.toLowerCase().includes('status');
-                
-                return (
-                  <Box key={key}>
-                    <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4} style={{ textTransform: 'capitalize' }}>
-                      {formattedKey}
-                    </Text>
-                    {isStatus ? (
-                      <Badge color={(item as any).color || 'blue'} variant="light" size="lg" radius="md">
-                        {String(value)}
-                      </Badge>
-                    ) : (
-                      <Text size="lg" fw={500} style={{ wordBreak: 'break-word' }}>
-                        {String(value)}
-                      </Text>
-                    )}
-                  </Box>
-                );
-              })}
-            </SimpleGrid>
-          </Stack>
-        ) : (
-          <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
-        )}
-      </Paper>
+      {item ? (
+        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+          <Group align="center" justify="space-between" mb="xl">
+            <Group>
+              <ThemeIcon size="xl" radius="md" color={getTypeColor(item.type)} variant="light">
+                <IconUserPlus size={24} />
+              </ThemeIcon>
+              <Stack gap={0}>
+                <Title order={3}>{item.type} Request</Title>
+                <Text c="dimmed" size="sm">ID: {item.id}</Text>
+              </Stack>
+            </Group>
+            <Badge color={getStatusColor(item.status)} variant="filled" size="lg">
+              {item.status}
+            </Badge>
+          </Group>
+
+          <Divider my="lg" />
+
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xl">
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="indigo" size="sm"><IconUser size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Resident Name</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.residentName}</Text>
+            </Box>
+
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="grape" size="sm"><IconHome size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Unit</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.unit}</Text>
+            </Box>
+
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="teal" size="sm"><IconCalendarEvent size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Date</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.date}</Text>
+            </Box>
+
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="cyan" size="sm"><IconActivity size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Current Status</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.status}</Text>
+            </Box>
+          </SimpleGrid>
+
+          <Divider my="lg" />
+
+          <Group justify="flex-end">
+            {item.status === 'Pending' && (
+              <>
+                <Button variant="outline" color="red">Reject</Button>
+                <Button variant="filled" color="blue">Approve</Button>
+              </>
+            )}
+            {item.status === 'Approved' && (
+              <Button variant="filled" color="green">Mark as Completed</Button>
+            )}
+          </Group>
+        </Paper>
+      ) : (
+        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+          <Text c="dimmed" ta="center" py="xl">Request record not found.</Text>
+        </Paper>
+      )}
     </Stack>
   );
 }

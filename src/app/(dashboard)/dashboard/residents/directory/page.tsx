@@ -154,7 +154,7 @@ export default function ResidentDirectoryPage() {
                 </Table.Td>
                 <Table.Td>
                   <Group gap={8}>
-                    <ActionIcon variant="light" color="blue" size="sm"><IconEye size={16} /></ActionIcon>
+                    <ActionIcon component={Link} href={`/dashboard/residents/directory/${item.id}`} variant="light" color="blue" size="sm"><IconEye size={16} /></ActionIcon>
                     <ActionIcon variant="light" color="orange" size="sm"><IconEdit size={16} /></ActionIcon>
                     <ActionIcon variant="light" color="red" size="sm"><IconTrash size={16} /></ActionIcon>
                   </Group>

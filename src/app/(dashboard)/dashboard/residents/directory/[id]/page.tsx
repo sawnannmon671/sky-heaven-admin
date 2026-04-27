@@ -1,89 +1,134 @@
 "use client";
 
-import {  Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider , SimpleGrid, Badge, Box } from "@mantine/core";
-import { IconChevronLeft, IconInfoCircle } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider, SimpleGrid, Badge, Box, Avatar } from "@mantine/core";
+import { IconChevronLeft, IconUser, IconPhone, IconHome, IconCalendarEvent, IconAddressBook } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
 
 const mockData = [
-    { id: "RES-001", name: "U Aung Aung", role: "Owner", unit: "A-101", phone: "+95 9 123 456 789", moveInDate: "2020-01-15", status: "Resident" },
-    { id: "RES-002", name: "Daw Mya Mya", role: "Tenant", unit: "B-205", phone: "+95 9 987 654 321", moveInDate: "2023-07-01", status: "Resident" },
-    { id: "RES-003", name: "Mg Thura", role: "Family Member", unit: "A-502", phone: "+95 9 111 222 333", moveInDate: "2021-03-10", status: "Resident" },
-    { id: "RES-004", name: "U Zaw Myo", role: "Owner", unit: "D-102", phone: "+95 9 444 888 999", moveInDate: "2019-11-20", status: "Resident" },
-    { id: "RES-005", name: "Daw Thandar", role: "Tenant", unit: "A-502", phone: "+95 9 555 666 777", moveInDate: "2022-08-15", status: "Past Resident" },
-  ];
+  { id: "RES-001", name: "U Aung Aung", residentType: "Owner", unit: "A-101", phone: "+95 9 123 456 789", moveInDate: "2020-01-15", status: "Active" },
+  { id: "RES-002", name: "Daw Mya Mya", residentType: "Tenant", unit: "B-205", phone: "+95 9 987 654 321", moveInDate: "2023-07-01", status: "Active" },
+  { id: "RES-003", name: "Mg Thura", residentType: "Owner", unit: "A-502", phone: "+95 9 111 222 333", moveInDate: "2021-03-10", status: "Active" },
+  { id: "RES-004", name: "U Zaw Myo", residentType: "Owner", unit: "D-102", phone: "+95 9 444 888 999", moveInDate: "2019-11-20", status: "Active" },
+  { id: "RES-005", name: "Daw Thandar", residentType: "Tenant", unit: "A-502", phone: "+95 9 555 666 777", moveInDate: "2022-08-15", status: "Inactive" },
+];
 
-export default function DetailPage() {
-  const { mounted } = useTranslation();
+export default function ResidentDetailPage() {
+  const { lang, mounted } = useTranslation();
   const params = useParams();
   const id = params.id as string;
 
-  
+  const item = mockData.find((d) => d.id === id);
 
-  const item = mockData.find((d: any) => String(d.id) === String(id));
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'active': return 'green';
+      case 'inactive': return 'gray';
+      default: return 'blue';
+    }
+  };
+
+  const getTypeColor = (type: string) => {
+    switch (type.toLowerCase()) {
+      case 'owner': return 'blue';
+      case 'tenant': return 'teal';
+      default: return 'gray';
+    }
+  };
+
+  if (!mounted) return null;
 
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
           <Group gap="xs">
-            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-              <IconInfoCircle size={20} />
+            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
+              <IconAddressBook size={20} />
             </ThemeIcon>
-            <Title order={2}>Directory Details</Title>
+            <Title order={2}>Resident Details</Title>
           </Group>
-          <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
+          <Text c="dimmed" size="sm">Detailed information for {item?.name || id}</Text>
         </Stack>
         <Button 
           component={Link} 
-          href="../" 
+          href="/dashboard/residents/directory" 
           variant="subtle" 
           leftSection={<IconChevronLeft size={16} />}
           color="gray"
         >
-          Back to List
+          Back to Directory
         </Button>
       </Group>
 
-      <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 900, backgroundColor: '#ffffff' }}>
-        {item ? (
-          <Stack gap="xl">
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="xl">
-              <Box>
-                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4}>ID</Text>
-                <Text size="lg" fw={500}>{id}</Text>
-              </Box>
-              
-              {Object.entries(item).map(([key, value]) => {
-                if (key === 'id' || key === 'color' || key === 'icon' || typeof value === 'object') return null;
-                
-                const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
-                const isStatus = key.toLowerCase().includes('status');
-                
-                return (
-                  <Box key={key}>
-                    <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4} style={{ textTransform: 'capitalize' }}>
-                      {formattedKey}
-                    </Text>
-                    {isStatus ? (
-                      <Badge color={(item as any).color || 'blue'} variant="light" size="lg" radius="md">
-                        {String(value)}
-                      </Badge>
-                    ) : (
-                      <Text size="lg" fw={500} style={{ wordBreak: 'break-word' }}>
-                        {String(value)}
-                      </Text>
-                    )}
-                  </Box>
-                );
-              })}
-            </SimpleGrid>
-          </Stack>
-        ) : (
-          <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
-        )}
-      </Paper>
+      {item ? (
+        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+          <Group align="flex-start" mb="xl">
+            <Avatar size="xl" radius="md" color="indigo">{item.name.charAt(0)}</Avatar>
+            <Stack gap="xs" style={{ flex: 1 }}>
+              <Group justify="space-between">
+                <Title order={3}>{item.name}</Title>
+                <Badge color={getStatusColor(item.status)} variant="light" size="lg">
+                  {item.status}
+                </Badge>
+              </Group>
+              <Text c="dimmed" size="sm">ID: {item.id}</Text>
+              <Group gap="sm" mt={4}>
+                <Badge color={getTypeColor(item.residentType)} variant="dot">{item.residentType}</Badge>
+                <Badge color="gray" variant="outline" leftSection={<IconHome size={12} />}>{item.unit}</Badge>
+              </Group>
+            </Stack>
+          </Group>
+
+          <Divider my="lg" />
+
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xl">
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="blue" size="sm"><IconPhone size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Contact Phone</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.phone}</Text>
+            </Box>
+
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="cyan" size="sm"><IconCalendarEvent size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Move In Date</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.moveInDate}</Text>
+            </Box>
+
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="indigo" size="sm"><IconUser size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Resident Type</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.residentType}</Text>
+            </Box>
+
+            <Box>
+              <Group gap="sm" mb={4}>
+                <ThemeIcon variant="light" color="grape" size="sm"><IconHome size={14} /></ThemeIcon>
+                <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1}>Assigned Unit</Text>
+              </Group>
+              <Text size="md" fw={500} ml={34}>{item.unit}</Text>
+            </Box>
+          </SimpleGrid>
+
+          <Divider my="lg" />
+
+          <Group justify="flex-end">
+            <Button variant="light" color="blue">Edit Resident</Button>
+            <Button variant="light" color="red">Remove Resident</Button>
+          </Group>
+        </Paper>
+      ) : (
+        <Paper p="xl" radius="lg" shadow="sm" withBorder style={{ border: '1px solid #e9ecef', maxWidth: 800 }}>
+          <Text c="dimmed" ta="center" py="xl">Resident record not found.</Text>
+        </Paper>
+      )}
     </Stack>
   );
 }

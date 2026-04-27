@@ -254,19 +254,17 @@ export default function DashboardPage() {
           border: '1px solid rgba(255,255,255,0.2)',
           backgroundColor: stat.color,
           color: 'white',
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-          transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+          boxShadow: 'none',
+          transition: 'transform 0.2s ease',
           cursor: 'pointer',
           position: 'relative',
           overflow: 'hidden'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = `0 10px 25px ${stat.color}66`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
         }}
       >
         <Group justify="space-between" align="center" mb="lg">
@@ -274,7 +272,7 @@ export default function DashboardPage() {
             <Text size="sm" c="rgba(255,255,255,0.9)" fw={600} tt="uppercase" lts={1}>
               {t.stats[stat.id as keyof typeof t.stats]}
             </Text>
-            <Title order={2} style={{ fontSize: '2rem', fontWeight: 800 }}>
+            <Title order={2} style={{ fontSize: '2rem' }}>
               {stat.value}
             </Title>
           </Stack>

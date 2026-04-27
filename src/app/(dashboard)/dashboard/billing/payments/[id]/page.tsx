@@ -1,7 +1,7 @@
 "use client";
 
-import {  Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider, Badge, Box, ActionIcon } from "@mantine/core";
-import { IconChevronLeft, IconInfoCircle, IconDownload, IconPrinter, IconReceipt } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Divider, Badge, Box, Grid, SimpleGrid, Card, Table } from "@mantine/core";
+import { IconChevronLeft, IconInfoCircle, IconDownload, IconPrinter, IconReceipt, IconBuildingSkyscraper, IconUser, IconCalendarEvent, IconCreditCard, IconFileDescription } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { useParams } from "next/navigation";
@@ -19,127 +19,164 @@ export default function DetailPage() {
   const params = useParams();
   const id = params.id as string;
 
-  
-
   const item = mockData.find((d: any) => String(d.id) === String(id));
 
-  return (
-    <Stack gap="xl" p="md">
-      <Group justify="space-between">
-        <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-              <IconInfoCircle size={20} />
+  const getStatusColor = (status: string) => {
+    if (!status) return 'blue';
+    switch (status.toLowerCase()) {
+      case 'paid': case 'completed': case 'processed': case 'approved': case 'closed': return 'teal';
+      case 'unpaid': case 'pending': case 'ongoing': return 'orange';
+      case 'overdue': case 'failed': case 'rejected': return 'red';
+      default: return 'blue';
+    }
+  };
+
+  if (!item) {
+    return (
+      <Stack gap="xl" p="md" style={{ maxWidth: 1000, margin: '0 auto' }}>
+        <Paper p="xl" radius="xl" withBorder shadow="sm" style={{ backgroundColor: '#ffffff' }}>
+          <Stack align="center" py="xl">
+            <ThemeIcon size={80} radius="xl" color="gray" variant="light">
+              <IconInfoCircle size={40} />
             </ThemeIcon>
-            <Title order={2}>Payment Details</Title>
-          </Group>
-          <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
-        </Stack>
-        <Group>
-          <Button 
-            variant="outline" 
-            leftSection={<IconPrinter size={16} />}
-            color="gray"
-            onClick={() => window.print()}
-          >
-            Print
-          </Button>
-          <Button 
-            variant="filled" 
-            leftSection={<IconDownload size={16} />}
-            color="blue"
-          >
-            Download PDF
-          </Button>
-          <Button 
-            component={Link} 
-            href="../" 
-            variant="subtle" 
-            leftSection={<IconChevronLeft size={16} />}
-            color="gray"
-          >
-            Back to List
-          </Button>
+            <Title order={3} mt="md">Record Not Found</Title>
+            <Text c="dimmed" ta="center" maw={400}>The record you are looking for might have been removed or the ID is incorrect.</Text>
+            <Button component={Link} href="../" variant="light" color="gray" mt="md">Return to List</Button>
+          </Stack>
+        </Paper>
+      </Stack>
+    );
+  }
+
+  const entries = Object.entries(item).filter(([k, v]) => k !== 'color' && k !== 'icon' && typeof v !== 'object' && k !== 'id' && k !== 'status' && k !== 'amount' && k !== 'totalAmount' && k !== 'items');
+
+  return (
+    <Stack gap="xl" p="md" style={{ maxWidth: 1000, margin: '0 auto' }}>
+      <Group justify="space-between" align="center">
+        <Group gap="sm">
+          <ThemeIcon variant="light" color="blue" size="lg" radius="md">
+            <IconFileDescription size={20} />
+          </ThemeIcon>
+          <Title order={2}>Payment Details</Title>
         </Group>
+        <Button 
+          component={Link} 
+          href="../" 
+          variant="subtle" 
+          leftSection={<IconChevronLeft size={16} />}
+          color="gray"
+          px={0}
+        >
+          Back to List
+        </Button>
       </Group>
 
       <Box>
-        {item ? (() => {
-            const entries = Object.entries(item).filter(([k, v]) => k !== 'color' && k !== 'icon' && typeof v !== 'object' && k !== 'id' && k !== 'status' && k !== 'amount');
+        <Stack gap="xl">
+          {/* Simple Summary Box */}
+          <Paper radius="md" withBorder p="xl" bg="white" shadow="sm">
+            <Group justify="space-between" align="center">
+              <Box>
+                <Text c="dimmed" size="xs" fw={700} tt="uppercase" lts={1} mb={4}>Total Amount</Text>
+                <Title order={1} style={{ fontSize: '2.5rem', fontWeight: 800, color: '#2C2E33', letterSpacing: '-1px' }}>
+                  {item.amount || item.totalAmount || '-'}
+                </Title>
+                <Text c="dimmed" mt="sm" fw={500}>Reference: <Text component="span" fw={600} c="dark">{item.id}</Text></Text>
+              </Box>
+              <Badge 
+                color={getStatusColor(item.status)} 
+                size="xl" 
+                radius="sm" 
+                variant="light" 
+                style={{ textTransform: 'uppercase', letterSpacing: 1 }}
+              >
+                {item.status || 'Processed'}
+              </Badge>
+            </Group>
+          </Paper>
 
-            return (
-              <Box style={{ maxWidth: 800, margin: '0 auto' }}>
-                <Paper p="xl" radius="md" withBorder shadow="md" style={{ backgroundColor: '#ffffff' }}>
-                  {/* Receipt Header */}
-                  <Group justify="space-between" align="flex-start" mb="xl">
-                    <Group gap="md">
-                      <ThemeIcon size={50} radius="md" color="blue" variant="light">
-                        <IconReceipt size={30} />
-                      </ThemeIcon>
-                      <Box>
-                        <Title order={3}>Payment Details</Title>
-                        <Text c="dimmed" size="sm">Sky Heaven Residence</Text>
-                      </Box>
-                    </Group>
-                    <Box style={{ textAlign: 'right' }}>
-                      <Title order={2} mb={8}>{item.amount || '-'}</Title>
-                      <Badge color={(item as any).color || (item.status === 'Paid' || item.status === 'Completed' || item.status === 'Processed' ? 'green' : item.status === 'Overdue' || item.status === 'Failed' ? 'red' : 'orange')} variant="light" size="lg" radius="sm">
-                        {item.status || 'Processed'}
-                      </Badge>
-                    </Box>
-                  </Group>
-
-                  <Divider my="xl" variant="dashed" />
-
-                  {/* Key Info Row */}
-                  <Group grow align="flex-start" mb="xl">
-                    <Box>
-                      <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4}>Reference No.</Text>
-                      <Text size="md" fw={600}>{item.id}</Text>
-                    </Box>
-                    <Box>
-                      <Text size="xs" fw={700} c="dimmed" tt="uppercase" lts={1} mb={4}>Date Issued</Text>
-                      <Text size="md" fw={600}>{new Date().toISOString().split('T')[0]}</Text>
-                    </Box>
-                  </Group>
-
-                  {/* Detail List */}
-                  <Stack gap="md" mt="xl">
+          {/* Content Section */}
+          <Grid gutter="xl">
+            <Grid.Col span={{ base: 12, md: 8 }}>
+              <Stack gap="xl">
+                <Box>
+                  <Title order={3} mb="lg" style={{ fontWeight: 600 }}>Quick Facts</Title>
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="lg">
                     {entries.map(([key, value]) => {
                       const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
                       return (
-                        <Group key={key} justify="space-between" wrap="nowrap">
-                          <Text c="dimmed" style={{ textTransform: 'capitalize' }}>{formattedKey}</Text>
-                          <Text fw={500} style={{ textAlign: 'right' }}>{String(value)}</Text>
+                        <Group wrap="nowrap" key={key}>
+                          <ThemeIcon size={48} radius="md" variant="light" color="blue">
+                            <IconInfoCircle size={24} stroke={1.5} />
+                          </ThemeIcon>
+                          <Box>
+                            <Text size="xs" c="dimmed" tt="uppercase" fw={700} lts={1} style={{ textTransform: 'capitalize' }}>{formattedKey}</Text>
+                            <Text size="md" fw={500}>{String(value)}</Text>
+                          </Box>
                         </Group>
                       );
                     })}
-                  </Stack>
+                  </SimpleGrid>
+                </Box>
 
-                  <Divider my="xl" />
+                <Divider color="gray.2" />
 
-                  {/* Total Footer */}
+                {/* Detail List */}
+                <Box>
+                  <Title order={3} mb="md" style={{ fontWeight: 600 }}>Itemized Breakdown</Title>
+                  <Paper radius="md" withBorder p="md">
+                    <Stack gap="md">
+                      {entries.map(([key, value]) => {
+                        const formattedKey = key.replace(/([A-Z])/g, ' $1').trim();
+                        return (
+                          <Group key={key} justify="space-between" wrap="nowrap">
+                            <Text c="dimmed" style={{ textTransform: 'capitalize' }}>{formattedKey}</Text>
+                            <Text fw={500} style={{ textAlign: 'right' }}>{String(value)}</Text>
+                          </Group>
+                        );
+                      })}
+                    </Stack>
+                  </Paper>
+                </Box>
+              </Stack>
+            </Grid.Col>
+
+            <Grid.Col span={{ base: 12, md: 4 }}>
+              <Card shadow="sm" padding="xl" radius="xl" withBorder style={{ position: 'sticky', top: 20 }}>
+                <Text size="sm" c="dimmed" tt="uppercase" fw={700} lts={1} mb="xs">Actions & Summary</Text>
+                <Title order={3} mb="xl">Details</Title>
+                
+                <Stack gap="sm" mb="xl">
+                  <Group justify="space-between">
+                    <Text c="dimmed" size="sm">Subtotal</Text>
+                    <Text fw={500}>{item.amount || item.totalAmount || '-'}</Text>
+                  </Group>
+                  <Group justify="space-between">
+                    <Text c="dimmed" size="sm">Tax (0%)</Text>
+                    <Text fw={500}>$0.00</Text>
+                  </Group>
+                  <Divider my="xs" />
                   <Group justify="space-between" align="center">
                     <Text fw={700} size="lg">Total Amount</Text>
-                    <Text fw={800} size="xl" c="blue">{item.amount || '-'}</Text>
+                    <Text fw={800} size="xl" c="#014F86">{item.amount || item.totalAmount || '-'}</Text>
                   </Group>
+                </Stack>
 
-                  {/* Print/Footer Note */}
-                  <Box mt={40} style={{ textAlign: 'center' }}>
-                    <Text size="xs" c="dimmed">
-                      If you have any questions about this receipt, please contact support.
-                      <br />
-                      Thank you for your business!
-                    </Text>
-                  </Box>
-                </Paper>
-              </Box>
-            );
-          })() : (
-          <Paper p="xl" radius="md" withBorder shadow="sm" style={{ backgroundColor: '#ffffff' }}>
-            <Text c="dimmed" ta="center" py="xl">Record not found.</Text>
-          </Paper>
-        )}
+                <Stack gap="md">
+                  <Button fullWidth size="lg" radius="md" color="#014F86" leftSection={<IconCreditCard size={20} />}>
+                    Process / Action
+                  </Button>
+                  <Button fullWidth variant="light" size="md" radius="md" color="gray" leftSection={<IconDownload size={18} />}>
+                    Download PDF
+                  </Button>
+                  <Button fullWidth variant="subtle" size="md" radius="md" color="gray" leftSection={<IconPrinter size={18} />} onClick={() => window.print()}>
+                    Print Document
+                  </Button>
+                </Stack>
+              </Card>
+            </Grid.Col>
+          </Grid>
+        </Stack>
       </Box>
     </Stack>
   );

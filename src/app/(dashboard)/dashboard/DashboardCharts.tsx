@@ -56,41 +56,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
 
   return (
     <Grid gutter="xl">
-      {/* Finance Overview */}
-      <Grid.Col span={{ base: 12, lg: occupancyCard ? 8 : 12 }}>
-        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Title order={3}>Finance Overview</Title>
-            <Text size="xs" c="dimmed" fw={500}>Income vs Expenses</Text>
-          </Box>
-          <Box p="md" h={350}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={financeData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                  cursor={{ fill: '#f8f9fa' }}
-                />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="income" name="Income" fill="#014F86" radius={[4, 4, 0, 0]} barSize={30} />
-                <Bar dataKey="expense" name="Expense" fill={theme.colors.red[5]} radius={[4, 4, 0, 0]} barSize={30} />
-              </BarChart>
-            </ResponsiveContainer>
-          </Box>
-        </Paper>
-      </Grid.Col>
-
-      {/* Occupancy Card slot */}
-      {occupancyCard && (
-        <Grid.Col span={{ base: 12, lg: 4 }}>
-          {occupancyCard}
-        </Grid.Col>
-      )}
-
       {/* Billing Trends (Area Chart) */}
-      <Grid.Col span={{ base: 12, lg: 8 }}>
+      <Grid.Col span={{ base: 12, lg: occupancyCard ? 8 : 12 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
             <Title order={3}>Billing Trends</Title>
@@ -112,6 +79,39 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                 <Bar dataKey="bills" name="Bills" stackId="1" fill="#FF6B6B" maxBarSize={40} />
                 <Bar dataKey="maintenance" name="Maintenance" stackId="1" fill="#FFA94D" maxBarSize={40} />
                 <Bar dataKey="other" name="Other" stackId="1" fill="#38D9A9" maxBarSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
+          </Box>
+        </Paper>
+      </Grid.Col>
+
+      {/* Occupancy Card slot */}
+      {occupancyCard && (
+        <Grid.Col span={{ base: 12, lg: 4 }}>
+          {occupancyCard}
+        </Grid.Col>
+      )}
+
+      {/* Finance Overview */}
+      <Grid.Col span={{ base: 12, lg: 8 }}>
+        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+            <Title order={3}>Finance Overview</Title>
+            <Text size="xs" c="dimmed" fw={500}>Income vs Expenses</Text>
+          </Box>
+          <Box p="md" h={350}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={financeData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                  cursor={{ fill: '#f8f9fa' }}
+                />
+                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                <Bar dataKey="income" name="Income" fill="#014F86" radius={[4, 4, 0, 0]} barSize={30} />
+                <Bar dataKey="expense" name="Expense" fill={theme.colors.red[5]} radius={[4, 4, 0, 0]} barSize={30} />
               </BarChart>
             </ResponsiveContainer>
           </Box>

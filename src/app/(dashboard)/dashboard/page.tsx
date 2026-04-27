@@ -495,7 +495,6 @@ export default function DashboardPage() {
                         paddingAngle={5}
                         dataKey="value"
                         stroke="none"
-                        cornerRadius={4}
                       >
                         {[
                           { name: t.occupancy.occupied, value: 75, color: '#014F86' },

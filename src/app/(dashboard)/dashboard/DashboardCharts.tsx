@@ -63,7 +63,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
             <Title order={3}>Billing Trends</Title>
             <Text size="xs" c="dimmed" fw={500}>Monthly billing revenue</Text>
           </Box>
-          <Box p="md" h={300}>
+          <Box p="md" h={350}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={billingData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
@@ -78,7 +78,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                 <Bar dataKey="utilities" name="Utilities" stackId="1" fill="#014F86" maxBarSize={40} />
                 <Bar dataKey="bills" name="Bills" stackId="1" fill="#FF6B6B" maxBarSize={40} />
                 <Bar dataKey="maintenance" name="Maintenance" stackId="1" fill="#FFA94D" maxBarSize={40} />
-                <Bar dataKey="other" name="Other" stackId="1" fill="#38D9A9" maxBarSize={40} />
+                <Bar dataKey="other" name="Other" stackId="1" fill="#38D9A9" maxBarSize={40} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </Box>
@@ -110,8 +110,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                   cursor={{ fill: '#f8f9fa' }}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="income" name="Income" fill="#014F86" radius={[4, 4, 0, 0]} barSize={30} />
-                <Bar dataKey="expense" name="Expense" fill={theme.colors.red[5]} radius={[4, 4, 0, 0]} barSize={30} />
+                <Bar dataKey="income" name="Income" fill="#014F86" radius={[4, 4, 0, 0]} maxBarSize={40} />
+                <Bar dataKey="expense" name="Expense" fill={theme.colors.red[5]} radius={[4, 4, 0, 0]} maxBarSize={40} />
               </BarChart>
             </ResponsiveContainer>
           </Box>
@@ -125,7 +125,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
             <Title order={3}>Booking Bills</Title>
             <Text size="xs" c="dimmed" fw={500}>Distribution of booking bill statuses</Text>
           </Box>
-          <Box p="md" h={300}>
+          <Box p="md" h={350}>
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>
                 <Pie

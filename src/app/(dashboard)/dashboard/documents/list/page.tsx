@@ -2,11 +2,11 @@
 
 import { useState } from "react";
 import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center } from "@mantine/core";
-import { IconAddressBook, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { IconClipboardList, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
-export default function ResidentDirectoryPage() {
+export default function DocumentListPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
 
   const handleSort = (key: string) => {
@@ -24,45 +24,43 @@ export default function ResidentDirectoryPage() {
 
   const t = {
     en: {
-      title: "Resident List",
-      subtitle: "Comprehensive list of all owners and tenants across the property.",
-      searchPlaceholder: "Search residents...",
+      title: "Document List",
+      subtitle: "Manage all documents, contracts, forms, and rules.",
+      searchPlaceholder: "Search documents...",
       addNew: "Add New",
       columns: {
         id: "ID",
-        name: "Name",
-        residentType: "Resident Type",
-        unit: "Unit",
-        phone: "Phone",
-        moveInDate: "Move In Date",
+        name: "Document Name",
+        documentType: "Document Type",
+        date: "Date",
         status: "Status",
+        remark: "Remark",
         actions: "Actions",
       }
     },
     mm: {
-      title: "နေထိုင်သူများစာရင်း",
-      subtitle: "အိမ်ခြံမြေတစ်ခုလုံးရှိ အိမ်ရှင်များနှင့် အိမ်ငှားများအားလုံး၏ ပြည့်စုံသောစာရင်း။",
+      title: "စာရွက်စာတမ်းစာရင်း",
+      subtitle: "စာရွက်စာတမ်းများ၊ စာချုပ်များ၊ ဖောင်များနှင့် စည်းမျဉ်းများအားလုံးကို စီမံခန့်ခွဲပါ။",
       searchPlaceholder: "ရှာဖွေရန်...",
       addNew: "အသစ်ထည့်ရန်",
       columns: {
         id: "အမှတ်စဉ်",
         name: "အမည်",
-        residentType: "နေထိုင်သူအမျိုးအစား",
-        unit: "အခန်း",
-        phone: "ဖုန်းနံပါတ်",
-        moveInDate: "စတင်နေထိုင်သည့်နေ့",
+        documentType: "အမျိုးအစား",
+        date: "ရက်စွဲ",
         status: "အခြေအနေ",
+        remark: "မှတ်ချက်",
         actions: "လုပ်ဆောင်ချက်များ",
       }
     },
   }[lang === "mm" ? "mm" : "en"];
 
   const mockData = [
-    { id: "RES-001", name: "U Aung Aung", residentType: "Owner", unit: "A-101", phone: "+95 9 123 456 789", moveInDate: "2020-01-15", status: "Active" },
-    { id: "RES-002", name: "Daw Mya Mya", residentType: "Tenant", unit: "B-205", phone: "+95 9 987 654 321", moveInDate: "2023-07-01", status: "Active" },
-    { id: "RES-003", name: "Mg Thura", residentType: "Owner", unit: "A-502", phone: "+95 9 111 222 333", moveInDate: "2021-03-10", status: "Active" },
-    { id: "RES-004", name: "U Zaw Myo", residentType: "Owner", unit: "D-102", phone: "+95 9 444 888 999", moveInDate: "2019-11-20", status: "Active" },
-    { id: "RES-005", name: "Daw Thandar", residentType: "Tenant", unit: "A-502", phone: "+95 9 555 666 777", moveInDate: "2022-08-15", status: "Inactive" },
+    { id: "DOC-001", name: "Building Maintenance Contract", documentType: "Contract", date: "2024-01-10", status: "Active", remark: "Yearly renewal" },
+    { id: "DOC-002", name: "Resident Registration Form", documentType: "Resident Form", date: "2023-11-05", status: "Active", remark: "Unit 101" },
+    { id: "DOC-003", name: "Swimming Pool Rules", documentType: "Rules & Regulations", date: "2024-03-15", status: "Active", remark: "Updated 2024" },
+    { id: "DOC-004", name: "Move-out Inspection Form", documentType: "Resident Form", date: "2022-05-20", status: "Archived", remark: "Unit 305" },
+    { id: "DOC-005", name: "Pest Control Agreement", documentType: "Contract", date: "2024-02-28", status: "Active", remark: "Monthly service" },
   ];
 
   const sortedData = [...mockData].sort((a, b) => {
@@ -85,21 +83,13 @@ export default function ResidentDirectoryPage() {
     );
   };
 
-  const getResidentTypeColor = (type: string) => {
-    switch (type) {
-      case 'Owner': return 'blue';
-      case 'Tenant': return 'teal';
-      default: return 'gray';
-    }
-  };
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
           <Group gap="xs">
-            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
-              <IconAddressBook size={20} />
+            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
+              <IconClipboardList size={20} />
             </ThemeIcon>
             <Title order={1}>{t.title}</Title>
           </Group>
@@ -126,11 +116,10 @@ export default function ResidentDirectoryPage() {
             <Table.Tr>
               <Th sorted={sortConfig?.key === 'id'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('id')}>{t.columns.id}</Th>
               <Th sorted={sortConfig?.key === 'name'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('name')}>{t.columns.name}</Th>
-              <Th sorted={sortConfig?.key === 'residentType'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('residentType')}>{t.columns.residentType}</Th>
-              <Th sorted={sortConfig?.key === 'unit'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('unit')}>{t.columns.unit}</Th>
-              <Th sorted={sortConfig?.key === 'phone'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('phone')}>{t.columns.phone}</Th>
-              <Th sorted={sortConfig?.key === 'moveInDate'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('moveInDate')}>{t.columns.moveInDate}</Th>
+              <Th sorted={sortConfig?.key === 'documentType'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('documentType')}>{t.columns.documentType}</Th>
+              <Th sorted={sortConfig?.key === 'date'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('date')}>{t.columns.date}</Th>
               <Th sorted={sortConfig?.key === 'status'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('status')}>{t.columns.status}</Th>
+              <Th sorted={sortConfig?.key === 'remark'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('remark')}>{t.columns.remark}</Th>
               <Table.Th style={{ padding: '8px' }}><Text fw={600} size="sm">{t.columns.actions}</Text></Table.Th>
             </Table.Tr>
           </Table.Thead>
@@ -138,20 +127,19 @@ export default function ResidentDirectoryPage() {
             {sortedData.map((item) => (
               <Table.Tr key={item.id}>
                 <Table.Td><Text fw={500} size="sm">{item.id}</Text></Table.Td>
-                <Table.Td><Text size="sm" fw={500}>{item.name}</Text></Table.Td>
+                <Table.Td><Text size="sm">{item.name}</Text></Table.Td>
                 <Table.Td>
-                  <Badge color={getResidentTypeColor(item.residentType)} variant="light">
-                    {item.residentType}
+                  <Badge color={item.documentType === 'Contract' ? 'blue' : item.documentType === 'Resident Form' ? 'teal' : 'grape'} variant="light">
+                    {item.documentType}
                   </Badge>
                 </Table.Td>
-                <Table.Td><Text size="sm" fw={500}>{item.unit}</Text></Table.Td>
-                <Table.Td><Text size="sm">{item.phone}</Text></Table.Td>
-                <Table.Td><Text size="sm" c="dimmed">{item.moveInDate}</Text></Table.Td>
+                <Table.Td><Text size="sm" c="dimmed">{item.date}</Text></Table.Td>
                 <Table.Td>
                   <Badge color={item.status === 'Active' ? 'green' : 'gray'} variant="light">
                     {item.status}
                   </Badge>
                 </Table.Td>
+                <Table.Td><Text size="sm" c="dimmed">{item.remark}</Text></Table.Td>
                 <Table.Td>
                   <Group gap={8}>
                     <ActionIcon variant="light" color="blue" size="sm"><IconEye size={16} /></ActionIcon>

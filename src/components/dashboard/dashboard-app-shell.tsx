@@ -18,7 +18,6 @@ import {
   IconUserCircle,
   IconChevronRight,
   IconCash,
-  IconSpeakerphone,
   IconFileText,
   IconShieldCheck,
   IconHome,
@@ -63,6 +62,7 @@ import {
   IconBuildingSkyscraper,
   IconCoin,
   IconDeviceFloppy,
+  IconSpeakerphone,
 } from "@tabler/icons-react";
 import { signOut } from "next-auth/react";
 import { Session } from "next-auth";
@@ -122,6 +122,7 @@ export function DashboardAppShell({
       familyMembers: "Family Members",
       moveInOut: "Move In / Move Out",
       residentDirectory: "Resident Directory",
+      utilityBillsType: "Utility Bills Types",
       billingFinance: "Billing & Finance",
       invoiceGeneration: "Invoice Generation",
       maintenanceFees: "Monthly Maintenance Fees",
@@ -203,6 +204,7 @@ export function DashboardAppShell({
       familyMembers: "မိသားစုဝင်များ",
       moveInOut: "အဝင် / အထွက်",
       residentDirectory: "နေထိုင်သူများစာရင်း",
+      utilityBillsType: "ယူတီလီတီဘေလ်အမျိုးအစားများ",
       billingFinance: "ငွေတောင်းခံလွှာနှင့် ဘဏ္ဍာရေး",
       invoiceGeneration: "ငွေတောင်းခံလွှာထုတ်ခြင်း",
       maintenanceFees: "လစဉ်ထိန်းသိမ်းခများ",
@@ -315,7 +317,7 @@ export function DashboardAppShell({
     if (pathname.includes("/dashboard/user-management")) {
       setUserManagementOpened(true);
     }
-    if (pathname.includes("/dashboard/master-setting") || pathname.includes("/dashboard/master-setting/unit-types")) {
+    if (pathname.includes("/dashboard/master-setting") || pathname.includes("/dashboard/master-setting/unit-types") || pathname.includes("/dashboard/master-setting/document-type") || pathname.includes("/dashboard/master-setting/staff-type") || pathname.includes("/dashboard/master-setting/resident-type") || pathname.includes("/dashboard/master-setting/utility-bills-type")) {
       setMasterSettingOpened(true);
     }
     if (pathname.includes("/dashboard/settings")) {
@@ -422,6 +424,10 @@ export function DashboardAppShell({
             />
             <NavLink component={Link} href="/dashboard/master-setting/payment-method" label="Payment Methods" leftSection={<IconCreditCard size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-method"} />
             <NavLink component={Link} href="/dashboard/master-setting/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/document-type" label="Document Types" leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/document-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/staff-type" label="Staff Types" leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/staff-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/resident-type" label="Resident Types" leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/resident-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/utility-bills-type" label={t.utilityBillsType} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/utility-bills-type"} />
           </NavLink>
 
           <NavLink
@@ -474,11 +480,9 @@ export function DashboardAppShell({
             opened={residentOpened}
             onChange={setResidentOpened}
           >
-            <NavLink component={Link} href="/dashboard/residents/owners" label={t.owners} leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/owners"} />
-            <NavLink component={Link} href="/dashboard/residents/tenants" label={t.tenants} leftSection={<IconUsersGroup size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/tenants"} />
+            <NavLink component={Link} href="/dashboard/residents/directory" label="Resident List" leftSection={<IconAddressBook size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/directory"} />
             <NavLink component={Link} href="/dashboard/residents/family" label={t.familyMembers} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/family"} />
             <NavLink component={Link} href="/dashboard/residents/move-in-out" label={t.moveInOut} leftSection={<IconUserPlus size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/move-in-out"} />
-            <NavLink component={Link} href="/dashboard/residents/directory" label={t.residentDirectory} leftSection={<IconAddressBook size={18} />} className={classes.navLink} active={pathname === "/dashboard/residents/directory"} />
           </NavLink>
 
           <NavLink
@@ -580,8 +584,6 @@ export function DashboardAppShell({
             onChange={setStaffOpened}
           >
             <NavLink component={Link} href="/dashboard/staff/list" label={t.staffList} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/list"} />
-            <NavLink component={Link} href="/dashboard/staff/guards" label={t.securityGuards} leftSection={<IconUserShield size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/guards"} />
-            <NavLink component={Link} href="/dashboard/staff/cleaning" label={t.cleaningStaff} leftSection={<IconBrush size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/cleaning"} />
             <NavLink component={Link} href="/dashboard/staff/attendance" label={t.attendance} leftSection={<IconClock size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/attendance"} />
             <NavLink component={Link} href="/dashboard/staff/shift" label={t.shiftSchedule} leftSection={<IconCalendarTime size={18} />} className={classes.navLink} active={pathname === "/dashboard/staff/shift"} />
           </NavLink>
@@ -594,10 +596,7 @@ export function DashboardAppShell({
             opened={adminOpened}
             onChange={setAdminOpened}
           >
-            <NavLink component={Link} href="/dashboard/documents/contracts" label={t.contracts} leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/contracts"} />
-            <NavLink component={Link} href="/dashboard/documents/forms" label={t.residentForms} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/forms"} />
-            <NavLink component={Link} href="/dashboard/documents/rules" label={t.rules} leftSection={<IconShieldCheck size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/rules"} />
-            <NavLink component={Link} href="/dashboard/documents/upload" label={t.uploadFiles} leftSection={<IconCloudUpload size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/upload"} />
+            <NavLink component={Link} href="/dashboard/documents/list" label="Document List" leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/documents/list"} />
           </NavLink>
 
           <NavLink

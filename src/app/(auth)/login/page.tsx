@@ -1,7 +1,7 @@
 import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
-import { Box, Paper, Title, Text } from "@mantine/core";
+import { Box, Paper, Title, Text, Center, Image } from "@mantine/core";
 import { AuthForm } from "@/components/auth/auth-form";
 
 export default async function LoginPage() {
@@ -21,8 +21,11 @@ export default async function LoginPage() {
       }}
     >
       <Paper p={40} radius="md" style={{ width: 400, background: "white" }}>
+        <Center mb="md">
+          <Image src="/sh.png" alt="Sky Haven Logo" h={60} w="auto" fit="contain" />
+        </Center>
         <Title ta="center" mb="lg" c="#014F86">
-          Sky Haven CMS
+          Sky Haven
         </Title>
         <Text ta="center" c="dimmed" size="sm" mb={30}>
           Condo Management System

@@ -149,7 +149,7 @@ export default function DetailPage() {
                 <Stack gap="sm" mb="xl">
                   <Group justify="space-between">
                     <Text c="dimmed" size="sm">Subtotal</Text>
-                    <Text fw={500}>{item.amount || item.totalAmount || '-'}</Text>
+                    <Text fw={500}>{item.amount || (item as any).totalAmount || '-'}</Text>
                   </Group>
                   <Group justify="space-between">
                     <Text c="dimmed" size="sm">Tax (0%)</Text>
@@ -158,7 +158,7 @@ export default function DetailPage() {
                   <Divider my="xs" />
                   <Group justify="space-between" align="center">
                     <Text fw={700} size="lg">Total Amount</Text>
-                    <Text fw={800} size="xl" c="#014F86">{item.amount || item.totalAmount || '-'}</Text>
+                    <Text fw={800} size="xl" c="#014F86">{item.amount || (item as any).totalAmount || '-'}</Text>
                   </Group>
                 </Stack>
 

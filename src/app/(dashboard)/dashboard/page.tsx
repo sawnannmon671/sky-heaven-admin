@@ -35,6 +35,7 @@ import {
   IconMessageCircle,
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { DashboardCharts } from "./DashboardCharts";
 
 const stats = [
   {
@@ -290,7 +291,7 @@ export default function DashboardPage() {
           <Text size="xs" c="dimmed" fw={600} tt="uppercase" lts={1}>
             {t.stats[stat.id as keyof typeof t.stats]}
           </Text>
-          <Title order={2} style={{ fontSize: '1.75rem', fontWeight: 800, letterSpacing: '-0.5px' }}>
+          <Title order={2}>
             {stat.value}
           </Title>
         </Stack>
@@ -322,6 +323,8 @@ export default function DashboardPage() {
       <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="lg">
         {cards}
       </SimpleGrid>
+
+      <DashboardCharts />
 
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>

@@ -177,10 +177,10 @@ export default function PaymentReportPage() {
                   <Text size="sm" c="dimmed">{item.period}</Text>
                 </Table.Td>
                 <Table.Td>
-                  <Text size="sm" fw={500} c="dark">{item.totalAmount}</Text>
+                  <Text size="sm" fw={500} c="dark">{(item as any).totalAmount}</Text>
                 </Table.Td>
                 <Table.Td>
-                  <Text size="sm" fw={500} c={item.collected === item.totalAmount ? "green" : "dark"}>{item.collected}</Text>
+                  <Text size="sm" fw={500} c={item.collected === (item as any).totalAmount ? "green" : "dark"}>{item.collected}</Text>
                 </Table.Td>
                 <Table.Td>
                   <Badge 

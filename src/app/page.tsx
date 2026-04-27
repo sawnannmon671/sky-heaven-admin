@@ -17,6 +17,7 @@ import {
   Avatar,
   ThemeIcon,
   Paper,
+  Divider,
 } from "@mantine/core";
 import { 
   IconCalendar, 
@@ -88,32 +89,32 @@ const useReveal = () => {
 
 const amenities = [
   {
-    title: "Sky Pool",
-    image: "https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=80",
-    description: "Relax in our rooftop infinity pool with breathtaking city views.",
-    mmTitle: "ကောင်းကင်ရေကူးကန်",
-    mmDescription: "လှပသော မြို့ပြမြင်ကွင်းများနှင့်အတူ ကျွန်ုပ်တို့၏ အမိုးပေါ်ရှိ ရေကူးကန်တွင် အပန်းဖြေလိုက်ပါ။",
+    title: "Signature Swimming Pool",
+    image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=800&q=80",
+    description: "Dive into elegance with our temperature-controlled infinity pool and private cabanas.",
+    mmTitle: "အဆင့်မြင့်ရေကူးကန်",
+    mmDescription: "ကိုယ်ပိုင်အနားယူခန်းများနှင့်အတူ အပူချိန်ထိန်းညှိပေးထားသော အနားသတ်မဲ့ရေကူးကန်တွင် အပန်းဖြေလိုက်ပါ။",
   },
   {
-    title: "Fitness Center",
-    image: "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=800&q=80",
-    description: "State-of-the-art fitness equipment for your daily workout needs.",
-    mmTitle: "အားကစားခန်းမ",
-    mmDescription: "သင်၏ နေ့စဉ်ကိုယ်လက်လှုပ်ရှားမှုများအတွက် ခေတ်မီစက်ကိရိယာများ အပြည့်အစုံရှိသည်။",
+    title: "Botanical Gardens",
+    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=800&q=80",
+    description: "Serene manicured landscapes providing a peaceful escape within the city heart.",
+    mmTitle: "ရုက္ခဗေဒဥယျာဉ်များ",
+    mmDescription: "မြို့ပြ၏အလယ်ဗဟိုတွင် ငြိမ်းချမ်းသောခံစားမှုကိုပေးစွမ်းမည့် သေသပ်လှပသော ဥယျာဉ်များ။",
   },
   {
-    title: "Rooftop Lounge",
-    image: "https://images.unsplash.com/photo-1524350303351-806088de20ba?w=800&q=80",
-    description: "Perfect spot for social gatherings and evening relaxation.",
-    mmTitle: "အမိုးပေါ်အနားယူရန်နေရာ",
-    mmDescription: "မိတ်ဆွေများနှင့် ဆုံတွေ့ရန်နှင့် ညနေခင်း အပန်းဖြေရန် အကောင်းဆုံးနေရာဖြစ်သည်။",
+    title: "Luxury Architecture",
+    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&q=80",
+    description: "Classic design meets modern sophistication in every corner of Sky Haven.",
+    mmTitle: "ခေတ်မီဗိသုကာပညာ",
+    mmDescription: "Sky Haven ၏ နေရာတိုင်းတွင် ရှေးရိုးဆန်သော ဒီဇိုင်းနှင့် ခေတ်မီဆန်းသစ်မှုများ ပေါင်းစပ်ထားသည်။",
   },
   {
-    title: "Smart Clubhouse",
-    image: "https://images.unsplash.com/photo-1517816743773-6e0fd518b4a6?w=800&q=80",
-    description: "Modern space for community events and coworking.",
-    mmTitle: "စမတ်ကလပ်ဟောက်စ်",
-    mmDescription: "လူမှုရေးပွဲများနှင့် အလုပ်လုပ်ရန်အတွက် ခေတ်မီသော နေရာတစ်ခုဖြစ်သည်။",
+    title: "Elite Playground",
+    image: "https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=800&q=80",
+    description: "A safe, premium environment for children to play and grow in the community.",
+    mmTitle: "အထူးကစားကွင်း",
+    mmDescription: "ကလေးငယ်များ ဘေးကင်းလုံခြုံစွာ ကစားနိုင်ပြီး ကြီးထွားလာနိုင်မည့် အဆင့်မြင့်ပတ်ဝန်းကျင်တစ်ခု။",
   },
 ];
 
@@ -180,60 +181,60 @@ const testimonials = [
 const translations = {
   en: {
     hero: {
-      title: "Welcome to Sky Haven",
-      subtitle: "Experience luxury living with world-class amenities and premium management services.",
-      cta: "Explore Dashboard",
-      amenitiesBtn: "View Facilities",
+      title: "The Pinnacle of Classic Luxury",
+      subtitle: "Discover Sky Haven — where timeless architecture meets the serenity of botanical gardens and elite amenities.",
+      cta: "Experience Now",
+      amenitiesBtn: "The Residences",
     },
     features: {
-      badge: "WHY CHOOSE US",
-      title: "Comprehensive Management Features",
-      subtitle: "Everything you need to manage your property and community in one place.",
+      badge: "THE SKY HAVEN STANDARD",
+      title: "Exquisite Living Redefined",
+      subtitle: "Experience unparalleled management and a lifestyle curated for the most discerning residents.",
     },
     amenities: {
-      badge: "FACILITIES",
-      title: "Premium Amenities & Facilities",
-      subtitle: "Discover the exceptional features that make Sky Haven the perfect home.",
+      badge: "LUXURY AMENITIES",
+      title: "A World of Refinement",
+      subtitle: "From lush landscapes to signature pools, every detail is designed for your ultimate comfort.",
     },
     stats: {
-      title: "Trusted by Thousands",
+      title: "A Legacy of Excellence",
     },
     testimonials: {
-      badge: "TESTIMONIALS",
-      title: "What Our Community Says",
+      badge: "VOICES OF SKY HAVEN",
+      title: "Our Community's Perspective",
     },
     contact: {
-      title: "Get in Touch",
-      subtitle: "Have questions? We're here to help you 24/7.",
+      title: "Connect with Us",
+      subtitle: "Our concierge team is available 24/7 to assist with your inquiries.",
     },
   },
   mm: {
     hero: {
-      title: "Sky Haven မှ ကြိုဆိုပါသည်",
-      subtitle: "ကမ္ဘာ့အဆင့်မီ အသုံးအဆောင်များနှင့် ပရီမီယံ စီမံခန့်ခွဲမှု ဝန်ဆောင်မှုများဖြင့် ဇိမ်ခံလူနေမှုကို ခံစားလိုက်ပါ။",
-      cta: "ဒက်ရှ်ဘုတ်သို့ သွားရန်",
-      amenitiesBtn: "ဝန်ဆောင်မှုများ ကြည့်ရန်",
+      title: "ဂန္ထဝင်ဆန်သော အဆင့်မြင့်လူနေမှုဘဝ",
+      subtitle: "Sky Haven — ထာဝရတည်တံ့မည့် ဗိသုကာလက်ရာများ၊ ငြိမ်းချမ်းသောဥယျာဉ်များနှင့် အထူးဝန်ဆောင်မှုများ ပေါင်းစပ်ထားရာနေရာ။",
+      cta: "အခုပဲ စတင်လိုက်ပါ",
+      amenitiesBtn: "နေထိုင်မှုပုံစံများ",
     },
     features: {
-      badge: "ကျွန်ုပ်တို့ကို ဘာကြောင့် ရွေးချယ်သင့်သလဲ",
-      title: "ပြည့်စုံသော စီမံခန့်ခွဲမှု လုပ်ဆောင်ချက်များ",
-      subtitle: "သင်၏ အိမ်ခြံမြေနှင့် လူမှုအသိုင်းအဝိုင်းကို တစ်နေရာတည်းတွင် စီမံခန့်ခွဲရန် လိုအပ်သမျှ။",
+      badge: "SKY HAVEN ၏ စံနှုန်းများ",
+      title: "ထူးကဲသော လူနေမှုဘဝသစ်",
+      subtitle: "အဆင့်မြင့်စီမံခန့်ခွဲမှုနှင့် အကောင်းဆုံးကိုသာ လိုလားသူများအတွက် ဖန်တီးထားသော လူနေမှုပုံစံ။",
     },
     amenities: {
-      badge: "ဝန်ဆောင်မှုများ",
-      title: "အဆင့်မြင့် သာယာအဆင်ပြေမှုများနှင့် အဆောက်အအုံများ",
-      subtitle: "Sky Haven ကို ပြီးပြည့်စုံသော အိမ်တစ်ခုဖြစ်စေသည့် ထူးခြားသော ဝန်ဆောင်မှုများကို ရှာဖွေပါ။",
+      badge: "ဇိမ်ခံဝန်ဆောင်မှုများ",
+      title: "ပြီးပြည့်စုံသော ကမ္ဘာတစ်ခု",
+      subtitle: "စိမ်းလန်းသောဥယျာဉ်များမှသည် အဆင့်မြင့်ရေကူးကန်များအထိ၊ အသေးစိတ်တိုင်းကို သင့်သက်တောင့်သက်သာရှိမှုအတွက် ဖန်တီးထားပါသည်။",
     },
     stats: {
-      title: "ထောင်ပေါင်းများစွာ၏ ယုံကြည်မှု",
+      title: "ထူးချွန်မှု၏ အမွေအနှစ်",
     },
     testimonials: {
-      badge: "သုံးသပ်ချက်များ",
-      title: "ကျွန်ုပ်တို့၏ လူမှုအသိုင်းအဝိုင်းမှ ပြောကြားချက်များ",
+      badge: "SKY HAVEN မှ အသံများ",
+      title: "ကျွန်ုပ်တို့၏ လူမှုအသိုင်းအဝိုင်းမှ ထင်မြင်ချက်များ",
     },
     contact: {
-      title: "ဆက်သွယ်ရန်",
-      subtitle: "မေးမြန်းလိုသည်များ ရှိပါသလား? ကျွန်ုပ်တို့ ၂၄ နာရီလုံး ကူညီရန် အသင့်ရှိပါသည်။",
+      title: "ကျွန်ုပ်တို့နှင့် ဆက်သွယ်ပါ",
+      subtitle: "ကျွန်ုပ်တို့၏ အဖွဲ့သည် သင့်မေးမြန်းမှုများကို ကူညီရန် ၂၄ နာရီပတ်လုံး အသင့်ရှိပါသည်။",
     },
   },
 };
@@ -308,34 +309,34 @@ export default function HomePage() {
             backgroundColor: '#012a4a'
           }}
         />
-        <Overlay color="#000" backgroundOpacity={0.65} zIndex={1} />
+        <Overlay color="#000" backgroundOpacity={0.6} zIndex={1} />
         <Container size="lg" h="100%" pos="relative" style={{ zIndex: 2, display: 'flex', alignItems: 'center' }}>
-          <Stack justify="center" gap="xl" maw={700} className={classes.heroContent}>
-            <Badge variant="outline" color="blue.2" size="lg" radius="sm" style={{ alignSelf: 'flex-start' }}>
-              {lang === 'mm' ? 'အဆင့်မြင့် လူနေမှုဘဝ' : 'PREMIUM LIVING'}
+          <Stack justify="center" gap="xl" maw={800} className={classes.heroContent}>
+            <Badge variant="filled" color="blue.7" size="lg" radius="sm" style={{ alignSelf: 'flex-start' }}>
+              {lang === 'mm' ? 'အဆင့်မြင့် လူနေမှုဘဝ' : 'ESTABLISHED 2026'}
             </Badge>
-            <Title order={1} c="white" size={64} fw={900} style={{ lineHeight: 1.05 }}>
+            <Title order={1} c="white" size={72} fw={900} style={{ lineHeight: 1.1, letterSpacing: '-1px' }}>
               {t.hero.title}
             </Title>
-            <Text c="gray.3" size="xl" fw={500}>
+            <Text c="gray.1" size="xl" fw={400} maw={600} style={{ lineHeight: 1.6 }}>
               {t.hero.subtitle}
             </Text>
             <Group gap="md" mt="lg">
               <Button 
                 component={Link} 
-                href="/dashboard" 
+                href="/login" 
                 size="xl" 
                 color="#014F86" 
                 radius="md"
                 px={40}
                 rightSection={<IconArrowRight size={22} />}
-                style={{ boxShadow: '0 8px 15px rgba(1, 79, 134, 0.3)' }}
+                style={{ boxShadow: '0 8px 25px rgba(1, 79, 134, 0.4)' }}
               >
                 {t.hero.cta}
               </Button>
               <Button 
-                variant="outline" 
-                color="white" 
+                variant="white" 
+                color="dark" 
                 size="xl" 
                 radius="md"
                 px={40}
@@ -345,6 +346,192 @@ export default function HomePage() {
               </Button>
             </Group>
           </Stack>
+        </Container>
+      </Box>
+
+      {/* Stats Section */}
+      <Box py={80} bg="white" id="stats">
+        <Container size="lg">
+          <SimpleGrid cols={{ base: 1, sm: 3 }} spacing={50}>
+            {stats.map((stat, index) => (
+              <Group key={index} wrap="nowrap" align="center" gap="xl">
+                <ThemeIcon size={60} radius="md" color="#014F86" variant="light">
+                  <stat.icon size={34} stroke={1.5} />
+                </ThemeIcon>
+                <div>
+                  <Text size="xl" fw={900} style={{ fontSize: 32, lineHeight: 1 }}>{stat.value}</Text>
+                  <Text size="sm" c="dimmed" fw={600} tt="uppercase" mt={4}>
+                    {lang === 'mm' ? stat.mmLabel : stat.label}
+                  </Text>
+                </div>
+              </Group>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* Amenities Section */}
+      <Box py={100} id="amenities" className={classes.featuresSection}>
+        <Container size="lg">
+          <Stack align="center" gap="xs" mb={50}>
+            <Badge variant="outline" color="#014F86" size="lg" radius="sm">
+              {t.amenities.badge}
+            </Badge>
+            <Title order={2} size={42} fw={900} ta="center">
+              {t.amenities.title}
+            </Title>
+            <Text c="dimmed" size="lg" maw={600} ta="center">
+              {t.amenities.subtitle}
+            </Text>
+          </Stack>
+
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={30}>
+            {amenities.map((amenity, index) => (
+              <Card key={index} radius="md" p={0} className={classes.featureCard} withBorder shadow="sm">
+                <Box style={{ overflow: 'hidden', height: 280 }}>
+                  <Image 
+                    src={amenity.image} 
+                    alt={amenity.title} 
+                    className={classes.amenityImage}
+                    style={{ transition: 'transform 0.6s ease' }}
+                  />
+                </Box>
+                <Box p="xl">
+                  <Title order={3} size="h3" mb="xs" fw={800}>
+                    {lang === 'mm' ? amenity.mmTitle : amenity.title}
+                  </Title>
+                  <Text c="dimmed" size="md" style={{ lineHeight: 1.6 }}>
+                    {lang === 'mm' ? amenity.mmDescription : amenity.description}
+                  </Text>
+                </Box>
+              </Card>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* Features Section */}
+      <Box py={100} id="features" bg="white">
+        <Container size="lg">
+          <Stack align="center" gap="xs" mb={60}>
+            <Badge variant="outline" color="#014F86" size="lg" radius="sm">
+              {t.features.badge}
+            </Badge>
+            <Title order={2} size={42} fw={900} ta="center">
+              {t.features.title}
+            </Title>
+            <Text c="dimmed" size="lg" maw={600} ta="center">
+              {t.features.subtitle}
+            </Text>
+          </Stack>
+
+          <SimpleGrid cols={{ base: 1, md: 2, lg: 4 }} spacing={30}>
+            {features.map((feature, index) => (
+              <Paper key={index} p="xl" radius="md" withBorder className={classes.featureCard}>
+                <ThemeIcon size={50} radius="md" color={feature.color} variant="light" mb="xl">
+                  <feature.icon size={28} />
+                </ThemeIcon>
+                <Text size="lg" fw={800} mb="sm">
+                  {lang === 'mm' ? feature.mmTitle : feature.title}
+                </Text>
+                <Text size="sm" c="dimmed" style={{ lineHeight: 1.6 }}>
+                  {lang === 'mm' ? feature.mmDescription : feature.description}
+                </Text>
+              </Paper>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* Testimonials */}
+      <Box py={100} bg="gray.0">
+        <Container size="lg">
+          <Stack align="center" gap="xs" mb={60}>
+            <Badge variant="outline" color="#014F86" size="lg" radius="sm">
+              {t.testimonials.badge}
+            </Badge>
+            <Title order={2} size={42} fw={900} ta="center">
+              {t.testimonials.title}
+            </Title>
+          </Stack>
+
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={50}>
+            {testimonials.map((item, index) => (
+              <Paper key={index} p={40} radius="lg" withBorder shadow="sm" style={{ background: 'white' }}>
+                <Group mb="xl">
+                  <Avatar src={item.avatar} size={60} radius="xl" />
+                  <div>
+                    <Text fw={800} size="lg">{item.name}</Text>
+                    <Text size="sm" c="dimmed">{lang === 'mm' ? item.mmRole : item.role}</Text>
+                  </div>
+                </Group>
+                <Text size="lg" style={{ fontStyle: 'italic', lineHeight: 1.6 }}>
+                  "{lang === 'mm' ? item.mmComment : item.comment}"
+                </Text>
+              </Paper>
+            ))}
+          </SimpleGrid>
+        </Container>
+      </Box>
+
+      {/* Footer */}
+      <Box component="footer" py={80} className={classes.classicFooter} c="white">
+        <Container size="lg">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing={50}>
+            <Stack gap="md">
+              <Group gap="sm">
+                <Image src="/sh.png" alt="Logo" h={40} w="auto" style={{ filter: 'brightness(0) invert(1)' }} />
+                <Title order={3} c="white" fw={900}>Sky Haven</Title>
+              </Group>
+              <Text c="gray.5" size="sm" maw={260}>
+                Setting the benchmark for luxury condo management and elite urban living.
+              </Text>
+              <Group gap="xs" mt="md">
+                <ThemeIcon size="lg" radius="xl" color="blue.8" variant="filled">
+                  <IconMapPin size={18} />
+                </ThemeIcon>
+                <Text size="sm">Yangon, Myanmar</Text>
+              </Group>
+            </Stack>
+
+            <Stack gap="md">
+              <Text fw={800} size="lg">Quick Links</Text>
+              <Text component={Link} href="#features" className={classes.footerLink} c="gray.5" size="sm">Features</Text>
+              <Text component={Link} href="#amenities" className={classes.footerLink} c="gray.5" size="sm">Facilities</Text>
+              <Text component={Link} href="/login" className={classes.footerLink} c="gray.5" size="sm">Resident Login</Text>
+              <Text component={Link} href="/dashboard" className={classes.footerLink} c="gray.5" size="sm">Management Portal</Text>
+            </Stack>
+
+            <Stack gap="md">
+              <Text fw={800} size="lg">Contact Us</Text>
+              <Group gap="sm">
+                <IconPhone size={18} />
+                <Text size="sm">+95 9 123 456 789</Text>
+              </Group>
+              <Group gap="sm">
+                <IconMail size={18} />
+                <Text size="sm">concierge@skyhaven.com</Text>
+              </Group>
+            </Stack>
+
+            <Stack gap="md">
+              <Text fw={800} size="lg">Newsletter</Text>
+              <Text c="gray.5" size="sm">Subscribe for the latest community updates.</Text>
+              <Button color="#014F86" radius="md">Subscribe</Button>
+            </Stack>
+          </SimpleGrid>
+
+          <Divider my={40} color="gray.8" />
+          
+          <Group justify="space-between">
+            <Text c="gray.6" size="xs">
+              © 2026 Futurehub Myanmar. All rights reserved.
+            </Text>
+            <Group gap="xl">
+              <Text c="gray.6" size="xs" style={{ cursor: 'pointer' }}>Privacy Policy</Text>
+              <Text c="gray.6" size="xs" style={{ cursor: 'pointer' }}>Terms of Service</Text>
+            </Group>
+          </Group>
         </Container>
       </Box>
     </Box>

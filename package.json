@@ -10,6 +10,9 @@
     "lint": "next lint",
     "postinstall": "prisma generate"
   },
+  "prisma": {
+    "seed": "tsx prisma/seed.ts"
+  },
   "dependencies": {
     "@mantine/core": "^7.15.0",
     "@mantine/dates": "^7.15.0",
@@ -44,6 +47,7 @@
     "postcss-simple-vars": "^7.0.1",
     "prisma": "^5.22.0",
     "tailwindcss": "^4.2.4",
+    "tsx": "^4.21.0",
     "typescript": "^5"
   },
   "overrides": {

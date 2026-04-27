@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
 import {  IconDroplet, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
@@ -20,6 +20,7 @@ export default function UtilityBillsPage() {
   
 
   const [activePage, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
@@ -49,7 +50,11 @@ const mockData = [
     { id: "UTL-005", type: "Electricity", unit: "D-102", amount: "$90.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const utilityTypes = ["All", ...Array.from(new Set(mockData.map(item => item.type)))];
+
+  const filteredData = mockData.filter(item => activeTab === "All" || item.type === activeTab);
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -82,6 +87,22 @@ const mockData = [
 
       
       <Paper p="md" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
+        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="md" color="#014F86">
+          <Tabs.List>
+            {utilityTypes.map(type => {
+              const count = type === "All" ? mockData.length : mockData.filter(i => i.type === type).length;
+              return (
+                <Tabs.Tab key={type} value={type}>
+                  <Group gap="xs">
+                    <span>{type}</span>
+                    <Badge size="xs" variant="filled" color={activeTab === type ? "#014F86" : "gray"}>{count}</Badge>
+                  </Group>
+                </Tabs.Tab>
+              );
+            })}
+          </Tabs.List>
+        </Tabs>
+
         <Group justify="space-between" mb="md">
           <TextInput
             placeholder="Search..."
@@ -202,9 +223,9 @@ const mockData = [
         </Table>
         <Group justify="space-between" mt="md">
           <Text size="sm" c="dimmed">
-            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, mockData.length)} of {mockData.length} entries
+            Showing {Math.min((activePage - 1) * itemsPerPage + 1, sortedData.length)} to {Math.min(activePage * itemsPerPage, sortedData.length)} of {sortedData.length} entries
           </Text>
-          <Pagination total={Math.ceil(mockData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+          <Pagination total={Math.ceil(sortedData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
       
       </Paper>

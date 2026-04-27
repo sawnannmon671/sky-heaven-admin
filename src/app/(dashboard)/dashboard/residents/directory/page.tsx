@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center } from "@mantine/core";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Tabs } from "@mantine/core";
 import { IconAddressBook, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
@@ -18,6 +18,7 @@ export default function ResidentDirectoryPage() {
   };
 
   const [activePage, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
   const itemsPerPage = 5;
 
   const { lang } = useTranslation();
@@ -65,7 +66,11 @@ export default function ResidentDirectoryPage() {
     { id: "RES-005", name: "Daw Thandar", residentType: "Tenant", unit: "A-502", phone: "+95 9 555 666 777", moveInDate: "2022-08-15", status: "Inactive" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const residentTypes = ["All", ...Array.from(new Set(mockData.map(item => item.residentType)))];
+
+  const filteredData = mockData.filter(item => activeTab === "All" || item.residentType === activeTab);
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -108,6 +113,22 @@ export default function ResidentDirectoryPage() {
       </Group>
 
       <Paper p="md" radius="lg" withBorder shadow="sm" style={{ border: '1px solid #e9ecef' }}>
+        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="md" color="#014F86">
+          <Tabs.List>
+            {residentTypes.map(type => {
+              const count = type === "All" ? mockData.length : mockData.filter(i => i.residentType === type).length;
+              return (
+                <Tabs.Tab key={type} value={type}>
+                  <Group gap="xs">
+                    <span>{type}</span>
+                    <Badge size="xs" variant="filled" color={activeTab === type ? "#014F86" : "gray"}>{count}</Badge>
+                  </Group>
+                </Tabs.Tab>
+              );
+            })}
+          </Tabs.List>
+        </Tabs>
+
         <Group justify="space-between" mb="md">
           <TextInput
             placeholder={t.searchPlaceholder}
@@ -135,7 +156,7 @@ export default function ResidentDirectoryPage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {sortedData.map((item) => (
+            {sortedData.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage).map((item) => (
               <Table.Tr key={item.id}>
                 <Table.Td><Text fw={500} size="sm">{item.id}</Text></Table.Td>
                 <Table.Td><Text size="sm" fw={500}>{item.name}</Text></Table.Td>
@@ -165,8 +186,8 @@ export default function ResidentDirectoryPage() {
         </Table>
 
         <Group justify="space-between" mt="md">
-          <Text size="sm" c="dimmed">Showing 1 to 5 of 5 entries</Text>
-          <Pagination value={activePage} onChange={setPage} total={1} color="#014F86" radius="md" />
+          <Text size="sm" c="dimmed">Showing {Math.min((activePage - 1) * itemsPerPage + 1, sortedData.length)} to {Math.min(activePage * itemsPerPage, sortedData.length)} of {sortedData.length} entries</Text>
+          <Pagination value={activePage} onChange={setPage} total={Math.ceil(sortedData.length / itemsPerPage)} color="#014F86" radius="md" />
         </Group>
       </Paper>
     </Stack>

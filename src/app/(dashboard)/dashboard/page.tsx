@@ -44,7 +44,7 @@ const stats = [
     value: "85%",
     diff: 5,
     icon: IconBuilding,
-    color: "blue",
+    color: "#014F86",
     description: "Up from 80% last month",
   },
   {
@@ -53,7 +53,7 @@ const stats = [
     value: "12",
     diff: -8,
     icon: IconReceipt,
-    color: "red",
+    color: "#F06595",
     description: "3 overdue by 7+ days",
   },
   {
@@ -62,7 +62,7 @@ const stats = [
     value: "8",
     diff: -15,
     icon: IconTools,
-    color: "orange",
+    color: "#FFA94D",
     description: "2 emergency, 6 normal",
   },
   {
@@ -71,7 +71,7 @@ const stats = [
     value: "245",
     diff: 2,
     icon: IconUsers,
-    color: "teal",
+    color: "#38D9A9",
     description: "2 new move-ins this week",
   },
 ];
@@ -244,58 +244,58 @@ export default function DashboardPage() {
 
     return (
       <Paper 
-        p="lg" 
+        p="xl" 
         radius="lg" 
         key={stat.id} 
         style={{ 
-          border: `1px solid var(--mantine-color-${stat.color}-2)`,
-          backgroundColor: `var(--mantine-color-${stat.color}-0)`,
-          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
+          border: '1px solid rgba(255,255,255,0.2)',
+          backgroundColor: stat.color,
+          color: 'white',
+          boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease',
-          cursor: 'pointer'
+          cursor: 'pointer',
+          position: 'relative',
+          overflow: 'hidden'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = `0 10px 25px var(--mantine-color-${stat.color}-2)`;
+          e.currentTarget.style.boxShadow = `0 10px 25px ${stat.color}66`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)';
-          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.03)';
+          e.currentTarget.style.boxShadow = '0 4px 20px rgba(0, 0, 0, 0.08)';
         }}
       >
-        <Group justify="space-between" align="flex-start">
+        <Group justify="space-between" align="center" mb="lg">
+          <Stack gap={0}>
+            <Text size="sm" c="rgba(255,255,255,0.9)" fw={600} tt="uppercase" lts={1}>
+              {t.stats[stat.id as keyof typeof t.stats]}
+            </Text>
+            <Title order={2} style={{ fontSize: '2rem', fontWeight: 800 }}>
+              {stat.value}
+            </Title>
+          </Stack>
           <ThemeIcon
             size="xl"
             radius="md"
-            variant="filled"
-            color={stat.color}
+            variant="transparent"
           >
-            <Icon size={24} />
+            <Icon size={36} color="rgba(255,255,255,0.8)" stroke={1.5} />
           </ThemeIcon>
+        </Group>
+
+        <Group justify="space-between" align="center">
+          <Text c="rgba(255,255,255,0.8)" size="xs" fw={500}>
+            {t.stats[descKey as keyof typeof t.stats]}
+          </Text>
           <Badge
-            color={stat.diff > 0 ? "teal" : "red"}
-            variant="light"
+            variant="transparent"
             size="sm"
-            leftSection={<DiffIcon size={10} />}
-            style={{ fontWeight: 600 }}
+            leftSection={<DiffIcon size={12} />}
+            style={{ fontWeight: 700, color: 'white', backgroundColor: 'rgba(255,255,255,0.2)' }}
           >
             {Math.abs(stat.diff)}%
           </Badge>
-        </Group>
-
-        <Stack gap={0} mt="lg">
-          <Text size="xs" c="dimmed" fw={600} tt="uppercase" lts={1}>
-            {t.stats[stat.id as keyof typeof t.stats]}
-          </Text>
-          <Title order={2}>
-            {stat.value}
-          </Title>
-        </Stack>
-
-        <Group gap={4} mt="xs">
-          <Text c="dimmed" size="xs">
-            {t.stats[descKey as keyof typeof t.stats]}
-          </Text>
         </Group>
       </Paper>
     );

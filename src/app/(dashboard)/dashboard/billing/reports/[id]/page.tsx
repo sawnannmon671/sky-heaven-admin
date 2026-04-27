@@ -79,7 +79,7 @@ export default function DetailPage() {
               <Box>
                 <Text c="dimmed" size="xs" fw={700} tt="uppercase" lts={1} mb={4}>Total Amount</Text>
                 <Title order={1} style={{ fontSize: '2.5rem', fontWeight: 800, color: '#2C2E33', letterSpacing: '-1px' }}>
-                  {item.amount || item.totalAmount || '-'}
+                  {(item as any).amount || (item as any).totalAmount || '-'}
                 </Title>
                 <Text c="dimmed" mt="sm" fw={500}>Reference: <Text component="span" fw={600} c="dark">{item.id}</Text></Text>
               </Box>
@@ -149,7 +149,7 @@ export default function DetailPage() {
                 <Stack gap="sm" mb="xl">
                   <Group justify="space-between">
                     <Text c="dimmed" size="sm">Subtotal</Text>
-                    <Text fw={500}>{item.amount || item.totalAmount || '-'}</Text>
+                    <Text fw={500}>{(item as any).amount || (item as any).totalAmount || '-'}</Text>
                   </Group>
                   <Group justify="space-between">
                     <Text c="dimmed" size="sm">Tax (0%)</Text>
@@ -158,7 +158,7 @@ export default function DetailPage() {
                   <Divider my="xs" />
                   <Group justify="space-between" align="center">
                     <Text fw={700} size="lg">Total Amount</Text>
-                    <Text fw={800} size="xl" c="#014F86">{item.amount || item.totalAmount || '-'}</Text>
+                    <Text fw={800} size="xl" c="#014F86">{(item as any).amount || (item as any).totalAmount || '-'}</Text>
                   </Group>
                 </Stack>
 

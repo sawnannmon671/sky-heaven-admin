@@ -324,7 +324,49 @@ export default function DashboardPage() {
         {cards}
       </SimpleGrid>
 
-      <DashboardCharts />
+      <DashboardCharts occupancyCard={
+        <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
+          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+            <Group justify="space-between">
+              <Title order={3}>{t.alerts.title}</Title>
+              <ActionIcon variant="light" color="gray" radius="md">
+                <IconBell size={18} />
+              </ActionIcon>
+            </Group>
+          </Box>
+          <Stack gap="0">
+            {alerts.map((alert, index) => {
+              const Icon = alert.icon;
+              return (
+                <Box 
+                  key={alert.id} 
+                  p="lg" 
+                  style={{ 
+                    borderBottom: index === alerts.length - 1 ? 'none' : '1px solid #f1f3f5',
+                    backgroundColor: alert.type === 'error' ? 'var(--mantine-color-red-0)' : 'transparent',
+                    transition: 'background-color 0.2s ease',
+                    cursor: 'pointer'
+                  }}
+                >
+                  <Group wrap="nowrap" align="flex-start" gap="md">
+                    <ThemeIcon color={alert.type === 'info' ? 'blue' : alert.type === 'error' ? 'red' : 'green'} variant="light" size="md" radius="md">
+                      <Icon size={16} />
+                    </ThemeIcon>
+                    <Stack gap={4}>
+                      <Text size="sm" fw={700}>{alert.title}</Text>
+                      <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>{alert.msg}</Text>
+                      <Text size="xs" c="dimmed" fw={600} mt={4}>{alert.time}</Text>
+                    </Stack>
+                  </Group>
+                </Box>
+              );
+            })}
+          </Stack>
+          <Box p="sm" bg="gray.0" style={{ textAlign: 'center', borderTop: '1px solid #f1f3f5' }}>
+            <Button variant="subtle" size="xs" color="blue" fullWidth>{t.alerts.viewAll}</Button>
+          </Box>
+        </Paper>
+      } />
 
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>
@@ -431,49 +473,7 @@ export default function DashboardPage() {
 
         <Grid.Col span={{ base: 12, lg: 4 }}>
           <Stack gap="xl">
-            {/* Alerts & Notifications */}
-            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-                <Group justify="space-between">
-                  <Title order={3}>{t.alerts.title}</Title>
-                  <ActionIcon variant="light" color="gray" radius="md">
-                    <IconBell size={18} />
-                  </ActionIcon>
-                </Group>
-              </Box>
-              <Stack gap="0">
-                {alerts.map((alert, index) => {
-                  const Icon = alert.icon;
-                  return (
-                    <Box 
-                      key={alert.id} 
-                      p="lg" 
-                      style={{ 
-                        borderBottom: index === alerts.length - 1 ? 'none' : '1px solid #f1f3f5',
-                        backgroundColor: alert.type === 'error' ? 'var(--mantine-color-red-0)' : 'transparent',
-                        transition: 'background-color 0.2s ease',
-                        cursor: 'pointer'
-                      }}
-                    >
-                      <Group wrap="nowrap" align="flex-start" gap="md">
-                        <ThemeIcon color={alert.type === 'info' ? 'blue' : alert.type === 'error' ? 'red' : 'green'} variant="light" size="md" radius="md">
-                          <Icon size={16} />
-                        </ThemeIcon>
-                        <Stack gap={4}>
-                          <Text size="sm" fw={700}>{alert.title}</Text>
-                          <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>{alert.msg}</Text>
-                          <Text size="xs" c="dimmed" fw={600} mt={4}>{alert.time}</Text>
-                        </Stack>
-                      </Group>
-                    </Box>
-                  );
-                })}
-              </Stack>
-              <Box p="sm" bg="gray.0" style={{ textAlign: 'center', borderTop: '1px solid #f1f3f5' }}>
-                <Button variant="subtle" size="xs" color="blue" fullWidth>{t.alerts.viewAll}</Button>
-              </Box>
-            </Paper>
-
+            {/* Occupancy Rate */}
             <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">

@@ -36,6 +36,7 @@ import {
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DashboardCharts } from "./DashboardCharts";
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
 
 const stats = [
   {
@@ -53,7 +54,7 @@ const stats = [
     value: "12",
     diff: -8,
     icon: IconReceipt,
-    color: "#F06595",
+    color: "#FF6B6B",
     description: "3 overdue by 7+ days",
   },
   {
@@ -93,7 +94,7 @@ const recentActivities = [
   { id: 1, user: "John Doe", unit: "A-101", activity: "Maintenance", status: "In Progress", date: "2 hours ago", color: "blue" },
   { id: 2, user: "Sarah Smith", unit: "B-205", activity: "Payment", status: "Completed", date: "5 hours ago", color: "green" },
   { id: 3, user: "Michael Wong", unit: "C-303", activity: "Registration", status: "New", date: "1 day ago", color: "violet" },
-  { id: 4, user: "Elena Rodriguez", unit: "A-404", activity: "Visitor", status: "Checked Out", date: "2 days ago", color: "gray" },
+  { id: 4, user: "Elena Rodriguez", unit: "A-404", activity: "Visitor", status: "Checked Out", date: "2 days ago", color: "orange" },
 ];
 
 const translations = {
@@ -154,6 +155,7 @@ const translations = {
       title: "Occupancy Rate",
       occupied: "Occupied",
       available: "Available Units",
+      maintenance: "Under Maintenance"
     },
     revenue: {
       title: "Revenue Target",
@@ -218,6 +220,7 @@ const translations = {
       title: "နေထိုင်မှုနှုန်း",
       occupied: "နေထိုင်သူရှိသည်",
       available: "အားလပ်သောယူနစ်များ",
+      maintenance: "ပြုပြင်နေဆဲ"
     },
     revenue: {
       title: "ဝင်ငွေရည်မှန်းချက်",
@@ -245,7 +248,7 @@ export default function DashboardPage() {
     return (
       <Paper 
         p="xl" 
-        radius="lg" 
+        radius="md" 
         key={stat.id} 
         style={{ 
           border: '1px solid rgba(255,255,255,0.2)',
@@ -321,7 +324,7 @@ export default function DashboardPage() {
       </SimpleGrid>
 
       <DashboardCharts occupancyCard={
-        <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
+        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
             <Group justify="space-between">
               <Title order={3}>{t.alerts.title}</Title>
@@ -368,7 +371,7 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, lg: 8 }}>
           <Stack gap="xl">
             {/* Recent Activities */}
-            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+            <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Stack gap={0}>
@@ -419,7 +422,7 @@ export default function DashboardPage() {
             </Paper>
 
             {/* Recent Visitors */}
-            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+            <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Title order={3}>{t.visitors.title}</Title>
@@ -449,14 +452,14 @@ export default function DashboardPage() {
                         <Table.Td><Text size="sm" fw={500}>{visitor.host}</Text></Table.Td>
                         <Table.Td><Text size="sm" fw={500}>{visitor.time}</Text></Table.Td>
                         <Table.Td>
-                          <Badge size="xs" variant="outline" color={visitor.type === "Guest" ? "blue" : "gray"}	radius="sm">
-                            {visitor.type}
-                          </Badge>
+                          <Badge size="xs" variant="outline" color={visitor.type === "Guest" ? "blue" : visitor.type === "Delivery" ? "red" : "orange"} radius="sm">
+                          {visitor.type || 'Visitor'}
+                        </Badge>
                         </Table.Td>
                         <Table.Td ta="right">
-                          <Badge size="sm" color={visitor.status === "In" ? "green" : "gray"} variant="filled" radius="sm">
-                            {visitor.status}
-                          </Badge>
+                          <Badge size="sm" color={visitor.status === "In" ? "green" : "orange"} variant="filled" radius="sm">
+                          {visitor.status}
+                        </Badge>
                         </Table.Td>
                       </Table.Tr>
                     ))}
@@ -470,7 +473,7 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, lg: 4 }}>
           <Stack gap="xl">
             {/* Occupancy Rate */}
-            <Paper radius="lg" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+            <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Title order={3}>{t.occupancy.title}</Title>
@@ -478,33 +481,77 @@ export default function DashboardPage() {
                 </Group>
               </Box>
               <Box p="xl">
-                <Group justify="center" mb="xl">
-                  <RingProgress
-                    size={180}
-                    thickness={18}
-                    roundCaps
-                    sections={[{ value: 85, color: "#014F86" }]}
-                    label={
-                      <Stack gap={0} align="center">
-                        <Text ta="center" style={{ fontSize: '1.8rem', fontWeight: 900 }}>85%</Text>
-                        <Text ta="center" size="xs" c="dimmed" fw={700} tt="uppercase" lts={1}>{t.occupancy.occupied}</Text>
-                      </Stack>
-                    }
-                  />
-                </Group>
-                <Stack gap="xs">
-                  <Group justify="space-between">
-                    <Text size="sm" fw={600}>{t.occupancy.available}</Text>
-                    <Text size="sm" fw={800} c="#014F86">18 / 120</Text>
+                <Box h={200} style={{ position: 'relative' }} mb="xl">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <PieChart>
+                      <Pie
+                        data={[
+                          { name: t.occupancy.occupied, value: 75, color: '#014F86' },
+                          { name: t.occupancy.available, value: 15, color: '#FFA94D' },
+                          { name: t.occupancy.maintenance, value: 10, color: '#FF6B6B' },
+                        ]}
+                        cx="50%"
+                        cy="50%"
+                        innerRadius={70}
+                        outerRadius={90}
+                        paddingAngle={5}
+                        dataKey="value"
+                        stroke="none"
+                        cornerRadius={4}
+                      >
+                        {[
+                          { name: t.occupancy.occupied, value: 75, color: '#014F86' },
+                          { name: t.occupancy.available, value: 15, color: '#FFA94D' },
+                          { name: t.occupancy.maintenance, value: 10, color: '#FF6B6B' },
+                        ].map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.color} />
+                        ))}
+                      </Pie>
+                      <Tooltip 
+                        contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                        itemStyle={{ fontWeight: 600, color: '#495057' }}
+                      />
+                    </PieChart>
+                  </ResponsiveContainer>
+                  <Stack gap={0} align="center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
+                    <Text ta="center" style={{ fontSize: '1.8rem', fontWeight: 900, lineHeight: 1.2 }}>75%</Text>
+                    <Text ta="center" size="xs" c="dimmed" fw={700} tt="uppercase" lts={1}>{t.occupancy.occupied}</Text>
+                  </Stack>
+                </Box>
+                <Stack gap="sm">
+                  <Group justify="space-between" mb={-5}>
+                    <Group gap="xs">
+                      <Box w={10} h={10} style={{ borderRadius: '50%', backgroundColor: '#014F86' }} />
+                      <Text size="xs" fw={600}>{t.occupancy.occupied}</Text>
+                    </Group>
+                    <Text size="xs" fw={800}>90</Text>
                   </Group>
-                  <Progress value={85} color="#014F86" size="md" radius="xl" />
+                  <Group justify="space-between" mb={-5}>
+                    <Group gap="xs">
+                      <Box w={10} h={10} style={{ borderRadius: '50%', backgroundColor: '#FFA94D' }} />
+                      <Text size="xs" fw={600}>{t.occupancy.available}</Text>
+                    </Group>
+                    <Text size="xs" fw={800}>18</Text>
+                  </Group>
+                  <Group justify="space-between" mb="xs">
+                    <Group gap="xs">
+                      <Box w={10} h={10} style={{ borderRadius: '50%', backgroundColor: '#FF6B6B' }} />
+                      <Text size="xs" fw={600}>{t.occupancy.maintenance}</Text>
+                    </Group>
+                    <Text size="xs" fw={800}>12</Text>
+                  </Group>
+                  <Progress.Root size="md" radius="xl">
+                    <Progress.Section value={75} color="#014F86" />
+                    <Progress.Section value={15} color="#FFA94D" />
+                    <Progress.Section value={10} color="#FF6B6B" />
+                  </Progress.Root>
                 </Stack>
               </Box>
             </Paper>
 
             <Paper 
               p="xl" 
-              radius="lg" 
+              radius="md" 
               shadow="lg" 
               style={{ 
                 backgroundColor: "#014F86", 

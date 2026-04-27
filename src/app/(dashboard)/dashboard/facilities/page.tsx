@@ -7,10 +7,14 @@ import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
-  { id: "FAC-001", name: "Swimming Pool", location: "Level 1", status: "Open", color: "blue", openingTime: "06:00 AM", closeTime: "10:00 PM", capacity: "50 Persons", remark: "Regular maintenance on Mondays" },
-  { id: "FAC-002", name: "Gym Center", location: "Level 3", status: "Open", color: "teal", openingTime: "05:00 AM", closeTime: "11:00 PM", capacity: "30 Persons", remark: "Bring your own towel" },
-  { id: "FAC-003", name: "Function Room", location: "Penthouse", status: "Cleaning", color: "orange", openingTime: "08:00 AM", closeTime: "11:00 PM", capacity: "100 Persons", remark: "Booking required 3 days in advance" },
-  { id: "FAC-004", name: "Children Playground", location: "Garden", status: "Open", color: "green", openingTime: "07:00 AM", closeTime: "08:00 PM", capacity: "20 Children", remark: "Adult supervision required" },
+  { id: "FAC-001", name: "Tennis", location: "Sports Complex", status: "Open", color: "blue", openingTime: "06:00 AM", closeTime: "10:00 PM", capacity: "4 Persons", remark: "Bring your own rackets" },
+  { id: "FAC-002", name: "Swimming pool", location: "Level 1", status: "Open", color: "cyan", openingTime: "06:00 AM", closeTime: "10:00 PM", capacity: "50 Persons", remark: "Regular maintenance on Mondays" },
+  { id: "FAC-003", name: "Badminton", location: "Sports Complex", status: "Open", color: "indigo", openingTime: "06:00 AM", closeTime: "10:00 PM", capacity: "4 Persons", remark: "Indoor shoes required" },
+  { id: "FAC-004", name: "Movie", location: "Level 3", status: "Open", color: "violet", openingTime: "10:00 AM", closeTime: "11:00 PM", capacity: "20 Persons", remark: "Advance booking recommended" },
+  { id: "FAC-005", name: "Function Room", location: "Penthouse", status: "Cleaning", color: "orange", openingTime: "08:00 AM", closeTime: "11:00 PM", capacity: "100 Persons", remark: "Booking required 3 days in advance" },
+  { id: "FAC-006", name: "BBQ", location: "Garden", status: "Open", color: "red", openingTime: "10:00 AM", closeTime: "10:00 PM", capacity: "15 Persons", remark: "Clean up after use" },
+  { id: "FAC-007", name: "Bar", location: "Rooftop", status: "Open", color: "grape", openingTime: "05:00 PM", closeTime: "12:00 AM", capacity: "40 Persons", remark: "Adults only" },
+  { id: "FAC-008", name: "Gym", location: "Level 3", status: "Open", color: "teal", openingTime: "05:00 AM", closeTime: "11:00 PM", capacity: "30 Persons", remark: "Bring your own towel" },
 ];
 
 const translations = {

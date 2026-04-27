@@ -55,7 +55,7 @@ const bookingData = [
   { name: 'Cancelled', value: 200 },
 ];
 
-const COLORS = ['#0088FE', '#00C49F', '#FFBB28', '#FF8042'];
+const COLORS = ['#014F86', '#2C7dA0', '#61A5C2', '#A9D6E5'];
 
 export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }) {
   const theme = useMantineTheme();
@@ -107,16 +107,16 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
               <AreaChart data={billingData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <defs>
                   <linearGradient id="colorUtilities" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={theme.colors.blue[6]} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={theme.colors.blue[6]} stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#014F86" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#014F86" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorBills" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={theme.colors.teal[5]} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={theme.colors.teal[5]} stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#2C7dA0" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#2C7dA0" stopOpacity={0}/>
                   </linearGradient>
                   <linearGradient id="colorOther" x1="0" y1="0" x2="0" y2="1">
-                    <stop offset="5%" stopColor={theme.colors.orange[5]} stopOpacity={0.8}/>
-                    <stop offset="95%" stopColor={theme.colors.orange[5]} stopOpacity={0}/>
+                    <stop offset="5%" stopColor="#61A5C2" stopOpacity={0.8}/>
+                    <stop offset="95%" stopColor="#61A5C2" stopOpacity={0}/>
                   </linearGradient>
                 </defs>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
@@ -127,9 +127,9 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                   itemStyle={{ fontWeight: 600 }}
                 />
                 <Legend iconType="circle" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Area type="monotone" dataKey="other" name="Other" stackId="1" stroke={theme.colors.orange[5]} fillOpacity={1} fill="url(#colorOther)" />
-                <Area type="monotone" dataKey="bills" name="Bills" stackId="1" stroke={theme.colors.teal[5]} fillOpacity={1} fill="url(#colorBills)" />
-                <Area type="monotone" dataKey="utilities" name="Utilities" stackId="1" stroke={theme.colors.blue[6]} fillOpacity={1} fill="url(#colorUtilities)" />
+                <Area type="monotone" dataKey="other" name="Other" stackId="1" stroke="#61A5C2" fillOpacity={1} fill="url(#colorOther)" />
+                <Area type="monotone" dataKey="bills" name="Bills" stackId="1" stroke="#2C7dA0" fillOpacity={1} fill="url(#colorBills)" />
+                <Area type="monotone" dataKey="utilities" name="Utilities" stackId="1" stroke="#014F86" fillOpacity={1} fill="url(#colorUtilities)" />
               </AreaChart>
             </ResponsiveContainer>
           </Box>

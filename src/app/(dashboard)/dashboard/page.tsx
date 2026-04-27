@@ -248,15 +248,15 @@ export default function DashboardPage() {
         radius="lg" 
         key={stat.id} 
         style={{ 
-          border: '1px solid #e9ecef',
-          background: 'white',
+          border: `1px solid var(--mantine-color-${stat.color}-2)`,
+          backgroundColor: `var(--mantine-color-${stat.color}-0)`,
           boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)',
           transition: 'transform 0.2s ease, box-shadow 0.2s ease',
           cursor: 'pointer'
         }}
         onMouseEnter={(e) => {
           e.currentTarget.style.transform = 'translateY(-4px)';
-          e.currentTarget.style.boxShadow = '0 10px 25px rgba(0, 0, 0, 0.05)';
+          e.currentTarget.style.boxShadow = `0 10px 25px var(--mantine-color-${stat.color}-2)`;
         }}
         onMouseLeave={(e) => {
           e.currentTarget.style.transform = 'translateY(0)';
@@ -267,12 +267,8 @@ export default function DashboardPage() {
           <ThemeIcon
             size="xl"
             radius="md"
-            variant="light"
+            variant="filled"
             color={stat.color}
-            style={{ 
-              backgroundColor: `var(--mantine-color-${stat.color}-0)`,
-              color: `var(--mantine-color-${stat.color}-7)`
-            }}
           >
             <Icon size={24} />
           </ThemeIcon>

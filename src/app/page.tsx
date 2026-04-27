@@ -89,32 +89,46 @@ const useReveal = () => {
 
 const amenities = [
   {
-    title: "Signature Swimming Pool",
+    title: "Luxury Residences",
+    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&q=80",
+    description: "Experience modern living with premium condominiums and serviced apartments designed for comfort.",
+    mmTitle: "အဆင့်မြင့် လူနေအိမ်ရာများ",
+    mmDescription: "သက်သောင့်သက်သာရှိစေရန် ဒီဇိုင်းထုတ်ထားသော အဆင့်မြင့် ကွန်ဒိုနှင့် ဝန်ဆောင်မှုပေးသည့် တိုက်ခန်းများ။",
+  },
+  {
+    title: "Grade A Office Towers",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=800&q=80",
+    description: "International standard contemporary office spaces in the heart of the business district.",
+    mmTitle: "နိုင်ငံတကာအဆင့်မီ ရုံးခန်းတာဝါများ",
+    mmDescription: "စီးပွားရေးအချက်အချာကျသောနေရာရှိ နိုင်ငံတကာအဆင့်မီ ခေတ်မီရုံးခန်းနေရာများ။",
+  },
+  {
+    title: "The Times Mall",
+    image: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&q=80",
+    description: "Discover the ultimate shopping experience with global brands and diverse dining options.",
+    mmTitle: "Times ကုန်တိုက်",
+    mmDescription: "ကမ္ဘာ့အဆင့်မီ အမှတ်တံဆိပ်များနှင့် စားသောက်ဆိုင်များစွာပါဝင်သည့် ဈေးဝယ်စင်တာ။",
+  },
+  {
+    title: "Shophouses & Services",
+    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&q=80",
+    description: "Vibrant shophouses offering education zones, professional services, and specialty retail.",
+    mmTitle: "ဆိုင်ခန်းများနှင့် ဝန်ဆောင်မှုများ",
+    mmDescription: "ပညာရေးဇုန်များ၊ ပရော်ဖက်ရှင်နယ်ဝန်ဆောင်မှုများနှင့် ဆိုင်ခန်းများ။",
+  },
+  {
+    title: "Signature Infinity Pool",
     image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=800&q=80",
-    description: "Dive into elegance with our temperature-controlled infinity pool and private cabanas.",
-    mmTitle: "အဆင့်မြင့်ရေကူးကန်",
-    mmDescription: "ကိုယ်ပိုင်အနားယူခန်းများနှင့်အတူ အပူချိန်ထိန်းညှိပေးထားသော အနားသတ်မဲ့ရေကူးကန်တွင် အပန်းဖြေလိုက်ပါ။",
+    description: "A luxurious infinity pool with stunning views of the city skyline for residents.",
+    mmTitle: "အဆင့်မြင့် ရေကူးကန်",
+    mmDescription: "မြို့ပြရှုခင်းများကို မြင်တွေ့နိုင်မည့် အဆင့်မြင့် ရေကူးကန်။",
   },
   {
-    title: "Botanical Gardens",
-    image: "https://images.unsplash.com/photo-1585320806297-9794b3e4eeae?q=80&w=800&q=80",
-    description: "Serene manicured landscapes providing a peaceful escape within the city heart.",
-    mmTitle: "ရုက္ခဗေဒဥယျာဉ်များ",
-    mmDescription: "မြို့ပြ၏အလယ်ဗဟိုတွင် ငြိမ်းချမ်းသောခံစားမှုကိုပေးစွမ်းမည့် သေသပ်လှပသော ဥယျာဉ်များ။",
-  },
-  {
-    title: "Luxury Architecture",
-    image: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=800&q=80",
-    description: "Classic design meets modern sophistication in every corner of Sky Haven.",
-    mmTitle: "ခေတ်မီဗိသုကာပညာ",
-    mmDescription: "Sky Haven ၏ နေရာတိုင်းတွင် ရှေးရိုးဆန်သော ဒီဇိုင်းနှင့် ခေတ်မီဆန်းသစ်မှုများ ပေါင်းစပ်ထားသည်။",
-  },
-  {
-    title: "Elite Playground",
-    image: "https://images.unsplash.com/photo-1588075592446-265fd1e6e76f?q=80&w=800&q=80",
-    description: "A safe, premium environment for children to play and grow in the community.",
-    mmTitle: "အထူးကစားကွင်း",
-    mmDescription: "ကလေးငယ်များ ဘေးကင်းလုံခြုံစွာ ကစားနိုင်ပြီး ကြီးထွားလာနိုင်မည့် အဆင့်မြင့်ပတ်ဝန်းကျင်တစ်ခု။",
+    title: "Elite Fitness Center",
+    image: "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?q=80&w=800&q=80",
+    description: "Fully equipped modern sports complex and gym for a healthy lifestyle.",
+    mmTitle: "အဆင့်မြင့် အားကစားခန်းမ",
+    mmDescription: "ကျန်းမာသော လူနေမှုဘဝအတွက် အဆင့်မြင့် အားကစားခန်းမနှင့် စက်ကိရိယာများ။",
   },
 ];
 
@@ -513,7 +527,7 @@ export default function HomePage() {
             </Text>
           </Stack>
 
-          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing={30}>
+          <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing={30}>
             {amenities.map((amenity, index) => (
               <Card key={index} radius="md" p={0} className={classes.featureCard} withBorder shadow="sm">
                 <Box style={{ overflow: 'hidden', height: 280 }}>

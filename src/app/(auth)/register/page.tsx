@@ -2,9 +2,9 @@ import { getServerSession } from "next-auth/next";
 import { redirect } from "next/navigation";
 import { authOptions } from "@/lib/auth";
 import { Box, Paper, Title, Text, Center, Image } from "@mantine/core";
-import { AuthForm } from "@/components/auth/auth-form";
+import { RegisterForm } from "@/components/auth/register-form";
 
-export default async function LoginPage() {
+export default async function RegisterPage() {
   const session = await getServerSession(authOptions);
 
   if (session) {
@@ -26,12 +26,12 @@ export default async function LoginPage() {
           <Image src="/sh.png" alt="Sky Haven Logo" h={60} w="auto" fit="contain" />
         </Center>
         <Title ta="center" mb="lg" c="#014F86">
-          Sky Haven
+          Register
         </Title>
         <Text ta="center" c="dimmed" size="sm" mb={30}>
-          Condo Management System
+          Create a new account
         </Text>
-        <AuthForm />
+        <RegisterForm />
       </Paper>
     </Box>
   );

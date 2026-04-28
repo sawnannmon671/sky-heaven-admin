@@ -90,10 +90,10 @@ const useReveal = () => {
 const amenities = [
   {
     title: "Luxury Residences",
-    image: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1600210492486-724fe5c67fb0?q=80&w=1200&auto=format&fit=crop",
     description: "Experience modern living with premium condominiums and serviced apartments designed for comfort.",
     mmTitle: "အဆင့်မြင့် လူနေအိမ်ရာများ",
-    mmDescription: "သက်သောင့်သက်သာရှိစေရန် ဒီဇိုင်းထုတ်ထားသော အဆင့်မြင့် ကွန်ဒိုနှင့် ဝန်ဆောင်မှုပေးသည့် တိုက်ခန်းများ။",
+    mmDescription: "သက်ဆောင့်သက်သာရှိစေရန် ဒီဇိုင်းထုတ်ထားသော အဆင့်မြင့် ကွန်ဒိုနှင့် ဝန်ဆောင်မှုပေးသည့် တိုက်ခန်းများ။",
   },
   {
     title: "Grade A Office Towers",
@@ -103,15 +103,15 @@ const amenities = [
     mmDescription: "စီးပွားရေးအချက်အချာကျသောနေရာရှိ နိုင်ငံတကာအဆင့်မီ ခေတ်မီရုံးခန်းနေရာများ။",
   },
   {
-    title: "The Times Mall",
-    image: "https://images.unsplash.com/photo-1567401893414-76b7b1e5a7a5?q=80&w=800&q=80",
+    title: "Sky Haven Mall",
+    image: "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?q=80&w=1200&auto=format&fit=crop",
     description: "Discover the ultimate shopping experience with global brands and diverse dining options.",
-    mmTitle: "Times ကုန်တိုက်",
+    mmTitle: "Sky Haven ကုန်တိုက်",
     mmDescription: "ကမ္ဘာ့အဆင့်မီ အမှတ်တံဆိပ်များနှင့် စားသောက်ဆိုင်များစွာပါဝင်သည့် ဈေးဝယ်စင်တာ။",
   },
   {
     title: "Shophouses & Services",
-    image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?q=80&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?q=80&w=1200&auto=format&fit=crop",
     description: "Vibrant shophouses offering education zones, professional services, and specialty retail.",
     mmTitle: "ဆိုင်ခန်းများနှင့် ဝန်ဆောင်မှုများ",
     mmDescription: "ပညာရေးဇုန်များ၊ ပရော်ဖက်ရှင်နယ်ဝန်ဆောင်မှုများနှင့် ဆိုင်ခန်းများ။",
@@ -195,7 +195,7 @@ const testimonials = [
 const translations = {
   en: {
     hero: {
-      title: "The Pinnacle of Classic Luxury",
+      title: "The Art of Exquisite Living",
       subtitle: "Discover Sky Haven — where timeless architecture meets the serenity of botanical gardens and elite amenities.",
       cta: "Experience Now",
       amenitiesBtn: "The Residences",
@@ -224,7 +224,7 @@ const translations = {
   },
   mm: {
     hero: {
-      title: "ဂန္ထဝင်ဆန်သော အဆင့်မြင့်လူနေမှုဘဝ",
+      title: "ပြီးပြည့်စုံသော အဆင့်မြင့်လူနေမှု အနုပညာ",
       subtitle: "Sky Haven — ထာဝရတည်တံ့မည့် ဗိသုကာလက်ရာများ၊ ငြိမ်းချမ်းသောဥယျာဉ်များနှင့် အထူးဝန်ဆောင်မှုများ ပေါင်းစပ်ထားရာနေရာ။",
       cta: "အခုပဲ စတင်လိုက်ပါ",
       amenitiesBtn: "နေထိုင်မှုပုံစံများ",
@@ -266,9 +266,14 @@ export default function HomePage() {
 
   const heroSlides = [
     {
-      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+      image: "https://images.unsplash.com/photo-1519567241046-7f570eee3ce6?q=80&w=2070&auto=format&fit=crop",
       title: t.hero.title,
       subtitle: t.hero.subtitle
+    },
+    {
+      image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+      title: lang === 'mm' ? "နိုင်ငံတကာအဆင့်မီ ရုံးခန်းတာဝါများ" : "Grade A Office Towers",
+      subtitle: lang === 'mm' ? "စီးပွားရေးအချက်အချာကျသောနေရာရှိ ရုံးခန်းနေရာများ" : "International standard contemporary office spaces in the heart of the city."
     },
     {
       image: "https://images.unsplash.com/photo-1576013551627-0cc20b96c2a7?q=80&w=2070&auto=format&fit=crop",
@@ -336,7 +341,7 @@ export default function HomePage() {
               <Title 
                 order={3} 
                 size="h4" 
-                fw={900} 
+                fw={700} 
                 c={scrolled ? "#014F86" : "white"}
                 style={{ transition: 'color 0.3s ease' }}
               >
@@ -419,7 +424,7 @@ export default function HomePage() {
                 order={1} 
                 c="white" 
                 size={72} 
-                fw={900} 
+                fw={700} 
                 style={{ 
                   lineHeight: 1.1, 
                   letterSpacing: '-1px',
@@ -501,8 +506,8 @@ export default function HomePage() {
                   <stat.icon size={34} stroke={1.5} />
                 </ThemeIcon>
                 <div>
-                  <Text size="xl" fw={900} style={{ fontSize: 32, lineHeight: 1 }}>{stat.value}</Text>
-                  <Text size="sm" c="dimmed" fw={600} tt="uppercase" mt={4}>
+                  <Text size="xl" fw={700} style={{ fontSize: 32, lineHeight: 1 }}>{stat.value}</Text>
+                  <Text size="sm" c="dimmed" fw={400} tt="uppercase" mt={4}>
                     {lang === 'mm' ? stat.mmLabel : stat.label}
                   </Text>
                 </div>
@@ -519,7 +524,7 @@ export default function HomePage() {
             <Badge variant="outline" color="#014F86" size="lg" radius="sm">
               {t.amenities.badge}
             </Badge>
-            <Title order={2} size={42} fw={900} ta="center">
+            <Title order={2} size={42} fw={700} ta="center">
               {t.amenities.title}
             </Title>
             <Text c="dimmed" size="lg" maw={600} ta="center">
@@ -530,16 +535,18 @@ export default function HomePage() {
           <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing={30}>
             {amenities.map((amenity, index) => (
               <Card key={index} radius="md" p={0} className={classes.featureCard} withBorder shadow="sm">
-                <Box style={{ overflow: 'hidden', height: 280 }}>
+                <Box style={{ overflow: 'hidden', height: 320 }}>
                   <Image 
                     src={amenity.image} 
                     alt={amenity.title} 
                     className={classes.amenityImage}
+                    h="100%"
+                    fit="cover"
                     style={{ transition: 'transform 0.6s ease' }}
                   />
                 </Box>
                 <Box p="xl">
-                  <Title order={3} size="h3" mb="xs" fw={800}>
+                  <Title order={3} size="h3" mb="xs" fw={600}>
                     {lang === 'mm' ? amenity.mmTitle : amenity.title}
                   </Title>
                   <Text c="dimmed" size="md" style={{ lineHeight: 1.6 }}>
@@ -559,7 +566,7 @@ export default function HomePage() {
             <Badge variant="outline" color="#014F86" size="lg" radius="sm">
               {t.features.badge}
             </Badge>
-            <Title order={2} size={42} fw={900} ta="center">
+            <Title order={2} size={42} fw={700} ta="center">
               {t.features.title}
             </Title>
             <Text c="dimmed" size="lg" maw={600} ta="center">
@@ -573,7 +580,7 @@ export default function HomePage() {
                 <ThemeIcon size={50} radius="md" color={feature.color} variant="light" mb="xl">
                   <feature.icon size={28} />
                 </ThemeIcon>
-                <Text size="lg" fw={800} mb="sm">
+                <Text size="lg" fw={600} mb="sm">
                   {lang === 'mm' ? feature.mmTitle : feature.title}
                 </Text>
                 <Text size="sm" c="dimmed" style={{ lineHeight: 1.6 }}>
@@ -592,7 +599,7 @@ export default function HomePage() {
             <Badge variant="outline" color="#014F86" size="lg" radius="sm">
               {t.testimonials.badge}
             </Badge>
-            <Title order={2} size={42} fw={900} ta="center">
+            <Title order={2} size={42} fw={700} ta="center">
               {t.testimonials.title}
             </Title>
           </Stack>
@@ -603,11 +610,11 @@ export default function HomePage() {
                 <Group mb="xl">
                   <Avatar src={item.avatar} size={60} radius="xl" />
                   <div>
-                    <Text fw={800} size="lg">{item.name}</Text>
+                    <Text fw={600} size="lg">{item.name}</Text>
                     <Text size="sm" c="dimmed">{lang === 'mm' ? item.mmRole : item.role}</Text>
                   </div>
                 </Group>
-                <Text size="lg" style={{ fontStyle: 'italic', lineHeight: 1.6 }}>
+                <Text size="lg" style={{ lineHeight: 1.6 }}>
                   "{lang === 'mm' ? item.mmComment : item.comment}"
                 </Text>
               </Paper>
@@ -623,7 +630,7 @@ export default function HomePage() {
             <Stack gap="md">
               <Group gap="sm">
                 <Image src="/sh.png" alt="Logo" h={40} w="auto" style={{ filter: 'brightness(0) invert(1)' }} />
-                <Title order={3} c="white" fw={900}>Sky Haven</Title>
+                <Title order={3} c="white" fw={700}>Sky Haven</Title>
               </Group>
               <Text c="gray.5" size="sm" maw={260}>
                 Setting the benchmark for luxury condo management and elite urban living.
@@ -637,7 +644,7 @@ export default function HomePage() {
             </Stack>
 
             <Stack gap="md">
-              <Text fw={800} size="lg">Quick Links</Text>
+              <Text fw={600} size="lg">Quick Links</Text>
               <Text component={Link} href="#features" className={classes.footerLink} c="gray.5" size="sm">Features</Text>
               <Text component={Link} href="#amenities" className={classes.footerLink} c="gray.5" size="sm">Facilities</Text>
               <Text component={Link} href="/login" className={classes.footerLink} c="gray.5" size="sm">Resident Login</Text>
@@ -645,7 +652,7 @@ export default function HomePage() {
             </Stack>
 
             <Stack gap="md">
-              <Text fw={800} size="lg">Contact Us</Text>
+              <Text fw={600} size="lg">Contact Us</Text>
               <Group gap="sm">
                 <IconPhone size={18} />
                 <Text size="sm">+95 9 123 456 789</Text>
@@ -657,7 +664,7 @@ export default function HomePage() {
             </Stack>
 
             <Stack gap="md">
-              <Text fw={800} size="lg">Newsletter</Text>
+              <Text fw={600} size="lg">Newsletter</Text>
               <Text c="gray.5" size="sm">Subscribe for the latest community updates.</Text>
               <Button color="#014F86" radius="md">Subscribe</Button>
             </Stack>

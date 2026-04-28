@@ -188,7 +188,14 @@ const mockData = [
                 </Table.Td>
                 <Table.Td>
                   <Group gap={4} justify="flex-end">
-                    <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
+                    <ActionIcon 
+                      variant="subtle" 
+                      color="gray" 
+                      component={Link} 
+                      href={`/dashboard/maintenance/preventive/${item.id}`}
+                    >
+                      <IconEye size={16} />
+                    </ActionIcon>
                     <ActionIcon variant="subtle" color="blue"><IconEdit size={16} /></ActionIcon>
                     <ActionIcon variant="subtle" color="red"><IconTrash size={16} /></ActionIcon>
                   </Group>

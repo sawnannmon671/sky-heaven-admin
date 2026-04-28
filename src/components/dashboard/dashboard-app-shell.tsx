@@ -147,6 +147,7 @@ export function DashboardAppShell({
       moveInOut: "Move In / Move Out",
       residentDirectory: "Resident Directory",
       utilityBillsType: "Utility Bills Types",
+      requestType: "Request Types",
       billingFinance: "Billing & Finance",
       invoiceGeneration: "Invoice Generation",
       maintenanceFees: "Monthly Maintenance Fees",
@@ -157,6 +158,9 @@ export function DashboardAppShell({
       expenseTracking: "Expense Tracking",
       financialReports: "Financial Reports",
       maintenance: "Maintenance",
+      requests: "Requests",
+      preventiveSchedule: "Preventive Schedule",
+      complaints: "Complaints",
       createTicket: "Create Ticket",
       workOrders: "Work Orders",
       technicianAssignment: "Technician Assignment",
@@ -229,6 +233,7 @@ export function DashboardAppShell({
       moveInOut: "အဝင် / အထွက်",
       residentDirectory: "နေထိုင်သူများစာရင်း",
       utilityBillsType: "ယူတီလီတီဘေလ်အမျိုးအစားများ",
+      requestType: "တောင်းဆိုမှုအမျိုးအစားများ",
       billingFinance: "ငွေတောင်းခံလွှာနှင့် ဘဏ္ဍာရေး",
       invoiceGeneration: "ငွေတောင်းခံလွှာထုတ်ခြင်း",
       maintenanceFees: "လစဉ်ထိန်းသိမ်းခများ",
@@ -239,6 +244,9 @@ export function DashboardAppShell({
       expenseTracking: "အသုံးစရိတ်ခြေရာခံခြင်း",
       financialReports: "ဘဏ္ဍာရေးအစီရင်ခံစာများ",
       maintenance: "ပြုပြင်ထိန်းသိမ်းမှု",
+      requests: "တောင်းဆိုမှုများ",
+      preventiveSchedule: "ကြိုတင်ထိန်းသိမ်းမှု အချိန်ဇယား",
+      complaints: "တိုင်ကြားချက်များ",
       createTicket: "တိုင်ကြားချက်အသစ်ဖွင့်ရန်",
       workOrders: "လုပ်ငန်းအမိန့်များ",
       technicianAssignment: "စက်မှုကျွမ်းကျင်သူတာဝန်ပေးခြင်း",
@@ -453,6 +461,7 @@ export function DashboardAppShell({
             <NavLink component={Link} href="/dashboard/master-setting/staff-type" label="Staff Types" leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/staff-type"} />
             <NavLink component={Link} href="/dashboard/master-setting/resident-type" label="Resident Types" leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/resident-type"} />
             <NavLink component={Link} href="/dashboard/master-setting/utility-bills-type" label={t.utilityBillsType} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/utility-bills-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/request-type" label={t.requestType} leftSection={<IconMessageReport size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/request-type"} />
           </NavLink>
 
           <NavLink
@@ -536,11 +545,9 @@ export function DashboardAppShell({
             opened={operationsOpened}
             onChange={setOperationsOpened}
           >
-            <NavLink component={Link} href="/dashboard/maintenance/create" label={t.createTicket} leftSection={<IconTicket size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/create"} />
-            <NavLink component={Link} href="/dashboard/maintenance/orders" label={t.workOrders} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/orders"} />
-            <NavLink component={Link} href="/dashboard/maintenance/technician" label={t.technicianAssignment} leftSection={<IconUserCog size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/technician"} />
-            <NavLink component={Link} href="/dashboard/maintenance/preventive" label={t.preventiveMaintenance} leftSection={<IconCalendarStats size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/preventive"} />
-            <NavLink component={Link} href="/dashboard/maintenance/complaints" label={t.complaintManagement} leftSection={<IconMessageExclamation size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/complaints"} />
+            <NavLink component={Link} href="/dashboard/maintenance" label={t.requests} leftSection={<IconClipboardList size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance"} />
+            <NavLink component={Link} href="/dashboard/maintenance/preventive" label={t.preventiveSchedule} leftSection={<IconCalendarStats size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/preventive"} />
+            <NavLink component={Link} href="/dashboard/maintenance/complaints" label={t.complaints} leftSection={<IconMessageExclamation size={18} />} className={classes.navLink} active={pathname === "/dashboard/maintenance/complaints"} />
           </NavLink>
 
           {/* Parking Menu Hidden

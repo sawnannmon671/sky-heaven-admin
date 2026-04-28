@@ -4,6 +4,7 @@ import { useState } from "react";
 import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination , UnstyledButton, Center } from "@mantine/core";
 import {  IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import Link from "next/link";
 
 const elements = [
   { id: "REQ-101", unit: "101", category: "Plumbing", priority: "High", status: "In Progress", date: "2024-04-20", color: "red" },
@@ -134,7 +135,12 @@ export default function MaintenancePage() {
       </Table.Td>
       <Table.Td>
         <Group gap={4} justify="flex-end">
-          <ActionIcon variant="subtle" color="gray">
+          <ActionIcon 
+            variant="subtle" 
+            color="gray" 
+            component={Link} 
+            href={`/dashboard/maintenance/${element.id}`}
+          >
             <IconEye size={16} />
           </ActionIcon>
           <ActionIcon variant="subtle" color="blue">

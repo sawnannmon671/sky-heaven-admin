@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  nextjs-app:
+    env_file:
+      - .env
+    build: .
+    container_name: fh_sky_haven_nextjs_app
+    ports:
+      - "3001:3000"
+    deploy:
+      resources:
+        limits:
+          memory: 1.5G
+        reservations:
+          memory: 1G
+    networks:
+      - shared_net
+    volumes:
+      # CentOS SELinux အတွက် ':z' ထည့်ပေးဖို့ မဖြစ်မနေ လိုအပ်ပါတယ်
+      - ./public:/app/public:z
+      # သတိပြုရန်: Production အတွက်ဆိုရင် အောက်က volumes (၃) ကြောင်းကို ဖျက်ပစ်တာ အကောင်းဆုံးပါပဲ
+      - .:/app:z
+      - /app/.next
+      - /app/node_modules
+    restart: unless-stopped
+
+networks:
+  shared_net:
+    # အရင်က Database အတွက် သင်ဆောက်ခဲ့တဲ့ Network နာမည်ကို တိုက်ရိုက်ချိတ်လိုက်တာပါ
+    name: fh_sh_shared_network
+    external: true

@@ -30,9 +30,6 @@ import {
   IconArrowDownRight,
   IconCircleCheck,
   IconClock,
-  IconBell,
-  IconAlertTriangle,
-  IconMessageCircle,
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DashboardCharts } from "./DashboardCharts";
@@ -84,12 +81,6 @@ const recentVisitors = [
   { id: 4, name: "Total Security", host: "System", time: "08:00 AM", type: "Service", status: "Out" },
 ];
 
-const alerts = [
-  { id: 1, title: "Fire Alarm Test", msg: "Scheduled for Block A tomorrow at 10 AM", time: "1 hour ago", type: "info", icon: IconBell },
-  { id: 2, title: "Water Interruption", msg: "Emergency repair in Block B, Level 3", time: "3 hours ago", type: "error", icon: IconAlertTriangle },
-  { id: 3, title: "New Message", msg: "Resident from C-303 sent a query", time: "5 hours ago", type: "success", icon: IconMessageCircle },
-];
-
 const recentActivities = [
   { id: 1, user: "John Doe", unit: "A-101", activity: "Maintenance", status: "In Progress", date: "2 hours ago", color: "blue" },
   { id: 2, user: "Sarah Smith", unit: "B-205", activity: "Payment", status: "Completed", date: "5 hours ago", color: "green" },
@@ -119,10 +110,6 @@ const translations = {
       thTime: "Entry Time",
       thType: "Type",
       thStatus: "Status",
-    },
-    alerts: {
-      title: "Alerts & Notifications",
-      viewAll: "Clear All",
     },
     activities: {
       title: "Recent Activities",
@@ -184,10 +171,6 @@ const translations = {
       thTime: "ဝင်ရောက်ချိန်",
       thType: "အမျိုးအစား",
       thStatus: "အခြေအနေ",
-    },
-    alerts: {
-      title: "သတိပေးချက်များနှင့် အကြောင်းကြားစာများ",
-      viewAll: "အားလုံးဖျက်ရန်",
     },
     activities: {
       title: "လတ်တလောလှုပ်ရှားမှုများ",
@@ -321,49 +304,7 @@ export default function DashboardPage() {
         {cards}
       </SimpleGrid>
 
-      <DashboardCharts occupancyCard={
-        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
-          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Group justify="space-between">
-              <Title order={3}>{t.alerts.title}</Title>
-              <ActionIcon variant="light" color="gray" radius="md">
-                <IconBell size={18} />
-              </ActionIcon>
-            </Group>
-          </Box>
-          <Stack gap="0">
-            {alerts.map((alert, index) => {
-              const Icon = alert.icon;
-              return (
-                <Box 
-                  key={alert.id} 
-                  p="lg" 
-                  style={{ 
-                    borderBottom: index === alerts.length - 1 ? 'none' : '1px solid #f1f3f5',
-                    backgroundColor: alert.type === 'error' ? 'var(--mantine-color-red-0)' : 'transparent',
-                    transition: 'background-color 0.2s ease',
-                    cursor: 'pointer'
-                  }}
-                >
-                  <Group wrap="nowrap" align="flex-start" gap="md">
-                    <ThemeIcon color={alert.type === 'info' ? 'blue' : alert.type === 'error' ? 'red' : 'green'} variant="light" size="md" radius="md">
-                      <Icon size={16} />
-                    </ThemeIcon>
-                    <Stack gap={4}>
-                      <Text size="sm" fw={700}>{alert.title}</Text>
-                      <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>{alert.msg}</Text>
-                      <Text size="xs" c="dimmed" fw={600} mt={4}>{alert.time}</Text>
-                    </Stack>
-                  </Group>
-                </Box>
-              );
-            })}
-          </Stack>
-          <Box p="sm" bg="gray.0" style={{ textAlign: 'center', borderTop: '1px solid #f1f3f5' }}>
-            <Button variant="subtle" size="xs" color="blue" fullWidth>{t.alerts.viewAll}</Button>
-          </Box>
-        </Paper>
-      } />
+      <DashboardCharts />
 
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>

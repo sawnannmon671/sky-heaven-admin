@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {   Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
 import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuildingCommunity , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -64,6 +64,7 @@ const translations = {
 
 export default function UnitsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -73,7 +74,9 @@ export default function UnitsPage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
+  const filteredData = elements.filter(item => activeTab === "All" || item.status === activeTab);
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -141,6 +144,15 @@ export default function UnitsPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
+        <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
+          <Tabs.List>
+            <Tabs.Tab value="All">All Units</Tabs.Tab>
+            <Tabs.Tab value="Occupied">{t.status.Occupied}</Tabs.Tab>
+            <Tabs.Tab value="Available">{t.status.Available}</Tabs.Tab>
+            <Tabs.Tab value="Maintenance">{t.status.Maintenance}</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+
         <TextInput
           placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}

@@ -32,6 +32,8 @@ const billingData = [
   { name: 'Aug', utilities: 1500, bills: 2100, maintenance: 700, other: 900 },
   { name: 'Sep', utilities: 1450, bills: 2300, maintenance: 800, other: 950 },
   { name: 'Oct', utilities: 1600, bills: 2200, maintenance: 750, other: 1000 },
+  { name: 'Nov', utilities: 1550, bills: 2400, maintenance: 850, other: 1100 },
+  { name: 'Dec', utilities: 1700, bills: 2500, maintenance: 900, other: 1200 },
 ];
 
 const financeData = [

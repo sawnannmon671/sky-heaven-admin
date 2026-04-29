@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
 import {  IconHistory, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function PaymentRecordsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const { lang } = useTranslation();
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,31 +22,32 @@ export default function PaymentRecordsPage() {
     setSortConfig({ key, direction });
   };
 
-  
-
-  const [activePage, setPage] = useState(1);
-  const itemsPerPage = 5;
-
-  const { lang, mounted } = useTranslation();
-
-  
-
   const t = {
     en: {
       title: "Payment Records",
       subtitle: "View and manage all resident payment history.",
       back: "Back to Billing",
       comingSoon: "Payment records management is coming soon.",
+      status: {
+        Completed: "Completed",
+        Processing: "Processing",
+        Failed: "Failed"
+      }
     },
     mm: {
       title: "ငွေပေးချေမှုမှတ်တမ်းများ",
       subtitle: "နေထိုင်သူများ၏ ငွေပေးချေမှုမှတ်တမ်းအားလုံးကို ကြည့်ရှုခြင်းနှင့် စီမံခန့်ခွဲခြင်း။",
       back: "ဘဏ္ဍာရေးစာမျက်နှာသို့ ပြန်သွားရန်",
       comingSoon: "ငွေပေးချေမှုမှတ်တမ်းစီမံခန့်ခွဲမှုအား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
+      status: {
+        Completed: "ပေးချေပြီး",
+        Processing: "လုပ်ဆောင်ဆဲ",
+        Failed: "မအောင်မြင်ပါ"
+      }
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
+  const mockData = [
     { id: "PAY-001", invoiceId: "INV-2024-001", resident: "U Aung Aung", amount: "$150.00", method: "Bank Transfer", date: "2024-10-05", status: "Completed" },
     { id: "PAY-002", invoiceId: "INV-2024-003", resident: "U Kyaw Min", amount: "$200.00", method: "Cash", date: "2024-10-10", status: "Completed" },
     { id: "PAY-003", invoiceId: "INV-2024-005", resident: "U Zaw Myo", amount: "$180.00", method: "Credit Card", date: "2024-10-12", status: "Completed" },
@@ -49,7 +55,9 @@ const mockData = [
     { id: "PAY-005", invoiceId: "INV-2024-004", resident: "Daw Hla Hla", amount: "$150.00", method: "Bank Transfer", date: "2024-10-16", status: "Failed" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const filteredData = mockData.filter(item => activeTab === "All" || item.status === activeTab);
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -80,8 +88,16 @@ const mockData = [
         </Button>
       </Group>
 
-      
       <Paper p="md" radius="md" withBorder shadow="sm">
+        <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
+          <Tabs.List>
+            <Tabs.Tab value="All">All Payments</Tabs.Tab>
+            <Tabs.Tab value="Completed">{t.status.Completed}</Tabs.Tab>
+            <Tabs.Tab value="Processing">{t.status.Processing}</Tabs.Tab>
+            <Tabs.Tab value="Failed">{t.status.Failed}</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+
         <Group justify="space-between" mb="md">
           <TextInput
             placeholder="Search..."
@@ -202,9 +218,9 @@ const mockData = [
         </Table>
         <Group justify="space-between" mt="md">
           <Text size="sm" c="dimmed">
-            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, mockData.length)} of {mockData.length} entries
+            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
           </Text>
-          <Pagination total={Math.ceil(mockData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+          <Pagination total={Math.ceil(filteredData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
       
       </Paper>

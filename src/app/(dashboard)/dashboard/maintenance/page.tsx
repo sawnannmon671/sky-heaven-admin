@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
 import {  IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
@@ -83,6 +83,7 @@ const translations = {
 
 export default function MaintenancePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -92,7 +93,9 @@ export default function MaintenancePage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
+  const filteredData = elements.filter(item => activeTab === "All" || item.status === activeTab);
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -165,21 +168,20 @@ export default function MaintenancePage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
+        <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
+          <Tabs.List>
+            <Tabs.Tab value="All">All Requests</Tabs.Tab>
+            <Tabs.Tab value="Pending">{t.statuses.Pending}</Tabs.Tab>
+            <Tabs.Tab value="In Progress">{t.statuses["In Progress"]}</Tabs.Tab>
+            <Tabs.Tab value="Completed">{t.statuses.Completed}</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+
         <Group mb="xl" justify="space-between">
           <TextInput
             placeholder={t.searchPlaceholder}
             leftSection={<IconSearch size={16} />}
             style={{ flex: 1 }}
-          />
-          <Select
-            placeholder={t.filterStatus}
-            data={[
-              { value: "Pending", label: t.statuses.Pending },
-              { value: "In Progress", label: t.statuses["In Progress"] },
-              { value: "Completed", label: t.statuses.Completed },
-            ]}
-            leftSection={<IconFilter size={16} />}
-            style={{ width: 200 }}
           />
         </Group>
         <Table verticalSpacing="sm" highlightOnHover>

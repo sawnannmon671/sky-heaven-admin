@@ -440,31 +440,6 @@ export function DashboardAppShell({
           />
 
           <NavLink
-            label={t.masterSetting}
-            leftSection={<IconSettings size={20} />}
-            childrenOffset={28}
-            className={classes.navLink}
-            opened={masterSettingOpened}
-            onChange={setMasterSettingOpened}
-          >
-            <NavLink
-              component={Link}
-              href="/dashboard/master-setting/unit-types"
-              label={t.unitTypes}
-              leftSection={<IconPalette size={18} />}
-              className={classes.navLink}
-              active={pathname === "/dashboard/master-setting/unit-types"}
-            />
-            <NavLink component={Link} href="/dashboard/master-setting/payment-method" label="Payment Methods" leftSection={<IconCreditCard size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-method"} />
-            <NavLink component={Link} href="/dashboard/master-setting/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-type"} />
-            <NavLink component={Link} href="/dashboard/master-setting/document-type" label="Document Types" leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/document-type"} />
-            <NavLink component={Link} href="/dashboard/master-setting/staff-type" label="Staff Types" leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/staff-type"} />
-            <NavLink component={Link} href="/dashboard/master-setting/resident-type" label="Resident Types" leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/resident-type"} />
-            <NavLink component={Link} href="/dashboard/master-setting/utility-bills-type" label={t.utilityBillsType} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/utility-bills-type"} />
-            <NavLink component={Link} href="/dashboard/master-setting/request-type" label={t.requestType} leftSection={<IconMessageReport size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/request-type"} />
-          </NavLink>
-
-          <NavLink
             label={t.propertyManagement}
             leftSection={<IconBuilding size={20} />}
             childrenOffset={28}
@@ -660,6 +635,31 @@ export function DashboardAppShell({
           </NavLink>
 
           <NavLink
+            label={t.masterSetting}
+            leftSection={<IconSettings size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={masterSettingOpened}
+            onChange={setMasterSettingOpened}
+          >
+            <NavLink
+              component={Link}
+              href="/dashboard/master-setting/unit-types"
+              label={t.unitTypes}
+              leftSection={<IconPalette size={18} />}
+              className={classes.navLink}
+              active={pathname === "/dashboard/master-setting/unit-types"}
+            />
+            <NavLink component={Link} href="/dashboard/master-setting/payment-method" label="Payment Methods" leftSection={<IconCreditCard size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-method"} />
+            <NavLink component={Link} href="/dashboard/master-setting/payment-type" label="Payment Types" leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/payment-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/document-type" label="Document Types" leftSection={<IconFileText size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/document-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/staff-type" label="Staff Types" leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/staff-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/resident-type" label="Resident Types" leftSection={<IconUser size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/resident-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/utility-bills-type" label={t.utilityBillsType} leftSection={<IconDroplet size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/utility-bills-type"} />
+            <NavLink component={Link} href="/dashboard/master-setting/request-type" label={t.requestType} leftSection={<IconMessageReport size={18} />} className={classes.navLink} active={pathname === "/dashboard/master-setting/request-type"} />
+          </NavLink>
+
+          <NavLink
             label={t.settings}
             leftSection={<IconSettings size={20} />}
             childrenOffset={28}
@@ -676,7 +676,7 @@ export function DashboardAppShell({
         </Box>
       </AppShell.Navbar>
 
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main className={classes.main}>{children}</AppShell.Main>
     </AppShell>
   );
 }

@@ -133,9 +133,9 @@ export default function StaffPage() {
           size="md"
         />
         <Table verticalSpacing="sm" highlightOnHover>
-          <Table.Thead>
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.user}</span>
@@ -149,7 +149,7 @@ export default function StaffPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('name')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.role}</span>
@@ -163,7 +163,7 @@ export default function StaffPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('email')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.status}</span>
@@ -177,7 +177,7 @@ export default function StaffPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th ta="right">{t.table.actions}</Table.Th>
+              <Table.Th c="white" ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

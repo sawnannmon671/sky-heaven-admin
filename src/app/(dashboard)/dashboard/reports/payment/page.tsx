@@ -96,9 +96,9 @@ export default function PaymentReportPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Report ID</span>
@@ -112,7 +112,7 @@ export default function PaymentReportPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('title')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Report Title</span>
@@ -126,7 +126,7 @@ export default function PaymentReportPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('period')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Period</span>
@@ -140,7 +140,7 @@ export default function PaymentReportPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('totalAmount')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Total Expected</span>
@@ -154,9 +154,9 @@ export default function PaymentReportPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Collected</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Collected</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

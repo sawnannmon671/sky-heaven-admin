@@ -96,9 +96,9 @@ export default function RolesPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Role ID</span>
@@ -112,7 +112,7 @@ export default function RolesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('name')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Role Name & Description</span>
@@ -126,7 +126,7 @@ export default function RolesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('description')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Active Users</span>
@@ -140,7 +140,7 @@ export default function RolesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('users')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>Status</span>
@@ -154,7 +154,7 @@ export default function RolesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

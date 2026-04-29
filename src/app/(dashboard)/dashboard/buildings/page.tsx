@@ -129,9 +129,9 @@ export default function BuildingsPage() {
           radius="md"
         />
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thBuilding}</span>
@@ -145,7 +145,7 @@ export default function BuildingsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('name')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thFloors}</span>
@@ -159,7 +159,7 @@ export default function BuildingsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('floors')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thUnits}</span>
@@ -173,7 +173,7 @@ export default function BuildingsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('units')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thStatus}</span>
@@ -187,7 +187,7 @@ export default function BuildingsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">{t.thActions}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

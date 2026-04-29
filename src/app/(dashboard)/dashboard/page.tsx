@@ -369,7 +369,7 @@ export default function DashboardPage() {
                     <Tooltip 
                       contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
                       cursor={{ fill: 'transparent' }}
-                      formatter={(value: number, name: string) => [`$${value}`, t.expenses.categories[name as keyof typeof t.expenses.categories] || name]}
+                      formatter={(value: any, name: any) => [`$${value}`, t.expenses.categories[name as keyof typeof t.expenses.categories] || name]}
                     />
                     <Legend iconType="square" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
                     <Bar dataKey="maintenance" name={t.expenses.categories.maintenance} stackId="1" fill="#014F86" maxBarSize={40} />
@@ -478,15 +478,15 @@ export default function DashboardPage() {
         </Box>
         <ScrollArea>
           <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
-            <Table.Thead bg="gray.0">
+            <Table.Thead bg="#014F86">
             <Table.Tr>
-               <Table.Th fw={700} fz="sm" c="dark">Pass No.</Table.Th>
-               <Table.Th fw={700} fz="sm" c="dark">{t.visitors?.thName || "Visitor Name"}</Table.Th>
-               <Table.Th fw={700} fz="sm" c="dark">Contact Info</Table.Th>
-               <Table.Th fw={700} fz="sm" c="dark">{t.visitors?.thHost || "Host Unit"}</Table.Th>
-               <Table.Th fw={700} fz="sm" c="dark">Purpose</Table.Th>
-               <Table.Th fw={700} fz="sm" c="dark">{t.visitors?.thTime || "Time In"}</Table.Th>
-               <Table.Th ta="right" fw={700} fz="sm" c="dark">Expected Out</Table.Th>
+               <Table.Th fw={700} fz="sm" c="white">Pass No.</Table.Th>
+               <Table.Th fw={700} fz="sm" c="white">{t.visitors?.thName || "Visitor Name"}</Table.Th>
+               <Table.Th fw={700} fz="sm" c="white">Contact Info</Table.Th>
+               <Table.Th fw={700} fz="sm" c="white">{t.visitors?.thHost || "Host Unit"}</Table.Th>
+               <Table.Th fw={700} fz="sm" c="white">Purpose</Table.Th>
+               <Table.Th fw={700} fz="sm" c="white">{t.visitors?.thTime || "Time In"}</Table.Th>
+               <Table.Th ta="right" fw={700} fz="sm" c="white">Expected Out</Table.Th>
              </Table.Tr>
           </Table.Thead>
             <Table.Tbody>

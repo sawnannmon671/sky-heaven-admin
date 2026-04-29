@@ -185,9 +185,9 @@ export default function UnitsPage() {
           size="md"
         />
         <Table verticalSpacing="sm" highlightOnHover>
-          <Table.Thead>
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thUnitNumber}</span>
@@ -201,7 +201,7 @@ export default function UnitsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('floor')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thFloor}</span>
@@ -215,7 +215,7 @@ export default function UnitsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('type')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thType}</span>
@@ -229,7 +229,7 @@ export default function UnitsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('status')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thStatus}</span>
@@ -243,8 +243,8 @@ export default function UnitsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>{t.thResident}</Table.Th>
-              <Table.Th ta="right">{t.thActions}</Table.Th>
+              <Table.Th c="white">{t.thResident}</Table.Th>
+              <Table.Th c="white" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

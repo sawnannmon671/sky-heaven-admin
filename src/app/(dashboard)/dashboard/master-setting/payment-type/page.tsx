@@ -116,12 +116,12 @@ export default function PaymentTypePage() {
           size="md"
         />
         <Table verticalSpacing="sm" highlightOnHover>
-          <Table.Thead>
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th>{t.thName}</Table.Th>
-              <Table.Th>{t.thDescription}</Table.Th>
-              <Table.Th>{t.thStatus}</Table.Th>
-              <Table.Th ta="right">{t.thActions}</Table.Th>
+              <Table.Th c="white">{t.thName}</Table.Th>
+              <Table.Th c="white">{t.thDescription}</Table.Th>
+              <Table.Th c="white">{t.thStatus}</Table.Th>
+              <Table.Th c="white" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

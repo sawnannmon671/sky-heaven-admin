@@ -64,14 +64,14 @@ export default function BackupPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">Backup ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Backup Name</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Frequency</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Last Run</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Backup ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Backup Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Frequency</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Last Run</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

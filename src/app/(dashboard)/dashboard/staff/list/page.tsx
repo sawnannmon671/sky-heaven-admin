@@ -85,7 +85,7 @@ export default function StaffListPage() {
   const Th = ({ children, reversed, sorted, onSort }: { children: React.ReactNode; reversed: boolean; sorted: boolean; onSort(): void }) => {
     const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
     return (
-      <Table.Th>
+      <Table.Th c="white">
         <UnstyledButton onClick={onSort} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '8px' }}>
           <Text fw={600} size="sm">{children}</Text>
           <Icon size={14} stroke={1.5} style={{ color: sorted ? '#014F86' : 'gray' }} />
@@ -149,7 +149,7 @@ export default function StaffListPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
               <Th sorted={sortConfig?.key === 'id'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('id')}>{t.columns.id}</Th>
               <Th sorted={sortConfig?.key === 'name'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('name')}>{t.columns.name}</Th>
@@ -158,7 +158,7 @@ export default function StaffListPage() {
               <Th sorted={sortConfig?.key === 'dept'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('dept')}>{t.columns.dept}</Th>
               <Th sorted={sortConfig?.key === 'joinDate'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('joinDate')}>{t.columns.joinDate}</Th>
               <Th sorted={sortConfig?.key === 'status'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('status')}>{t.columns.status}</Th>
-              <Table.Th style={{ padding: '8px' }}><Text fw={600} size="sm">{t.columns.actions}</Text></Table.Th>
+              <Table.Th c="white" style={{ padding: '8px' }}><Text fw={600} size="sm">{t.columns.actions}</Text></Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

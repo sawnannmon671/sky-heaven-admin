@@ -64,14 +64,14 @@ export default function CurrencyTaxPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Type</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Rate / Value</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Description</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Rate / Value</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Description</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

@@ -151,9 +151,9 @@ export default function FacilitiesPage() {
           radius="md"
         />
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thFacility}</span>
@@ -167,7 +167,7 @@ export default function FacilitiesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('location')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thLocation}</span>
@@ -181,11 +181,11 @@ export default function FacilitiesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thOpeningTime}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thCloseTime}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thCapacity}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">{t.thRemark}</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">
+              <Table.Th fw={700} fz="sm" c="white">{t.thOpeningTime}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">{t.thCloseTime}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">{t.thCapacity}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">{t.thRemark}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">
                 <UnstyledButton onClick={() => handleSort('status')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thStatus}</span>
@@ -199,7 +199,7 @@ export default function FacilitiesPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">{t.thActions}</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

@@ -157,9 +157,9 @@ export default function PaymentsPage() {
           size="md"
         />
         <Table verticalSpacing="sm" highlightOnHover>
-          <Table.Thead>
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.paymentId}</span>
@@ -173,7 +173,7 @@ export default function PaymentsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('resident')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.resident}</span>
@@ -187,7 +187,7 @@ export default function PaymentsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('amount')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.amount}</span>
@@ -201,7 +201,7 @@ export default function PaymentsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('method')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.table.method}</span>
@@ -215,9 +215,9 @@ export default function PaymentsPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>{t.table.date}</Table.Th>
-              <Table.Th>{t.table.status}</Table.Th>
-              <Table.Th ta="right">{t.table.actions}</Table.Th>
+              <Table.Th c="white">{t.table.date}</Table.Th>
+              <Table.Th c="white">{t.table.status}</Table.Th>
+              <Table.Th c="white" ta="right">{t.table.actions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

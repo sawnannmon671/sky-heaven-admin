@@ -64,14 +64,14 @@ export default function NotificationSettingsPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">Setting ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Notification Type</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Target Audience</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Delivery Method</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Setting ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Notification Type</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Target Audience</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Delivery Method</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

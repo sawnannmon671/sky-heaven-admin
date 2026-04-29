@@ -64,14 +64,14 @@ export default function CompanyProfilePage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">Branch ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Branch Name</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Location</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Contact</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Branch ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Branch Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Location</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Contact</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

@@ -207,13 +207,13 @@ export default function AmenitiesPage() {
 
         <Table.ScrollContainer minWidth={800}>
           <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
-            <Table.Thead bg="gray.0">
+            <Table.Thead bg="#014F86">
               <Table.Tr>
-                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.amenity}</Table.Th>
-                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.status}</Table.Th>
-                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.capacity}</Table.Th>
-                <Table.Th fw={700} fz="sm" c="dark">{t.tableHeaders.schedule}</Table.Th>
-                <Table.Th fw={700} fz="sm" c="dark" ta="right">{t.tableHeaders.actions}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="white">{t.tableHeaders.amenity}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="white">{t.tableHeaders.status}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="white">{t.tableHeaders.capacity}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="white">{t.tableHeaders.schedule}</Table.Th>
+                <Table.Th fw={700} fz="sm" c="white" ta="right">{t.tableHeaders.actions}</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

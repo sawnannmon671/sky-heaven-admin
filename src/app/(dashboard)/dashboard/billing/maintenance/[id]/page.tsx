@@ -132,12 +132,12 @@ export default function DetailPage() {
                     <Title order={3} mb="md" style={{ fontWeight: 600 }}>Itemized Breakdown</Title>
                     <Paper radius="md" withBorder>
                       <Table verticalSpacing="md" striped highlightOnHover={false}>
-                        <Table.Thead>
+                        <Table.Thead bg="#014F86">
                           <Table.Tr>
-                            <Table.Th>Description</Table.Th>
-                            <Table.Th style={{ textAlign: 'center' }}>Qty</Table.Th>
-                            <Table.Th style={{ textAlign: 'right' }}>Price</Table.Th>
-                            <Table.Th style={{ textAlign: 'right' }}>Total</Table.Th>
+                            <Table.Th c="white">Description</Table.Th>
+                            <Table.Th c="white" style={{ textAlign: 'center' }}>Qty</Table.Th>
+                            <Table.Th c="white" style={{ textAlign: 'right' }}>Price</Table.Th>
+                            <Table.Th c="white" style={{ textAlign: 'right' }}>Total</Table.Th>
                           </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>

@@ -86,7 +86,7 @@ export default function RequestTypePage() {
   const Th = ({ children, reversed, sorted, onSort }: { children: React.ReactNode; reversed: boolean; sorted: boolean; onSort(): void }) => {
     const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
     return (
-      <Table.Th>
+      <Table.Th c="white">
         <UnstyledButton onClick={onSort} style={{ display: 'flex', alignItems: 'center', gap: '8px', width: '100%', padding: '8px' }}>
           <Text fw={600} size="sm">{children}</Text>
           <Icon size={14} stroke={1.5} style={{ color: sorted ? '#014F86' : 'gray' }} />
@@ -159,13 +159,13 @@ export default function RequestTypePage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
               <Th sorted={sortConfig?.key === 'name'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('name')}>{t.columns.name}</Th>
               <Th sorted={sortConfig?.key === 'description'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('description')}>{t.columns.description}</Th>
               <Th sorted={sortConfig?.key === 'category'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('category')}>{t.columns.category}</Th>
               <Th sorted={sortConfig?.key === 'status'} reversed={sortConfig?.direction === 'desc'} onSort={() => handleSort('status')}>{t.columns.status}</Th>
-              <Table.Th style={{ padding: '8px' }}><Text fw={600} size="sm">{t.columns.actions}</Text></Table.Th>
+              <Table.Th c="white" style={{ padding: '8px' }}><Text fw={600} size="sm">{t.columns.actions}</Text></Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

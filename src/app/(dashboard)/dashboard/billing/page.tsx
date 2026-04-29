@@ -138,9 +138,9 @@ export default function BillingPage() {
           size="md"
         />
         <Table verticalSpacing="sm" highlightOnHover>
-          <Table.Thead>
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('id')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thInvoiceId}</span>
@@ -154,7 +154,7 @@ export default function BillingPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('unit')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thUnit}</span>
@@ -168,7 +168,7 @@ export default function BillingPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('amount')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thType}</span>
@@ -182,7 +182,7 @@ export default function BillingPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>
+              <Table.Th c="white">
                 <UnstyledButton onClick={() => handleSort('type')} style={{ width: '100%', color: 'inherit' }}>
                   <Group justify="space-between" wrap="nowrap">
                     <span>{t.thAmount}</span>
@@ -196,9 +196,9 @@ export default function BillingPage() {
                   </Group>
                 </UnstyledButton>
               </Table.Th>
-              <Table.Th>{t.thDueDate}</Table.Th>
-              <Table.Th>{t.thStatus}</Table.Th>
-              <Table.Th ta="right">{t.thActions}</Table.Th>
+              <Table.Th c="white">{t.thDueDate}</Table.Th>
+              <Table.Th c="white">{t.thStatus}</Table.Th>
+              <Table.Th c="white" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>

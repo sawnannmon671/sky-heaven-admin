@@ -64,14 +64,14 @@ export default function CondoInfoPage() {
         </Group>
 
         <Table verticalSpacing="md" highlightOnHover>
-          <Table.Thead bg="gray.0">
+          <Table.Thead bg="#014F86">
             <Table.Tr>
-              <Table.Th fw={700} fz="sm" c="dark">Facility ID</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Facility Name</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Capacity</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Operating Hours</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark">Status</Table.Th>
-              <Table.Th fw={700} fz="sm" c="dark" ta="right">Actions</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Facility ID</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Facility Name</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Capacity</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Operating Hours</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white">Status</Table.Th>
+              <Table.Th fw={700} fz="sm" c="white" ta="right">Actions</Table.Th>
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>

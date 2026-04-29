@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
-import {  IconHistory, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { DatePickerInput } from "@mantine/dates";
+import {  IconHistory, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
@@ -124,13 +125,23 @@ export default function PaymentRecordsPage() {
         </Tabs>
 
         <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            style={{ flex: 1, maxWidth: 400 }}
-          />
+          <Group style={{ flex: 1 }}>
+            <TextInput
+              placeholder="Search..." w={250}
+              leftSection={<IconSearch size={16} />}
+              size="md"
+              radius="md"
+              w={250}
+            />
+            <DatePickerInput
+              placeholder="Filter by date"
+              leftSection={<IconCalendar size={16} />}
+              clearable
+              size="md"
+              radius="md"
+              style={{ width: 200 }}
+            />
+          </Group>
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             Add New
           </Button>

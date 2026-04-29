@@ -143,11 +143,11 @@ export default function StaffTypePage() {
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Group justify="space-between" mb="md">
           <TextInput
-            placeholder={t.searchPlaceholder}
+            placeholder={t.searchPlaceholder} w={250}
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            style={{ flex: 1, maxWidth: 400 }}
+            w={250}
           />
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             {t.addNew}

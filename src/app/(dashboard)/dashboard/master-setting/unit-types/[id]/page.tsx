@@ -30,7 +30,7 @@ export default function DetailPage() {
             <ThemeIcon variant="light" color="blue" size="lg" radius="md">
               <IconInfoCircle size={20} />
             </ThemeIcon>
-            <Title order={2}>Unit Type Details</Title>
+            <Title order={2} c="#014F86">Unit Type Details</Title>
           </Group>
           <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
         </Stack>

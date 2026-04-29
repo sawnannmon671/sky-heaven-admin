@@ -144,7 +144,7 @@ export default function MaintenanceDetailPage() {
                     <ThemeIcon variant="light" color="blue" size="lg" radius="md">
                       <IconTool size={20} />
                     </ThemeIcon>
-                    <Title order={2}>{t.requestId}: {request.id}</Title>
+                    <Title order={2} c="#014F86">{t.requestId}: {request.id}</Title>
                   </Group>
                   <Text size="sm" c="dimmed" mt={4}>{t.date}: {request.date}</Text>
                 </Stack>

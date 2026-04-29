@@ -268,7 +268,7 @@ export default function AmenityDetailPage() {
                 >
                   {t.idLabel}: {amenityId}
                 </Badge>
-                <Title order={1} style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-2px' }}>
+                <Title order={2} c="#014F86" style={{ fontSize: '3.5rem', fontWeight: 900, letterSpacing: '-2px' }}>
                   {t.amenityTitles[data.title as keyof typeof t.amenityTitles] || data.title}
                 </Title>
               </Stack>
@@ -297,7 +297,7 @@ export default function AmenityDetailPage() {
                   <ThemeIcon variant="light" color="blue" size="md" radius="sm">
                     <IconInfoCircle size={20} />
                   </ThemeIcon>
-                  <Title order={2} style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Amenities Details</Title>
+                  <Title order={2} c="#014F86" style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Amenities Details</Title>
                 </Group>
                 <Text size="xl" c="gray.7" style={{ lineHeight: 1.8, fontWeight: 500 }}>
                   {data.description}
@@ -309,7 +309,7 @@ export default function AmenityDetailPage() {
                   <ThemeIcon variant="light" color="green" size="md" radius="sm">
                     <IconShieldCheck size={20} />
                   </ThemeIcon>
-                  <Title order={2} style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.rules}</Title>
+                  <Title order={2} c="#014F86" style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.rules}</Title>
                 </Group>
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xl">
                   {data.rules.map((rule, index) => (

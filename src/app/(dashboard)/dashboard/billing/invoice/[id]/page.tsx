@@ -37,7 +37,7 @@ export default function DetailPage() {
           <ThemeIcon variant="light" color="blue" size="lg" radius="md">
             <IconReceipt size={20} />
           </ThemeIcon>
-          <Title order={2}>Invoice Details</Title>
+          <Title order={2} c="#014F86">Invoice Details</Title>
         </Group>
         <Button 
           component={Link} 
@@ -59,7 +59,7 @@ export default function DetailPage() {
               <Group justify="space-between" align="center">
                 <Box>
                   <Text c="dimmed" size="xs" fw={700} tt="uppercase" lts={1} mb={4}>Total Amount</Text>
-                  <Title order={1} style={{ fontSize: '2.5rem', fontWeight: 800, color: '#2C2E33', letterSpacing: '-1px' }}>
+                  <Title order={2} c="#014F86" style={{ fontSize: '2.5rem', fontWeight: 800, color: '#2C2E33', letterSpacing: '-1px' }}>
                     {item.amount}
                   </Title>
                   <Text c="dimmed" mt="sm" fw={500}>Reference: <Text component="span" fw={600} c="dark">{item.id}</Text></Text>

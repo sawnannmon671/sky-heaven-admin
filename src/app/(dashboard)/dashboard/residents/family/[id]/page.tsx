@@ -39,7 +39,7 @@ export default function FamilyMemberDetailPage() {
             <ThemeIcon variant="light" color="cyan" size="lg" radius="md">
               <IconUsers size={20} />
             </ThemeIcon>
-            <Title order={2}>Family Member Details</Title>
+            <Title order={2} c="#014F86">Family Member Details</Title>
           </Group>
           <Text c="dimmed" size="sm">Detailed information for {item?.name || id}</Text>
         </Stack>

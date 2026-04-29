@@ -1,6 +1,6 @@
 "use client";
 
-import { Paper, Title, Text, Box, Group, Grid, useMantineTheme, Stack, Progress } from '@mantine/core';
+import { Paper, Title, Text, Box, Group, Grid, useMantineTheme, Stack, Progress, Button } from '@mantine/core';
 import { ReactNode } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import {
@@ -174,8 +174,13 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Title order={3}>{t.bookingBills}</Title>
-            <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
+            <Group justify="space-between">
+              <Stack gap={0}>
+                <Title order={3}>{t.bookingBills}</Title>
+                <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
+              </Stack>
+              <Button variant="light" size="xs" color="blue" radius="md">View Report</Button>
+            </Group>
           </Box>
           <Box p="xl">
             <Box h={200} style={{ position: 'relative' }} mb="xl">

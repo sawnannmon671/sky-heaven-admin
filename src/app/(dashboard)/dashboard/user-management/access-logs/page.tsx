@@ -88,7 +88,7 @@ export default function AccessLogsPage() {
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            style={{ flex: 1, maxWidth: 400 }}
+            w={250}
           />
           <Button variant="outline" color="#014F86" radius="md">
             Export Logs

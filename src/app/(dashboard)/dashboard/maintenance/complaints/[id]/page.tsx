@@ -131,7 +131,7 @@ export default function ComplaintDetailPage() {
                     <ThemeIcon variant="light" color="red" size="lg" radius="md">
                       <IconMessageExclamation size={20} />
                     </ThemeIcon>
-                    <Title order={2}>{t.details}: {complaint.id}</Title>
+                    <Title order={2} c="#014F86">{t.details}: {complaint.id}</Title>
                   </Group>
                   <Text size="sm" c="dimmed" mt={4}>{t.date}: {complaint.date}</Text>
                 </Stack>

@@ -54,7 +54,7 @@ export default function VisitorApprovalDetailPage() {
             >
               <IconChevronLeft size={20} />
             </ActionIcon>
-            <Title order={2} style={{ color: '#2C2E33', fontWeight: 700 }}>
+            <Title order={2} c="#014F86" style={{ color: '#2C2E33', fontWeight: 700 }}>
               Approval Details
             </Title>
           </Group>

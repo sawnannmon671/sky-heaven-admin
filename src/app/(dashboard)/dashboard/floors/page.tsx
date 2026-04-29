@@ -123,11 +123,11 @@ export default function FloorsPage() {
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Group mb="xl">
           <TextInput
-            placeholder={t.searchPlaceholder}
+            placeholder={t.searchPlaceholder} w={250}
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            style={{ flex: 1 }}
+            w={250}
           />
           <Select
             placeholder={t.filterBuilding}

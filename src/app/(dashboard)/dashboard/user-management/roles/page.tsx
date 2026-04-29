@@ -88,7 +88,7 @@ export default function RolesPage() {
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            style={{ flex: 1, maxWidth: 400 }}
+            w={250}
           />
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             Create Role

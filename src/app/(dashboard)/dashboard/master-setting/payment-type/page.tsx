@@ -110,7 +110,7 @@ export default function PaymentTypePage() {
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <TextInput
-          placeholder={t.searchPlaceholder}
+          placeholder={t.searchPlaceholder} w={250}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"

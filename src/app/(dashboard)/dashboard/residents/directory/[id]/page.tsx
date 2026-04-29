@@ -47,7 +47,7 @@ export default function ResidentDetailPage() {
             <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
               <IconAddressBook size={20} />
             </ThemeIcon>
-            <Title order={2}>Resident Details</Title>
+            <Title order={2} c="#014F86">Resident Details</Title>
           </Group>
           <Text c="dimmed" size="sm">Detailed information for {item?.name || id}</Text>
         </Stack>

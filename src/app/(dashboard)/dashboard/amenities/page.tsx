@@ -196,7 +196,7 @@ export default function AmenitiesPage() {
         <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
           <Group justify="space-between">
             <TextInput
-              placeholder={t.searchPlaceholder}
+              placeholder={t.searchPlaceholder} w={250}
               leftSection={<IconSearch size={18} color="var(--mantine-color-blue-6)" />}
               style={{ width: 350 }}
               radius="md"

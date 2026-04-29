@@ -45,7 +45,7 @@ export default function MoveInOutDetailPage() {
             <ThemeIcon variant="light" color="orange" size="lg" radius="md">
               <IconUserPlus size={20} />
             </ThemeIcon>
-            <Title order={2}>Move In / Move Out Request</Title>
+            <Title order={2} c="#014F86">Move In / Move Out Request</Title>
           </Group>
           <Text c="dimmed" size="sm">Request details for {id}</Text>
         </Stack>

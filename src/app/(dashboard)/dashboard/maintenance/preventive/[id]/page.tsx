@@ -137,7 +137,7 @@ export default function PreventiveDetailPage() {
                     <ThemeIcon variant="light" color="cyan" size="lg" radius="md">
                       <IconCalendarStats size={20} />
                     </ThemeIcon>
-                    <Title order={2}>{t.details}: {task.id}</Title>
+                    <Title order={2} c="#014F86">{t.details}: {task.id}</Title>
                   </Group>
                   <Text size="sm" c="dimmed" mt={4}>{t.nextDue}: {task.nextDue}</Text>
                 </Stack>

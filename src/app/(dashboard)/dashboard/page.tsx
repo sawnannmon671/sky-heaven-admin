@@ -33,7 +33,7 @@ import {
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DashboardCharts } from "./DashboardCharts";
-import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer } from 'recharts';
+import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
 
 const stats = [
   {
@@ -75,10 +75,11 @@ const stats = [
 ];
 
 const recentVisitors = [
-  { id: 1, name: "David Miller", host: "A-202", time: "10:15 AM", type: "Guest", status: "In" },
-  { id: 2, name: "Wilson Delivery", host: "B-501", time: "09:45 AM", type: "Delivery", status: "Out" },
-  { id: 3, name: "Amanda Chen", host: "C-104", time: "09:30 AM", type: "Guest", status: "In" },
-  { id: 4, name: "Total Security", host: "System", time: "08:00 AM", type: "Service", status: "Out" },
+  { id: 1, passNo: "V-1024", name: "David Miller", phone: "+1 234-567-8900", host: "A-202", time: "10:15 AM", expectedOut: "02:00 PM", type: "Guest", purpose: "Personal Visit", status: "In" },
+  { id: 2, passNo: "V-1025", name: "Wilson Delivery", phone: "+1 987-654-3210", host: "B-501", time: "09:45 AM", expectedOut: "10:00 AM", type: "Delivery", purpose: "Package Drop-off", status: "Out" },
+  { id: 3, passNo: "V-1026", name: "Amanda Chen", phone: "+1 555-123-4567", host: "C-104", time: "09:30 AM", expectedOut: "05:00 PM", type: "Guest", purpose: "Family", status: "In" },
+  { id: 4, passNo: "V-1027", name: "Total Security", phone: "+1 888-999-0000", host: "System", time: "08:00 AM", expectedOut: "04:00 PM", type: "Service", purpose: "Maintenance", status: "Out" },
+  { id: 5, passNo: "V-1028", name: "Robert Taylor", phone: "+1 444-555-6666", host: "A-305", time: "11:20 AM", expectedOut: "01:30 PM", type: "Contractor", purpose: "Plumbing", status: "In" },
 ];
 
 const recentActivities = [
@@ -148,6 +149,18 @@ const translations = {
       title: "Revenue Target",
       progress: "Progress to Goal",
       remaining: "$12,500 remaining to reach April goal",
+    },
+    expenses: {
+      title: "Expense Overview",
+      subtitle: "Departmental spending breakdown",
+      viewReport: "View Report",
+      categories: {
+        maintenance: "Maintenance",
+        utilities: "Utilities",
+        salary: "Salary",
+        marketing: "Marketing",
+        other: "Other",
+      }
     }
   },
   mm: {
@@ -205,13 +218,40 @@ const translations = {
       available: "အားလပ်သောယူနစ်များ",
       maintenance: "ပြုပြင်နေဆဲ"
     },
-    revenue: {
+      revenue: {
       title: "ဝင်ငွေရည်မှန်းချက်",
       progress: "ရည်မှန်းချက်သို့ရောက်ရှိမှု",
       remaining: "ဧပြီလရည်မှန်းချက်ပြည့်မီရန် $12,500 လိုအပ်သည်",
+    },
+    expenses: {
+      title: "အသုံးစရိတ် အကျဉ်းချုပ်",
+      subtitle: "ဌာနအလိုက် အသုံးစရိတ် ခွဲဝေမှု",
+      viewReport: "အစီရင်ခံစာ ကြည့်ရန်",
+      categories: {
+        maintenance: "ပြုပြင်ထိန်းသိမ်းမှု",
+        utilities: "အသုံးအဆောင်",
+        salary: "လစာ",
+        marketing: "စျေးကွက်ရှာဖွေရေး",
+        other: "အခြား",
+      }
     }
   }
 };
+
+const monthlyExpenseData = [
+  { name: 'Jan', maintenance: 4500, utilities: 3200, salary: 8500, marketing: 1200, other: 900 },
+  { name: 'Feb', maintenance: 4800, utilities: 3100, salary: 8500, marketing: 1500, other: 850 },
+  { name: 'Mar', maintenance: 4200, utilities: 3400, salary: 8500, marketing: 1100, other: 950 },
+  { name: 'Apr', maintenance: 5100, utilities: 3600, salary: 8500, marketing: 1400, other: 800 },
+  { name: 'May', maintenance: 4600, utilities: 3500, salary: 8700, marketing: 1300, other: 1000 },
+  { name: 'Jun', maintenance: 4900, utilities: 3800, salary: 8700, marketing: 1600, other: 900 },
+  { name: 'Jul', maintenance: 5200, utilities: 4100, salary: 8700, marketing: 1800, other: 1100 },
+  { name: 'Aug', maintenance: 5000, utilities: 4000, salary: 8700, marketing: 1500, other: 1050 },
+  { name: 'Sep', maintenance: 4700, utilities: 3700, salary: 8900, marketing: 1200, other: 950 },
+  { name: 'Oct', maintenance: 5300, utilities: 3900, salary: 8900, marketing: 1700, other: 1150 },
+  { name: 'Nov', maintenance: 4800, utilities: 3600, salary: 8900, marketing: 1900, other: 1200 },
+  { name: 'Dec', maintenance: 5500, utilities: 4200, salary: 9100, marketing: 2000, other: 1300 },
+];
 
 export default function DashboardPage() {
   const { lang, mounted } = useTranslation();
@@ -255,7 +295,7 @@ export default function DashboardPage() {
             <Text size="sm" c="rgba(255,255,255,0.9)" fw={600} tt="uppercase" lts={1}>
               {t.stats[stat.id as keyof typeof t.stats]}
             </Text>
-            <Title order={2} style={{ fontSize: '2rem' }}>
+            <Title order={2} c="#014F86" style={{ fontSize: '2rem' }}>
               {stat.value}
             </Title>
           </Stack>
@@ -309,102 +349,37 @@ export default function DashboardPage() {
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>
           <Stack gap="xl">
-            {/* Recent Activities */}
+            {/* Expense Overview */}
             <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Stack gap={0}>
-                    <Title order={3}>{t.activities.title}</Title>
-                    <Text size="xs" c="dimmed" fw={500}>{t.activities.subtitle}</Text>
+                    <Title order={3}>{t.expenses.title}</Title>
+                    <Text size="xs" c="dimmed" fw={500}>{t.expenses.subtitle}</Text>
                   </Stack>
-                  <Button variant="light" size="xs" color="blue" radius="md">{t.activities.viewAll}</Button>
+                  <Button variant="light" size="xs" color="blue" radius="md">{t.expenses.viewReport}</Button>
                 </Group>
               </Box>
-              <ScrollArea>
-                <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
-                  <Table.Thead bg="gray.0">
-                    <Table.Tr>
-                      <Table.Th fw={700} fz="sm" c="dark">{t.activities.thUser}</Table.Th>
-                      <Table.Th fw={700} fz="sm" c="dark">{t.activities.thType}</Table.Th>
-                      <Table.Th fw={700} fz="sm" c="dark">{t.activities.thStatus}</Table.Th>
-                      <Table.Th ta="right" fw={700} fz="sm" c="dark">{t.activities.thTime}</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {recentActivities.map((item) => (
-                      <Table.Tr key={item.id} style={{ transition: 'background-color 0.2s ease' }}>
-                        <Table.Td>
-                          <Group gap="sm">
-                            <Avatar color={item.color} radius="md" size="sm" variant="light" fw={700}>{item.user[0]}</Avatar>
-                            <div>
-                              <Text size="sm" fw={600}>{item.user}</Text>
-                              <Text size="xs" c="dimmed">{item.unit}</Text>
-                            </div>
-                          </Group>
-                        </Table.Td>
-                        <Table.Td>
-                          <Text size="sm" fw={500}>{t.activities.types[item.activity as keyof typeof t.activities.types] || item.activity}</Text>
-                        </Table.Td>
-                        <Table.Td>
-                          <Badge color={item.color} variant="light" size="sm" radius="sm" fw={700}>
-                            {t.activities.status[item.status as keyof typeof t.activities.status] || item.status}
-                          </Badge>
-                        </Table.Td>
-                        <Table.Td ta="right">
-                          <Text size="xs" c="dimmed" fw={500}>{t.activities.times[item.date as keyof typeof t.activities.times] || item.date}</Text>
-                        </Table.Td>
-                      </Table.Tr>
-                    ))}
-                  </Table.Tbody>
-                </Table>
-              </ScrollArea>
-            </Paper>
-
-            {/* Recent Visitors */}
-            <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-                <Group justify="space-between">
-                  <Title order={3}>{t.visitors.title}</Title>
-                  <Button variant="light" size="xs" color="blue" radius="md">View History</Button>
-                </Group>
+              <Box p="md" h={300}>
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart data={monthlyExpenseData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
+                    <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
+                    <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
+                    <YAxis axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
+                    <Tooltip 
+                      contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                      cursor={{ fill: 'transparent' }}
+                      formatter={(value: number, name: string) => [`$${value}`, t.expenses.categories[name as keyof typeof t.expenses.categories] || name]}
+                    />
+                    <Legend iconType="square" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                    <Bar dataKey="maintenance" name={t.expenses.categories.maintenance} stackId="1" fill="#014F86" maxBarSize={40} />
+                    <Bar dataKey="utilities" name={t.expenses.categories.utilities} stackId="1" fill="#FF6B6B" maxBarSize={40} />
+                    <Bar dataKey="salary" name={t.expenses.categories.salary} stackId="1" fill="#00AC79" maxBarSize={40} />
+                    <Bar dataKey="marketing" name={t.expenses.categories.marketing} stackId="1" fill="#FFA94D" maxBarSize={40} />
+                    <Bar dataKey="other" name={t.expenses.categories.other} stackId="1" fill="#868E96" maxBarSize={40} radius={[4, 4, 0, 0]} />
+                  </BarChart>
+                </ResponsiveContainer>
               </Box>
-              <ScrollArea>
-                <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
-                  <Table.Thead bg="gray.0">
-                  <Table.Tr>
-                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thName}</Table.Th>
-                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thHost}</Table.Th>
-                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thTime}</Table.Th>
-                     <Table.Th fw={700} fz="sm" c="dark">{t.visitors.thType}</Table.Th>
-                     <Table.Th ta="right" fw={700} fz="sm" c="dark">{t.visitors.thStatus}</Table.Th>
-                   </Table.Tr>
-                </Table.Thead>
-                  <Table.Tbody>
-                    {recentVisitors.map((visitor) => (
-                      <Table.Tr key={visitor.id}>
-                        <Table.Td>
-                          <Group gap="sm">
-                            <Avatar size="sm" radius="md" fw={700} color="blue" variant="light">{visitor.name[0]}</Avatar>
-                            <Text size="sm" fw={600}>{visitor.name}</Text>
-                          </Group>
-                        </Table.Td>
-                        <Table.Td><Text size="sm" fw={500}>{visitor.host}</Text></Table.Td>
-                        <Table.Td><Text size="sm" fw={500}>{visitor.time}</Text></Table.Td>
-                        <Table.Td>
-                          <Badge size="xs" variant="outline" color={visitor.type === "Guest" ? "blue" : visitor.type === "Delivery" ? "red" : "orange"} radius="sm">
-                          {visitor.type || 'Visitor'}
-                        </Badge>
-                        </Table.Td>
-                        <Table.Td ta="right">
-                          <Badge size="sm" color={visitor.status === "In" ? "#00AC79" : "orange"} variant="filled" radius="sm">
-                          {visitor.status}
-                        </Badge>
-                        </Table.Td>
-                      </Table.Tr>
-                    ))}
-                  </Table.Tbody>
-                </Table>
-              </ScrollArea>
             </Paper>
           </Stack>
         </Grid.Col>
@@ -416,7 +391,7 @@ export default function DashboardPage() {
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Title order={3}>{t.occupancy.title}</Title>
-                  <ActionIcon variant="light" color="blue" radius="md"><IconArrowUpRight size={18} /></ActionIcon>
+                  <Button variant="light" size="xs" color="blue" radius="md">View Report</Button>
                 </Group>
               </Box>
               <Box p="xl">
@@ -486,41 +461,79 @@ export default function DashboardPage() {
                 </Stack>
               </Box>
             </Paper>
-
-            <Paper 
-              p="xl" 
-              radius="md" 
-              shadow="lg" 
-              style={{ 
-                backgroundColor: "#014F86", 
-                color: "white", 
-                backgroundImage: "linear-gradient(135deg, #014F86 0%, #2C7dA0 100%)",
-                position: 'relative',
-                overflow: 'hidden'
-              }}
-            >
-              <Box pos="absolute" top={-20} right={-20} style={{ opacity: 0.1 }}>
-                <IconTrendingUp size={150} />
-              </Box>
-              <Group justify="space-between" mb="lg">
-                <Text fw={700} size="xs" tt="uppercase" lts={2} opacity={0.9}>{t.revenue.title}</Text>
-                <ThemeIcon variant="white" color="#014F86" size="md" radius="md">
-                  <IconTrendingUp size={18} />
-                </ThemeIcon>
-              </Group>
-              <Title order={1} style={{ fontSize: '2.5rem', fontWeight: 900, marginBottom: '1.5rem' }}>$42,500.00</Title>
-              <Stack gap="md">
-                <Group justify="space-between">
-                  <Text size="xs" fw={700} tt="uppercase" lts={1}>{t.revenue.progress}</Text>
-                  <Text size="xs" fw={900}>70%</Text>
-                </Group>
-                <Progress value={70} color="white" size="xs" radius="xl" />
-                <Text size="xs" fw={500} opacity="0.9">{t.revenue.remaining}</Text>
-              </Stack>
-            </Paper>
           </Stack>
         </Grid.Col>
       </Grid>
+
+      {/* Active Visitors - Full Width */}
+      <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+        <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+          <Group justify="space-between">
+            <Stack gap={0}>
+              <Title order={3}>Active Visitors</Title>
+              <Text size="xs" c="dimmed" fw={500}>Currently on premises</Text>
+            </Stack>
+            <Button variant="light" size="xs" color="blue" radius="md">View All</Button>
+          </Group>
+        </Box>
+        <ScrollArea>
+          <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
+            <Table.Thead bg="gray.0">
+            <Table.Tr>
+               <Table.Th fw={700} fz="sm" c="dark">Pass No.</Table.Th>
+               <Table.Th fw={700} fz="sm" c="dark">{t.visitors?.thName || "Visitor Name"}</Table.Th>
+               <Table.Th fw={700} fz="sm" c="dark">Contact Info</Table.Th>
+               <Table.Th fw={700} fz="sm" c="dark">{t.visitors?.thHost || "Host Unit"}</Table.Th>
+               <Table.Th fw={700} fz="sm" c="dark">Purpose</Table.Th>
+               <Table.Th fw={700} fz="sm" c="dark">{t.visitors?.thTime || "Time In"}</Table.Th>
+               <Table.Th ta="right" fw={700} fz="sm" c="dark">Expected Out</Table.Th>
+             </Table.Tr>
+          </Table.Thead>
+            <Table.Tbody>
+              {recentVisitors.filter(v => v.status === "In").map((visitor) => (
+                <Table.Tr key={visitor.id}>
+                  <Table.Td>
+                    <Badge variant="light" color="gray" radius="sm" fw={700}>{visitor.passNo}</Badge>
+                  </Table.Td>
+                  <Table.Td>
+                    <Group gap="sm">
+                      <Avatar size="sm" radius="md" fw={700} color="blue" variant="light">{visitor.name[0]}</Avatar>
+                      <div>
+                        <Text size="sm" fw={600}>{visitor.name}</Text>
+                        <Text size="xs" c="dimmed">{visitor.type}</Text>
+                      </div>
+                    </Group>
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="sm" fw={500} c="dimmed">{visitor.phone}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="sm" fw={600}>{visitor.host}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Text size="sm" fw={500}>{visitor.purpose}</Text>
+                  </Table.Td>
+                  <Table.Td>
+                    <Badge size="sm" color="#00AC79" variant="light" radius="sm">
+                      {visitor.time}
+                    </Badge>
+                  </Table.Td>
+                  <Table.Td ta="right">
+                    <Text size="sm" fw={500} c="dimmed">{visitor.expectedOut}</Text>
+                  </Table.Td>
+                </Table.Tr>
+              ))}
+              {recentVisitors.filter(v => v.status === "In").length === 0 && (
+                <Table.Tr>
+                  <Table.Td colSpan={7} ta="center" py="xl">
+                    <Text c="dimmed" size="sm">No active visitors</Text>
+                  </Table.Td>
+                </Table.Tr>
+              )}
+            </Table.Tbody>
+          </Table>
+        </ScrollArea>
+      </Paper>
     </Stack>
   );
 }

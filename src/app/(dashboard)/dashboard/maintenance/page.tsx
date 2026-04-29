@@ -2,7 +2,8 @@
 
 import { useState } from "react";
 import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
-import {  IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { DatePickerInput } from "@mantine/dates";
+import {  IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
@@ -203,11 +204,19 @@ export default function MaintenancePage() {
         </Tabs>
 
         <Group mb="xl" justify="space-between">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            style={{ flex: 1 }}
-          />
+          <Group style={{ flex: 1 }}>
+            <TextInput
+              placeholder={t.searchPlaceholder} w={250}
+              leftSection={<IconSearch size={16} />}
+              w={250}
+            />
+            <DatePickerInput
+              placeholder="Filter by date"
+              leftSection={<IconCalendar size={16} />}
+              clearable
+              style={{ width: 200 }}
+            />
+          </Group>
         </Group>
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead>

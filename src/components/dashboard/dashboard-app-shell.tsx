@@ -622,19 +622,6 @@ export function DashboardAppShell({
           </NavLink>
 
           <NavLink
-            label={t.userManagement}
-            leftSection={<IconKey size={20} />}
-            childrenOffset={28}
-            className={classes.navLink}
-            opened={userManagementOpened}
-            onChange={setUserManagementOpened}
-          >
-            <NavLink component={Link} href="/dashboard/user-management/users" label={t.users} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/users"} />
-            <NavLink component={Link} href="/dashboard/user-management/roles" label={t.roles} leftSection={<IconLock size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/roles"} />
-            <NavLink component={Link} href="/dashboard/user-management/access-logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/access-logs"} />
-          </NavLink>
-
-          <NavLink
             label={t.masterSetting}
             leftSection={<IconSettings size={20} />}
             childrenOffset={28}
@@ -672,6 +659,19 @@ export function DashboardAppShell({
             <NavLink component={Link} href="/dashboard/settings/currency-tax" label={t.currencyTax} leftSection={<IconCoin size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/currency-tax"} />
             <NavLink component={Link} href="/dashboard/settings/notification-settings" label={t.notificationSettings} leftSection={<IconBell size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/notification-settings"} />
             <NavLink component={Link} href="/dashboard/settings/backup" label={t.backup} leftSection={<IconDeviceFloppy size={18} />} className={classes.navLink} active={pathname === "/dashboard/settings/backup"} />
+          </NavLink>
+
+          <NavLink
+            label={t.userManagement}
+            leftSection={<IconKey size={20} />}
+            childrenOffset={28}
+            className={classes.navLink}
+            opened={userManagementOpened}
+            onChange={setUserManagementOpened}
+          >
+            <NavLink component={Link} href="/dashboard/user-management/users" label={t.users} leftSection={<IconUsers size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/users"} />
+            <NavLink component={Link} href="/dashboard/user-management/roles" label={t.roles} leftSection={<IconLock size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/roles"} />
+            <NavLink component={Link} href="/dashboard/user-management/access-logs" label={t.accessLogs} leftSection={<IconEye size={18} />} className={classes.navLink} active={pathname === "/dashboard/user-management/access-logs"} />
           </NavLink>
         </Box>
       </AppShell.Navbar>

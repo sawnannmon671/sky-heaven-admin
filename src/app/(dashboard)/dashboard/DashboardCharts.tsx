@@ -1,6 +1,6 @@
 "use client";
 
-import { Paper, Title, Text, Box, Group, Grid, useMantineTheme } from '@mantine/core';
+import { Paper, Title, Text, Box, Group, Grid, useMantineTheme, Stack, Progress } from '@mantine/core';
 import { ReactNode } from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 import {
@@ -64,8 +64,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       billingSub: "Monthly billing revenue",
       financeOverview: "Finance Overview",
       financeSub: "Income vs Expenses",
-      bookingBills: "Booking Bills",
-      bookingSub: "Distribution of booking bill statuses",
+      bookingBills: "Invoice Bills",
+      bookingSub: "Distribution of invoice bill statuses",
       labels: {
         utilities: "Utilities",
         bills: "Bills",
@@ -84,8 +84,8 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       billingSub: "လစဉ် ငွေတောင်းခံမှု ဝင်ငွေ",
       financeOverview: "ဘဏ္ဍာရေး အကျဉ်းချုပ်",
       financeSub: "ဝင်ငွေ နှင့် အသုံးစရိတ်",
-      bookingBills: "ဘွတ်ကင် ငွေတောင်းခံလွှာများ",
-      bookingSub: "ဘွတ်ကင် ငွေတောင်းခံလွှာ အခြေအနေများ ပြသမှု",
+      bookingBills: "ငွေတောင်းခံလွှာများ",
+      bookingSub: "ငွေတောင်းခံလွှာ အခြေအနေများ ပြသမှု",
       labels: {
         utilities: "အသုံးအဆောင်များ",
         bills: "ဘေလ်များ",
@@ -170,36 +170,65 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
         </Paper>
       </Grid.Col>
 
-      {/* Booking Bills (Pie Chart) */}
+      {/* Invoice Bills (Pie Chart) */}
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
             <Title order={3}>{t.bookingBills}</Title>
             <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
           </Box>
-          <Box p="md" h={350}>
-            <ResponsiveContainer width="100%" height="100%">
-              <PieChart>
-                <Pie
-                  data={translatedBookingData}
-                  cx="50%"
-                  cy="50%"
-                  innerRadius={60}
-                  outerRadius={90}
-                  paddingAngle={5}
-                  dataKey="value"
-                  stroke="none"
-                >
-                  {bookingData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
-                  ))}
-                </Pie>
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                />
-                <Legend iconType="circle" wrapperStyle={{ fontSize: '12px' }} layout="vertical" verticalAlign="middle" align="right" />
-              </PieChart>
-            </ResponsiveContainer>
+          <Box p="xl">
+            <Box h={200} style={{ position: 'relative' }} mb="xl">
+              <ResponsiveContainer width="100%" height="100%">
+                <PieChart>
+                  <Pie
+                    data={translatedBookingData}
+                    cx="50%"
+                    cy="50%"
+                    innerRadius={70}
+                    outerRadius={90}
+                    paddingAngle={5}
+                    dataKey="value"
+                    stroke="none"
+                  >
+                    {bookingData.map((entry, index) => (
+                      <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
+                    ))}
+                  </Pie>
+                  <Tooltip 
+                    contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                  />
+                </PieChart>
+              </ResponsiveContainer>
+              <Stack gap={0} align="center" style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', pointerEvents: 'none' }}>
+                <Text ta="center" style={{ fontSize: '1.8rem', fontWeight: 900, lineHeight: 1.2 }}>1.2K</Text>
+                <Text ta="center" size="xs" c="dimmed" fw={700} tt="uppercase" lts={1}>Total</Text>
+              </Stack>
+            </Box>
+            
+            <Stack gap="sm">
+              {translatedBookingData.map((item, index) => {
+                const percentage = Math.round((item.value / 1200) * 100);
+                return (
+                  <Group justify="space-between" mb={-5} key={item.name}>
+                    <Group gap="xs">
+                      <Box w={10} h={10} style={{ borderRadius: '50%', backgroundColor: COLORS[index % COLORS.length] }} />
+                      <Text size="xs" fw={600}>{item.name}</Text>
+                    </Group>
+                    <Text size="xs" fw={800}>{item.value}</Text>
+                  </Group>
+                );
+              })}
+              <Progress.Root size="md" radius="xl" mt="xs">
+                {translatedBookingData.map((item, index) => (
+                  <Progress.Section 
+                    key={item.name} 
+                    value={Math.round((item.value / 1200) * 100)} 
+                    color={COLORS[index % COLORS.length]} 
+                  />
+                ))}
+              </Progress.Root>
+            </Stack>
           </Box>
         </Paper>
       </Grid.Col>

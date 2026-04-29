@@ -90,6 +90,11 @@ export default function UnitsPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
+  const getCount = (status: string) => {
+    if (status === "All") return elements.length;
+    return elements.filter(item => item.status === status).length;
+  };
+
   
 
   const rows = sortedData.map((element) => (
@@ -146,10 +151,30 @@ export default function UnitsPage() {
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
           <Tabs.List>
-            <Tabs.Tab value="All">All Units</Tabs.Tab>
-            <Tabs.Tab value="Occupied">{t.status.Occupied}</Tabs.Tab>
-            <Tabs.Tab value="Available">{t.status.Available}</Tabs.Tab>
-            <Tabs.Tab value="Maintenance">{t.status.Maintenance}</Tabs.Tab>
+            <Tabs.Tab value="All">
+              <Group gap="xs">
+                All Units
+                <Badge size="xs" variant={activeTab === "All" ? "filled" : "light"} color="blue">{getCount("All")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Occupied">
+              <Group gap="xs">
+                {t.status.Occupied}
+                <Badge size="xs" variant={activeTab === "Occupied" ? "filled" : "light"} color="blue">{getCount("Occupied")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Available">
+              <Group gap="xs">
+                {t.status.Available}
+                <Badge size="xs" variant={activeTab === "Available" ? "filled" : "light"} color="green">{getCount("Available")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Maintenance">
+              <Group gap="xs">
+                {t.status.Maintenance}
+                <Badge size="xs" variant={activeTab === "Maintenance" ? "filled" : "light"} color="orange">{getCount("Maintenance")}</Badge>
+              </Group>
+            </Tabs.Tab>
           </Tabs.List>
         </Tabs>
 

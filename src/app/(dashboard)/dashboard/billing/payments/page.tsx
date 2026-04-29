@@ -127,7 +127,7 @@ export default function PaymentRecordsPage() {
         <Group justify="space-between" mb="md">
           <Group style={{ flex: 1 }}>
             <TextInput
-              placeholder="Search..." w={250}
+              placeholder="Search..."
               leftSection={<IconSearch size={16} />}
               size="md"
               radius="md"

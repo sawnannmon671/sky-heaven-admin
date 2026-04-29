@@ -145,7 +145,7 @@ export default function UtilityBillsTypePage() {
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Group justify="space-between" mb="md">
           <TextInput
-            placeholder={t.searchPlaceholder} w={250}
+            placeholder={t.searchPlaceholder}
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"

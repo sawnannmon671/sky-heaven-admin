@@ -69,7 +69,7 @@ export function AuthForm() {
       </Button>
 
       <Text c="dimmed" size="sm" ta="center" mt="md">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <Anchor component={Link} href="/register" size="sm" fw={500} c="#014F86">
           Register
         </Anchor>

@@ -615,7 +615,7 @@ export default function HomePage() {
                   </div>
                 </Group>
                 <Text size="lg" style={{ lineHeight: 1.6 }}>
-                  "{lang === 'mm' ? item.mmComment : item.comment}"
+                  &quot;{lang === 'mm' ? item.mmComment : item.comment}&quot;
                 </Text>
               </Paper>
             ))}

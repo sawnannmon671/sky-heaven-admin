@@ -206,7 +206,7 @@ export default function MaintenancePage() {
         <Group mb="xl" justify="space-between">
           <Group style={{ flex: 1 }}>
             <TextInput
-              placeholder={t.searchPlaceholder} w={250}
+              placeholder={t.searchPlaceholder}
               leftSection={<IconSearch size={16} />}
               w={250}
             />

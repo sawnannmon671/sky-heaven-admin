@@ -52,7 +52,7 @@ export default function BackupPage() {
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Group justify="space-between" mb="md">
           <TextInput
-            placeholder="Search..." w={250}
+            placeholder="Search..."
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"

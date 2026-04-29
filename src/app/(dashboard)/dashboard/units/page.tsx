@@ -179,7 +179,7 @@ export default function UnitsPage() {
         </Tabs>
 
         <TextInput
-          placeholder={t.searchPlaceholder} w={250}
+          placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"

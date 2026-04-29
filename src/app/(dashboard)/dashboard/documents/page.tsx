@@ -133,7 +133,7 @@ export default function DocumentsPage() {
 
       <Paper p="md" radius="md" withBorder shadow="sm">
         <TextInput
-          placeholder={t.searchPlaceholder} w={250}
+          placeholder={t.searchPlaceholder}
           leftSection={<IconSearch size={16} />}
           mb="xl"
           size="md"

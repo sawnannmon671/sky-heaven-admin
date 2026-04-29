@@ -295,7 +295,7 @@ export default function DashboardPage() {
             <Text size="sm" c="rgba(255,255,255,0.9)" fw={600} tt="uppercase" lts={1}>
               {t.stats[stat.id as keyof typeof t.stats]}
             </Text>
-            <Title order={2} c="#014F86" style={{ fontSize: '2rem' }}>
+            <Title order={2} c="white" style={{ fontSize: '2rem' }}>
               {stat.value}
             </Title>
           </Stack>
@@ -376,7 +376,7 @@ export default function DashboardPage() {
                     <Bar dataKey="utilities" name={t.expenses.categories.utilities} stackId="1" fill="#FF6B6B" maxBarSize={40} />
                     <Bar dataKey="salary" name={t.expenses.categories.salary} stackId="1" fill="#00AC79" maxBarSize={40} />
                     <Bar dataKey="marketing" name={t.expenses.categories.marketing} stackId="1" fill="#FFA94D" maxBarSize={40} />
-                    <Bar dataKey="other" name={t.expenses.categories.other} stackId="1" fill="#868E96" maxBarSize={40} radius={[4, 4, 0, 0]} />
+                    <Bar dataKey="other" name={t.expenses.categories.other} stackId="1" fill="#7048E8" maxBarSize={40} radius={[4, 4, 0, 0]} />
                   </BarChart>
                 </ResponsiveContainer>
               </Box>

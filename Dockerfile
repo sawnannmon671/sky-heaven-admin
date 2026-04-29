@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
 # Copy package.json and package-lock.json to the container
 COPY package.json package-lock.json ./
 
+# Copy prisma directory to allow postinstall script to generate Prisma Client
+COPY prisma ./prisma/
+
 # Install dependencies
 RUN npm install --frozen-lockfile
 

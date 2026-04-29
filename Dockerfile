@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install -y \
 # Copy package.json and package-lock.json to the container
 COPY package.json package-lock.json ./
 
+# Set npm configuration to ensure Linux binaries are installed for native modules like lightningcss
+RUN echo "supportedArchitectures.os=[\"linux\"]\nsupportedArchitectures.cpu=[\"x64\"]\nsupportedArchitectures.libc=[\"glibc\"]" > .npmrc
+
 # Copy prisma directory to allow postinstall script to generate Prisma Client
 COPY prisma ./prisma/
 

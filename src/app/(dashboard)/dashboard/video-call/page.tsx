@@ -7,7 +7,7 @@ export default function VideoCallPage() {
   return (
     <Stack gap="xl">
       <Stack gap={0}>
-        <Title order={2}>Video Communication</Title>
+        <Title order={2} c="#014F86">Video Communication</Title>
         <Text c="dimmed" size="sm">Connect with residents or staff via secure video and audio calls.</Text>
       </Stack>
 

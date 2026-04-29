@@ -65,7 +65,7 @@ export default function ParkingFeesPage() {
             <ThemeIcon variant="light" color="green" size="lg" radius="md">
               <IconCash size={20} />
             </ThemeIcon>
-            <Title order={1}>{t.title}</Title>
+            <Title order={1} c="#014F86">{t.title}</Title>
           </Group>
           <Text c="dimmed" size="md">{t.subtitle}</Text>
         </Stack>

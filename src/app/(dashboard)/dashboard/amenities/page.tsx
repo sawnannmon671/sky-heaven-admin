@@ -178,7 +178,7 @@ export default function AmenitiesPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between" align="flex-end">
         <Stack gap={4}>
-          <Title order={1} style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.title}</Title>
+          <Title order={1} c="#014F86" style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.title}</Title>
           <Text c="dimmed" size="md" fw={500}>{t.subtitle}</Text>
         </Stack>
         <Button 

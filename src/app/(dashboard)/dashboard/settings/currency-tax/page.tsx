@@ -33,7 +33,7 @@ export default function CurrencyTaxPage() {
             <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
               <IconCoin size={20} />
             </ThemeIcon>
-            <Title order={1}>{t.title}</Title>
+            <Title order={1} c="#014F86">{t.title}</Title>
           </Group>
           <Text c="dimmed" size="md">{t.subtitle}</Text>
         </Stack>

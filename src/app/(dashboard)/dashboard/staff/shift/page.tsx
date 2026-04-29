@@ -65,7 +65,7 @@ export default function ShiftSchedulePage() {
             <ThemeIcon variant="light" color="violet" size="lg" radius="md">
               <IconCalendarTime size={20} />
             </ThemeIcon>
-            <Title order={1}>{t.title}</Title>
+            <Title order={1} c="#014F86">{t.title}</Title>
           </Group>
           <Text c="dimmed" size="md">{t.subtitle}</Text>
         </Stack>

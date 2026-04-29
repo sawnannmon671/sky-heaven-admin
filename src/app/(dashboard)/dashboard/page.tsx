@@ -69,7 +69,7 @@ const stats = [
     value: "245",
     diff: 2,
     icon: IconUsers,
-    color: "#38D9A9",
+    color: "#00AC79",
     description: "2 new move-ins this week",
   },
 ];
@@ -83,7 +83,7 @@ const recentVisitors = [
 
 const recentActivities = [
   { id: 1, user: "John Doe", unit: "A-101", activity: "Maintenance", status: "In Progress", date: "2 hours ago", color: "blue" },
-  { id: 2, user: "Sarah Smith", unit: "B-205", activity: "Payment", status: "Completed", date: "5 hours ago", color: "green" },
+  { id: 2, user: "Sarah Smith", unit: "B-205", activity: "Payment", status: "Completed", date: "5 hours ago", color: "#00AC79" },
   { id: 3, user: "Michael Wong", unit: "C-303", activity: "Registration", status: "New", date: "1 day ago", color: "violet" },
   { id: 4, user: "Elena Rodriguez", unit: "A-404", activity: "Visitor", status: "Checked Out", date: "2 days ago", color: "orange" },
 ];
@@ -289,7 +289,7 @@ export default function DashboardPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between" align="flex-end">
         <Stack gap={4}>
-          <Title order={2}>{t.pageTitle}</Title>
+          <Title order={2} c="#014F86">{t.pageTitle}</Title>
           <Text c="dimmed" size="md" fw={500}>{t.pageSubtitle}</Text>
         </Stack>
         <Paper withBorder px="md" py="xs" radius="md" bg="gray.0">
@@ -396,7 +396,7 @@ export default function DashboardPage() {
                         </Badge>
                         </Table.Td>
                         <Table.Td ta="right">
-                          <Badge size="sm" color={visitor.status === "In" ? "green" : "orange"} variant="filled" radius="sm">
+                          <Badge size="sm" color={visitor.status === "In" ? "#00AC79" : "orange"} variant="filled" radius="sm">
                           {visitor.status}
                         </Badge>
                         </Table.Td>

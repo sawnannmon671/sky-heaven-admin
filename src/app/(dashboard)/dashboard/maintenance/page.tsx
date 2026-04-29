@@ -109,6 +109,11 @@ export default function MaintenancePage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
+  const getCount = (status: string) => {
+    if (status === "All") return elements.length;
+    return elements.filter(item => item.status === status).length;
+  };
+
   
 
   const rows = sortedData.map((element) => (
@@ -161,19 +166,39 @@ export default function MaintenancePage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>{t.title}</Title>
+          <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
         <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
+        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="xl" color="#014F86">
           <Tabs.List>
-            <Tabs.Tab value="All">All Requests</Tabs.Tab>
-            <Tabs.Tab value="Pending">{t.statuses.Pending}</Tabs.Tab>
-            <Tabs.Tab value="In Progress">{t.statuses["In Progress"]}</Tabs.Tab>
-            <Tabs.Tab value="Completed">{t.statuses.Completed}</Tabs.Tab>
+            <Tabs.Tab value="All">
+              <Group gap="xs">
+                <span>All Requests</span>
+                <Badge size="xs" variant="filled" color={activeTab === "All" ? "#014F86" : "gray"}>{getCount("All")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Pending">
+              <Group gap="xs">
+                <span>{t.statuses.Pending}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Pending" ? "#014F86" : "gray"}>{getCount("Pending")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="In Progress">
+              <Group gap="xs">
+                <span>{t.statuses["In Progress"]}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "In Progress" ? "#014F86" : "gray"}>{getCount("In Progress")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Completed">
+              <Group gap="xs">
+                <span>{t.statuses.Completed}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Completed" ? "#014F86" : "gray"}>{getCount("Completed")}</Badge>
+              </Group>
+            </Tabs.Tab>
           </Tabs.List>
         </Tabs>
 

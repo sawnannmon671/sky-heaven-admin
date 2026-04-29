@@ -52,7 +52,7 @@ const bookingData = [
   { name: 'Cancelled', value: 200 },
 ];
 
-const COLORS = ['#014F86', '#FF6B6B', '#FFA94D', '#38D9A9'];
+const COLORS = ['#014F86', '#FF6B6B', '#FFA94D', '#00AC79'];
 
 export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }) {
   const theme = useMantineTheme();
@@ -130,7 +130,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                 <Bar dataKey="utilities" name={t.labels.utilities} stackId="1" fill="#014F86" maxBarSize={40} />
                 <Bar dataKey="bills" name={t.labels.bills} stackId="1" fill="#FF6B6B" maxBarSize={40} />
                 <Bar dataKey="maintenance" name={t.labels.maintenance} stackId="1" fill="#FFA94D" maxBarSize={40} />
-                <Bar dataKey="other" name={t.labels.other} stackId="1" fill="#38D9A9" maxBarSize={40} radius={[4, 4, 0, 0]} />
+                <Bar dataKey="other" name={t.labels.other} stackId="1" fill="#00AC79" maxBarSize={40} radius={[4, 4, 0, 0]} />
               </BarChart>
             </ResponsiveContainer>
           </Box>

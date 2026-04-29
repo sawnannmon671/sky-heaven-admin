@@ -33,7 +33,7 @@ export default function CompanyProfilePage() {
             <ThemeIcon variant="light" color="blue" size="lg" radius="md">
               <IconBuildingSkyscraper size={20} />
             </ThemeIcon>
-            <Title order={1}>{t.title}</Title>
+            <Title order={1} c="#014F86">{t.title}</Title>
           </Group>
           <Text c="dimmed" size="md">{t.subtitle}</Text>
         </Stack>

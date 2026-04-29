@@ -65,6 +65,11 @@ export default function PaymentRecordsPage() {
     return 0;
   });
 
+  const getCount = (status: string) => {
+    if (status === "All") return mockData.length;
+    return mockData.filter(item => item.status === status).length;
+  };
+
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -73,7 +78,7 @@ export default function PaymentRecordsPage() {
             <ThemeIcon variant="light" color="green" size="lg" radius="md">
               <IconHistory size={20} />
             </ThemeIcon>
-            <Title order={1}>{t.title}</Title>
+            <Title order={1} c="#014F86">{t.title}</Title>
           </Group>
           <Text c="dimmed" size="md">{t.subtitle}</Text>
         </Stack>
@@ -89,12 +94,32 @@ export default function PaymentRecordsPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
+        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="xl" color="#014F86">
           <Tabs.List>
-            <Tabs.Tab value="All">All Payments</Tabs.Tab>
-            <Tabs.Tab value="Completed">{t.status.Completed}</Tabs.Tab>
-            <Tabs.Tab value="Processing">{t.status.Processing}</Tabs.Tab>
-            <Tabs.Tab value="Failed">{t.status.Failed}</Tabs.Tab>
+            <Tabs.Tab value="All">
+              <Group gap="xs">
+                <span>All Payments</span>
+                <Badge size="xs" variant="filled" color={activeTab === "All" ? "#014F86" : "gray"}>{getCount("All")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Completed">
+              <Group gap="xs">
+                <span>{t.status.Completed}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Completed" ? "#014F86" : "gray"}>{getCount("Completed")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Processing">
+              <Group gap="xs">
+                <span>{t.status.Processing}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Processing" ? "#014F86" : "gray"}>{getCount("Processing")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Failed">
+              <Group gap="xs">
+                <span>{t.status.Failed}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Failed" ? "#014F86" : "gray"}>{getCount("Failed")}</Badge>
+              </Group>
+            </Tabs.Tab>
           </Tabs.List>
         </Tabs>
 

@@ -112,7 +112,7 @@ export default function UnitTypesPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Title order={2}>{t.title}</Title>
+          <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm" fw={500}>{t.subtitle}</Text>
         </Stack>
         <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">{t.addBtn}</Button>

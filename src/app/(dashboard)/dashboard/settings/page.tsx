@@ -39,7 +39,7 @@ export default function SettingsPage() {
   return (
     <Stack gap="xl">
       <Stack gap={0}>
-        <Title order={2}>Settings</Title>
+        <Title order={2} c="#014F86">Settings</Title>
         <Text c="dimmed" size="sm">Manage your application preferences and appearance.</Text>
       </Stack>
 

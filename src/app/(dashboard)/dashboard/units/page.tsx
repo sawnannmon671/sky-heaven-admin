@@ -142,37 +142,37 @@ export default function UnitsPage() {
     <Stack gap="xl">
       <Group justify="space-between">
         <Stack gap={0}>
-          <Title order={2}>{t.title}</Title>
+          <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
         <Button leftSection={<IconPlus size={16} />} color="#014F86">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Tabs value={activeTab} onChange={setActiveTab} mb="xl">
+        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="xl" color="#014F86">
           <Tabs.List>
             <Tabs.Tab value="All">
               <Group gap="xs">
-                All Units
-                <Badge size="xs" variant={activeTab === "All" ? "filled" : "light"} color="blue">{getCount("All")}</Badge>
+                <span>All Units</span>
+                <Badge size="xs" variant="filled" color={activeTab === "All" ? "#014F86" : "gray"}>{getCount("All")}</Badge>
               </Group>
             </Tabs.Tab>
             <Tabs.Tab value="Occupied">
               <Group gap="xs">
-                {t.status.Occupied}
-                <Badge size="xs" variant={activeTab === "Occupied" ? "filled" : "light"} color="blue">{getCount("Occupied")}</Badge>
+                <span>{t.status.Occupied}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Occupied" ? "#014F86" : "gray"}>{getCount("Occupied")}</Badge>
               </Group>
             </Tabs.Tab>
             <Tabs.Tab value="Available">
               <Group gap="xs">
-                {t.status.Available}
-                <Badge size="xs" variant={activeTab === "Available" ? "filled" : "light"} color="green">{getCount("Available")}</Badge>
+                <span>{t.status.Available}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Available" ? "#014F86" : "gray"}>{getCount("Available")}</Badge>
               </Group>
             </Tabs.Tab>
             <Tabs.Tab value="Maintenance">
               <Group gap="xs">
-                {t.status.Maintenance}
-                <Badge size="xs" variant={activeTab === "Maintenance" ? "filled" : "light"} color="orange">{getCount("Maintenance")}</Badge>
+                <span>{t.status.Maintenance}</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Maintenance" ? "#014F86" : "gray"}>{getCount("Maintenance")}</Badge>
               </Group>
             </Tabs.Tab>
           </Tabs.List>

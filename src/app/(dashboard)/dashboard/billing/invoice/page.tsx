@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
 import {  IconFileInvoice, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function InvoiceGenerationPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const { lang, mounted } = useTranslation();
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -16,13 +21,6 @@ export default function InvoiceGenerationPage() {
     }
     setSortConfig({ key, direction });
   };
-
-  
-
-  const [activePage, setPage] = useState(1);
-  const itemsPerPage = 5;
-
-  const { lang, mounted } = useTranslation();
 
   
 
@@ -49,13 +47,20 @@ const mockData = [
     { id: "INV-2024-005", unit: "D-102", resident: "U Zaw Myo", amount: "$180.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
+  const sortedData = [...mockData]
+    .filter(item => activeTab === "All" || item.status === activeTab)
+    .sort((a, b) => {
+      if (!sortConfig) return 0;
+      const { key, direction } = sortConfig;
+      if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
+      if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+      return 0;
+    });
+
+  const getCount = (status: string) => {
+    if (status === "All") return mockData.length;
+    return mockData.filter(item => item.status === status).length;
+  };
 
   return (
     <Stack gap="xl" p="md">
@@ -65,7 +70,7 @@ const mockData = [
             <ThemeIcon variant="light" color="blue" size="lg" radius="md">
               <IconFileInvoice size={20} />
             </ThemeIcon>
-            <Title order={1}>{t.title}</Title>
+            <Title order={1} c="#014F86">{t.title}</Title>
           </Group>
           <Text c="dimmed" size="md">{t.subtitle}</Text>
         </Stack>
@@ -82,6 +87,35 @@ const mockData = [
 
       
       <Paper p="md" radius="md" withBorder shadow="sm">
+        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="xl" color="#014F86">
+          <Tabs.List>
+            <Tabs.Tab value="All">
+              <Group gap="xs">
+                <span>All Invoices</span>
+                <Badge size="xs" variant="filled" color={activeTab === "All" ? "#014F86" : "gray"}>{getCount("All")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Paid">
+              <Group gap="xs">
+                <span>Paid</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Paid" ? "#014F86" : "gray"}>{getCount("Paid")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Unpaid">
+              <Group gap="xs">
+                <span>Unpaid</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Unpaid" ? "#014F86" : "gray"}>{getCount("Unpaid")}</Badge>
+              </Group>
+            </Tabs.Tab>
+            <Tabs.Tab value="Overdue">
+              <Group gap="xs">
+                <span>Overdue</span>
+                <Badge size="xs" variant="filled" color={activeTab === "Overdue" ? "#014F86" : "gray"}>{getCount("Overdue")}</Badge>
+              </Group>
+            </Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
+
         <Group justify="space-between" mb="md">
           <TextInput
             placeholder="Search..."

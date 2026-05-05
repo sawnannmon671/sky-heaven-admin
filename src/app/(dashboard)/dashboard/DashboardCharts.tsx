@@ -112,8 +112,13 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: occupancyCard ? 8 : 12 }}>
         <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
           <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Title order={3}>{t.billingTrends}</Title>
-            <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
+            <Group justify="space-between">
+              <Stack gap={0}>
+                <Title order={3}>{t.billingTrends}</Title>
+                <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
+              </Stack>
+              <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
+            </Group>
           </Box>
           <Box p="md" h={350}>
             <ResponsiveContainer width="100%" height="100%">

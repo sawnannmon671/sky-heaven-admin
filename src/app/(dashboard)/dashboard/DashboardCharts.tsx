@@ -189,7 +189,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                 <Title order={3}>{t.bookingBills}</Title>
                 <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
               </Stack>
-              <Button variant="light" size="xs" color="blue" radius="md">View Report</Button>
+              <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
             </Group>
           </Box>
           <Box p="xl">

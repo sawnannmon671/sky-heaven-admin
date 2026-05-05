@@ -115,7 +115,7 @@ const translations = {
     activities: {
       title: "Recent Activities",
       subtitle: "Latest events across all departments",
-      viewAll: "View All Activity",
+      viewAll: "View Detail",
       thUser: "User / Resident",
       thType: "Activity Type",
       thStatus: "Current Status",
@@ -153,7 +153,7 @@ const translations = {
     expenses: {
       title: "Expense Overview",
       subtitle: "Departmental spending breakdown",
-      viewReport: "View Report",
+      viewReport: "View Detail",
       categories: {
         maintenance: "Maintenance",
         utilities: "Utilities",
@@ -391,7 +391,7 @@ export default function DashboardPage() {
               <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Title order={3}>{t.occupancy.title}</Title>
-                  <Button variant="light" size="xs" color="blue" radius="md">View Report</Button>
+                  <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
                 </Group>
               </Box>
               <Box p="xl">
@@ -473,7 +473,7 @@ export default function DashboardPage() {
               <Title order={3}>Active Visitors</Title>
               <Text size="xs" c="dimmed" fw={500}>Currently on premises</Text>
             </Stack>
-            <Button variant="light" size="xs" color="blue" radius="md">View All</Button>
+            <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
           </Group>
         </Box>
         <ScrollArea>

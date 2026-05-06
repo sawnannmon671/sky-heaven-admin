@@ -108,60 +108,19 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
 
   return (
     <Grid gutter="xl">
-      {/* Billing Trends (Area Chart) */}
-      <Grid.Col span={{ base: 12, lg: occupancyCard ? 8 : 12 }}>
-        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-            <Group justify="space-between">
-              <Stack gap={0}>
-                <Title order={3}>{t.billingTrends}</Title>
-                <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
-              </Stack>
-              <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
-            </Group>
-          </Box>
-          <Box p="md" h={350}>
-            <ResponsiveContainer width="100%" height="100%">
-              <BarChart data={billingData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
-                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
-                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
-                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
-                <Tooltip 
-                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
-                  itemStyle={{ fontWeight: 600 }}
-                  cursor={{ fill: 'transparent' }}
-                />
-                <Legend iconType="square" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
-                <Bar dataKey="utilities" name={t.labels.utilities} stackId="1" fill="#014F86" maxBarSize={40} />
-                <Bar dataKey="bills" name={t.labels.bills} stackId="1" fill="#FF6B6B" maxBarSize={40} />
-                <Bar dataKey="maintenance" name={t.labels.maintenance} stackId="1" fill="#FFA94D" maxBarSize={40} />
-                <Bar dataKey="other" name={t.labels.other} stackId="1" fill="#00AC79" maxBarSize={40} radius={[4, 4, 0, 0]} />
-              </BarChart>
-            </ResponsiveContainer>
-          </Box>
-        </Paper>
-      </Grid.Col>
-
-      {/* Occupancy Card slot */}
-      {occupancyCard && (
-        <Grid.Col span={{ base: 12, lg: 4 }}>
-          {occupancyCard}
-        </Grid.Col>
-      )}
-
       {/* Finance Overview */}
       <Grid.Col span={{ base: 12, lg: 8 }}>
-        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+        <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
+          <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
             <Group justify="space-between">
               <Stack gap={0}>
                 <Title order={3}>{t.financeOverview}</Title>
                 <Text size="xs" c="dimmed" fw={500}>{t.financeSub}</Text>
               </Stack>
-              <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
+              <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
             </Group>
           </Box>
-          <Box p="md" h={350}>
+          <Box p="md" style={{ height: 'calc(22.75rem * var(--mantine-scale))' }}>
             <ResponsiveContainer width="100%" height="100%">
               <BarChart data={financeData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
                 <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
@@ -182,18 +141,18 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
 
       {/* Invoice Bills (Pie Chart) */}
       <Grid.Col span={{ base: 12, lg: 4 }}>
-        <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '100%' }}>
-          <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+        <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
+          <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
             <Group justify="space-between">
               <Stack gap={0}>
                 <Title order={3}>{t.bookingBills}</Title>
                 <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
               </Stack>
-              <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
+              <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
             </Group>
           </Box>
           <Box p="xl">
-            <Box h={200} style={{ position: 'relative' }} mb="xl">
+            <Box h={200} style={{ position: 'relative' }}>
               <ResponsiveContainer width="100%" height="100%">
                 <PieChart>
                   <Pie
@@ -244,6 +203,47 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
                 ))}
               </Progress.Root>
             </Stack>
+          </Box>
+        </Paper>
+      </Grid.Col>
+
+      {/* Occupancy Card slot */}
+      {occupancyCard && (
+        <Grid.Col span={{ base: 12, lg: 4 }}>
+          {occupancyCard}
+        </Grid.Col>
+      )}
+
+      {/* Billing Trends (Bar Chart) - moved to bottom */}
+      <Grid.Col span={{ base: 12 }}>
+        <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
+          <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
+            <Group justify="space-between">
+              <Stack gap={0}>
+                <Title order={3}>{t.billingTrends}</Title>
+                <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
+              </Stack>
+              <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
+            </Group>
+          </Box>
+          <Box p="md" style={{ height: 'calc(22.75rem * var(--mantine-scale))' }}>
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={billingData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
+                <XAxis dataKey="name" axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
+                <YAxis axisLine={false} tickLine={false} tick={{ fill: '#868e96', fontSize: 12 }} />
+                <Tooltip 
+                  contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.1)' }}
+                  itemStyle={{ fontWeight: 600 }}
+                  cursor={{ fill: 'transparent' }}
+                />
+                <Legend iconType="square" wrapperStyle={{ fontSize: '12px', paddingTop: '10px' }} />
+                <Bar dataKey="utilities" name={t.labels.utilities} stackId="1" fill="#014F86" maxBarSize={40} />
+                <Bar dataKey="bills" name={t.labels.bills} stackId="1" fill="#FF6B6B" maxBarSize={40} />
+                <Bar dataKey="maintenance" name={t.labels.maintenance} stackId="1" fill="#FFA94D" maxBarSize={40} />
+                <Bar dataKey="other" name={t.labels.other} stackId="1" fill="#00AC79" maxBarSize={40} radius={[4, 4, 0, 0]} />
+              </BarChart>
+            </ResponsiveContainer>
           </Box>
         </Paper>
       </Grid.Col>

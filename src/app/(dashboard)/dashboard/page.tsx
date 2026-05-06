@@ -350,8 +350,8 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, lg: 8 }}>
           <Stack gap="xl">
             {/* Expense Overview */}
-            <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+            <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
+              <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Stack gap={0}>
                     <Title order={3}>{t.expenses.title}</Title>
@@ -387,15 +387,15 @@ export default function DashboardPage() {
         <Grid.Col span={{ base: 12, lg: 4 }}>
           <Stack gap="xl">
             {/* Occupancy Rate */}
-            <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-              <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+            <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
+              <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
                 <Group justify="space-between">
                   <Title order={3}>{t.occupancy.title}</Title>
                   <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
                 </Group>
               </Box>
               <Box p="xl">
-                <Box h={200} style={{ position: 'relative' }} mb="xl">
+                <Box h={200} style={{ position: 'relative' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie
@@ -466,7 +466,7 @@ export default function DashboardPage() {
       </Grid>
 
       {/* Active Visitors - Full Width */}
-      <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+      <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
         <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
           <Group justify="space-between">
             <Stack gap={0}>

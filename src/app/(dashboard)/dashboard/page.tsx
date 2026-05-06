@@ -351,7 +351,7 @@ export default function DashboardPage() {
           <Stack gap="md">
             {/* Expense Overview */}
             <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
-              <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
+               <Box p="lg">
                 <Group justify="space-between">
                   <Stack gap={0}>
                     <Title order={3}>{t.expenses.title}</Title>
@@ -388,7 +388,7 @@ export default function DashboardPage() {
           <Stack gap="md">
             {/* Occupancy Rate */}
             <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
-              <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
+               <Box p="lg">
                 <Group justify="space-between">
                   <Title order={3}>{t.occupancy.title}</Title>
                   <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
@@ -467,7 +467,7 @@ export default function DashboardPage() {
 
       {/* Active Visitors - Full Width */}
       <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-        <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+         <Box p="lg" style={{ backgroundColor: '#fafafa' }}>
           <Group justify="space-between">
             <Stack gap={0}>
               <Title order={3}>Active Visitors</Title>

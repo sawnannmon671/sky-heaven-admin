@@ -111,7 +111,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       {/* Finance Overview */}
       <Grid.Col span={{ base: 12, lg: 8 }}>
         <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
-          <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
+           <Box p="lg">
             <Group justify="space-between">
               <Stack gap={0}>
                 <Title order={3}>{t.financeOverview}</Title>
@@ -142,7 +142,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       {/* Invoice Bills (Pie Chart) */}
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
-          <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
+           <Box p="lg">
             <Group justify="space-between">
               <Stack gap={0}>
                 <Title order={3}>{t.bookingBills}</Title>
@@ -217,7 +217,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       {/* Billing Trends (Bar Chart) - moved to bottom */}
       <Grid.Col span={{ base: 12 }}>
         <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
-          <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
+           <Box p="lg">
             <Group justify="space-between">
               <Stack gap={0}>
                 <Title order={3}>{t.billingTrends}</Title>

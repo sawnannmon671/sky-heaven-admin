@@ -193,7 +193,7 @@ export default function AmenitiesPage() {
       </Group>
 
       <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-        <Box p="lg" style={{ borderBottom: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
+        <Box p="lg">
           <Group justify="space-between">
             <TextInput
               placeholder={t.searchPlaceholder}

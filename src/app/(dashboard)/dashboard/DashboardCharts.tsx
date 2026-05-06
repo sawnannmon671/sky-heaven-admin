@@ -114,7 +114,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
            <Box p="lg">
             <Group justify="space-between">
               <Stack gap={0}>
-                <Title order={3}>{t.financeOverview}</Title>
+                <Title order={3} c="#014F86">{t.financeOverview}</Title>
                 <Text size="xs" c="dimmed" fw={500}>{t.financeSub}</Text>
               </Stack>
               <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
@@ -145,7 +145,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
            <Box p="lg">
             <Group justify="space-between">
               <Stack gap={0}>
-                <Title order={3}>{t.bookingBills}</Title>
+                <Title order={3} c="#014F86">{t.bookingBills}</Title>
                 <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
               </Stack>
               <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
@@ -220,7 +220,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
            <Box p="lg">
             <Group justify="space-between">
               <Stack gap={0}>
-                <Title order={3}>{t.billingTrends}</Title>
+                <Title order={3} c="#014F86">{t.billingTrends}</Title>
                 <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
               </Stack>
               <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>

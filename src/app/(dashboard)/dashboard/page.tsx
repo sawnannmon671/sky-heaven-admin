@@ -354,7 +354,7 @@ export default function DashboardPage() {
                <Box p="lg">
                 <Group justify="space-between">
                   <Stack gap={0}>
-                    <Title order={3}>{t.expenses.title}</Title>
+                    <Title order={3} c="#014F86">{t.expenses.title}</Title>
                     <Text size="xs" c="dimmed" fw={500}>{t.expenses.subtitle}</Text>
                   </Stack>
                   <Button variant="light" size="xs" color="blue" radius="md">{t.expenses.viewReport}</Button>
@@ -390,7 +390,7 @@ export default function DashboardPage() {
             <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
                <Box p="lg">
                 <Group justify="space-between">
-                  <Title order={3}>{t.occupancy.title}</Title>
+                  <Title order={3} c="#014F86">{t.occupancy.title}</Title>
                   <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
                 </Group>
               </Box>
@@ -470,7 +470,7 @@ export default function DashboardPage() {
          <Box p="lg" style={{ backgroundColor: '#fafafa' }}>
           <Group justify="space-between">
             <Stack gap={0}>
-              <Title order={3}>Active Visitors</Title>
+              <Title order={3} c="#014F86">Active Visitors</Title>
               <Text size="xs" c="dimmed" fw={500}>Currently on premises</Text>
             </Stack>
             <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>

@@ -348,7 +348,7 @@ export default function DashboardPage() {
 
       <Grid gutter="xl">
         <Grid.Col span={{ base: 12, lg: 8 }}>
-          <Stack gap="xl">
+          <Stack gap="md">
             {/* Expense Overview */}
             <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
               <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>
@@ -360,7 +360,7 @@ export default function DashboardPage() {
                   <Button variant="light" size="xs" color="blue" radius="md">{t.expenses.viewReport}</Button>
                 </Group>
               </Box>
-              <Box p="md" h={300}>
+              <Box p="md" style={{ height: 'calc(22.75rem * var(--mantine-scale))' }}>
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart data={monthlyExpenseData} margin={{ top: 20, right: 30, left: 0, bottom: 5 }}>
                     <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e9ecef" />
@@ -385,7 +385,7 @@ export default function DashboardPage() {
         </Grid.Col>
 
         <Grid.Col span={{ base: 12, lg: 4 }}>
-          <Stack gap="xl">
+          <Stack gap="md">
             {/* Occupancy Rate */}
             <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
               <Box p="lg" style={{ borderBottom: '2px solid #dee2e6', backgroundColor: '#fafafa' }}>

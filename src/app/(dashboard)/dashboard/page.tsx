@@ -395,7 +395,7 @@ export default function DashboardPage() {
                 </Group>
               </Box>
               <Box p="xl">
-                <Box h={200} style={{ position: 'relative' }}>
+                <Box style={{ position: 'relative', height: 'calc(14.5rem * var(--mantine-scale))' }}>
                   <ResponsiveContainer width="100%" height="100%">
                     <PieChart>
                       <Pie

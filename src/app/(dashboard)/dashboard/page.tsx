@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import {
   Grid,
   Paper,
@@ -8,32 +9,43 @@ import {
   Group,
   Badge,
   Stack,
-  RingProgress,
   ThemeIcon,
   Table,
   Button,
-  Avatar,
   Box,
   Progress,
   SimpleGrid,
   ActionIcon,
-  List,
   ScrollArea,
+  TextInput,
+  Select,
+  Pagination,
+  UnstyledButton,
+  Center,
+  Collapse,
 } from "@mantine/core";
 import {
   IconUsers,
   IconBuilding,
   IconTools,
   IconReceipt,
-  IconTrendingUp,
   IconArrowUpRight,
   IconArrowDownRight,
-  IconCircleCheck,
   IconClock,
+  IconSearch,
+  IconEye,
+  IconEdit,
+  IconTrash,
+  IconSelector,
+  IconChevronUp,
+  IconChevronDown,
+  IconUser,
+  IconFilter,
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DashboardCharts } from "./DashboardCharts";
 import { PieChart, Pie, Cell, Tooltip, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, CartesianGrid, Legend } from 'recharts';
+import Link from "next/link";
 
 const stats = [
   {
@@ -106,11 +118,15 @@ const translations = {
     },
     visitors: {
       title: "Recent Visitors",
+      searchPlaceholder: "Search visitors...",
+      filterType: "All Types",
       thName: "Visitor Name",
       thHost: "Host Unit",
       thTime: "Entry Time",
       thType: "Type",
       thStatus: "Status",
+      thContact: "Contact Info",
+      thActions: "Actions",
     },
     activities: {
       title: "Recent Activities",
@@ -141,6 +157,7 @@ const translations = {
     },
     occupancy: {
       title: "Occupancy Rate",
+      subtitle: "Property unit status overview",
       occupied: "Occupied",
       available: "Available Units",
       maintenance: "Under Maintenance"
@@ -179,11 +196,15 @@ const translations = {
     },
     visitors: {
       title: "လတ်တလောဧည့်သည်များ",
+      searchPlaceholder: "ဧည့်သည်များကို ရှာဖွေရန်...",
+      filterType: "အမျိုးအစားအားလုံး",
       thName: "ဧည့်သည်အမည်",
       thHost: "နေထိုင်သူယူနစ်",
       thTime: "ဝင်ရောက်ချိန်",
       thType: "အမျိုးအစား",
       thStatus: "အခြေအနေ",
+      thContact: "ဆက်သွယ်ရန်",
+      thActions: "လုပ်ဆောင်ချက်များ",
     },
     activities: {
       title: "လတ်တလောလှုပ်ရှားမှုများ",
@@ -214,6 +235,7 @@ const translations = {
     },
     occupancy: {
       title: "နေထိုင်မှုနှုန်း",
+      subtitle: "ယူနစ်များ၏ လက်ရှိအခြေအနေ",
       occupied: "နေထိုင်သူရှိသည်",
       available: "အားလပ်သောယူနစ်များ",
       maintenance: "ပြုပြင်နေဆဲ"
@@ -257,7 +279,56 @@ export default function DashboardPage() {
   const { lang, mounted } = useTranslation();
   const t = translations[lang];
 
+  const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+  const [search, setSearch] = useState("");
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+
+  const handleSort = (key: string) => {
+    let direction: 'asc' | 'desc' = 'asc';
+    if (sortConfig && sortConfig.key === key && sortConfig.direction === 'asc') {
+      direction = 'desc';
+    }
+    setSortConfig({ key, direction });
+  };
+
+  const activeVisitors = recentVisitors.filter(v => v.status === "In");
   
+  const filteredVisitors = activeVisitors.filter(v => {
+    const matchesSearch = v.name.toLowerCase().includes(search.toLowerCase()) || 
+      v.passNo.toLowerCase().includes(search.toLowerCase()) ||
+      v.host.toLowerCase().includes(search.toLowerCase());
+    const matchesType = !typeFilter || v.type === typeFilter;
+    return matchesSearch && matchesType;
+  });
+
+  const sortedVisitors = [...filteredVisitors].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const Th = ({ children, reversed, sorted, onSort }: { children: React.ReactNode; reversed: boolean; sorted: boolean; onSort(): void }) => {
+    const Icon = sorted ? (reversed ? IconChevronUp : IconChevronDown) : IconSelector;
+    return (
+      <Table.Th c="white">
+        <UnstyledButton onClick={onSort} style={{ width: '100%', color: 'inherit' }}>
+          <Group justify="space-between" wrap="nowrap">
+            <Text fw={700} fz="sm" c="white">{children}</Text>
+            <Center>
+              <Icon size={14} color={sorted ? "white" : "rgba(255,255,255,0.5)"} />
+            </Center>
+          </Group>
+        </UnstyledButton>
+      </Table.Th>
+    );
+  };
 
   const cards = stats.map((stat) => {
     const Icon = stat.icon;
@@ -290,12 +361,12 @@ export default function DashboardPage() {
           e.currentTarget.style.transform = 'translateY(0)';
         }}
       >
-        <Group justify="space-between" align="center" mb="lg">
-          <Stack gap={0}>
-            <Text size="sm" c="rgba(255,255,255,0.9)" fw={600} tt="uppercase" lts={1}>
+        <Group justify="space-between" align="center" mb="lg" wrap="nowrap">
+          <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
+            <Text size="sm" c="rgba(255,255,255,0.9)" fw={600} tt="uppercase" lts={1} truncate>
               {t.stats[stat.id as keyof typeof t.stats]}
             </Text>
-            <Title order={2} c="white" style={{ fontSize: '2rem' }}>
+            <Title order={2} c="white" style={{ fontSize: 'calc(1.5rem + 0.5vw)' }}>
               {stat.value}
             </Title>
           </Stack>
@@ -303,20 +374,21 @@ export default function DashboardPage() {
             size="xl"
             radius="md"
             variant="transparent"
+            style={{ flexShrink: 0 }}
           >
             <Icon size={36} color="rgba(255,255,255,0.8)" stroke={1.5} />
           </ThemeIcon>
         </Group>
 
-        <Group justify="space-between" align="center">
-          <Text c="rgba(255,255,255,0.8)" size="xs" fw={500}>
+        <Group justify="space-between" align="center" wrap="nowrap">
+          <Text c="rgba(255,255,255,0.8)" size="xs" fw={500} truncate style={{ flex: 1, minWidth: 0 }}>
             {t.stats[descKey as keyof typeof t.stats]}
           </Text>
           <Badge
             variant="transparent"
             size="sm"
             leftSection={<DiffIcon size={12} />}
-            style={{ fontWeight: 700, color: 'white', backgroundColor: 'rgba(255,255,255,0.2)' }}
+            style={{ fontWeight: 700, color: 'white', backgroundColor: 'rgba(255,255,255,0.2)', flexShrink: 0 }}
           >
             {Math.abs(stat.diff)}%
           </Badge>
@@ -330,7 +402,7 @@ export default function DashboardPage() {
       <Group justify="space-between" align="flex-end">
         <Stack gap={4}>
           <Title order={2} c="#014F86">{t.pageTitle}</Title>
-          <Text c="dimmed" size="md" fw={500}>{t.pageSubtitle}</Text>
+          <Text c="dimmed" size="sm" fw={500}>{t.pageSubtitle}</Text>
         </Stack>
         <Paper withBorder px="md" py="xs" radius="md" bg="gray.0">
           <Group gap="xs">
@@ -390,7 +462,10 @@ export default function DashboardPage() {
             <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
                <Box p="lg">
                 <Group justify="space-between">
-                  <Title order={3} c="#014F86">{t.occupancy.title}</Title>
+                  <Stack gap={0}>
+                    <Title order={3} c="#014F86">{t.occupancy.title}</Title>
+                    <Text size="xs" c="dimmed" fw={500}>{t.occupancy.subtitle}</Text>
+                  </Stack>
                   <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
                 </Group>
               </Box>
@@ -466,73 +541,146 @@ export default function DashboardPage() {
       </Grid>
 
       {/* Active Visitors - Full Width */}
-      <Paper radius="md" style={{           border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
-         <Box p="lg" style={{ backgroundColor: '#fafafa' }}>
-          <Group justify="space-between">
-            <Stack gap={0}>
-              <Title order={3} c="#014F86">Active Visitors</Title>
-              <Text size="xs" c="dimmed" fw={500}>Currently on premises</Text>
-            </Stack>
-            <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
-          </Group>
-        </Box>
-        <ScrollArea>
-          <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
+      <Paper p="lg" radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
+        <Group justify="space-between" mb="md">
+          <Stack gap={0}>
+            <Title order={3} c="#014F86">Active Visitors</Title>
+            <Text size="xs" c="dimmed" fw={500}>Currently on premises</Text>
+          </Stack>
+          <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
+        </Group>
+        
+        <Group justify="space-between" mb="xs">
+          <TextInput
+            placeholder={t.visitors.searchPlaceholder}
+            leftSection={<IconSearch size={16} />}
+            size="md"
+            radius="md"
+            w={300}
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+          />
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
+        </Group>
+
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>{t.visitors.thType}</Text>}
+                placeholder={t.visitors.filterType}
+                data={["Guest", "Delivery", "Service", "Contractor"]}
+                size="md"
+                radius="md"
+                clearable
+                value={typeFilter}
+                onChange={setTypeFilter}
+              />
+              {/* Add more filters if needed */}
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <ScrollArea mt="sm">
+          <Table verticalSpacing="md" horizontalSpacing="md" highlightOnHover>
             <Table.Thead bg="#014F86">
-            <Table.Tr>
-               <Table.Th fw={700} fz="sm" c="white">Pass No.</Table.Th>
-               <Table.Th fw={700} fz="sm" c="white">{t.visitors?.thName || "Visitor Name"}</Table.Th>
-               <Table.Th fw={700} fz="sm" c="white">Contact Info</Table.Th>
-               <Table.Th fw={700} fz="sm" c="white">{t.visitors?.thHost || "Host Unit"}</Table.Th>
-               <Table.Th fw={700} fz="sm" c="white">Purpose</Table.Th>
-               <Table.Th fw={700} fz="sm" c="white">{t.visitors?.thTime || "Time In"}</Table.Th>
-               <Table.Th ta="right" fw={700} fz="sm" c="white">Expected Out</Table.Th>
-             </Table.Tr>
-          </Table.Thead>
+              <Table.Tr>
+                <Th 
+                  sorted={sortConfig?.key === 'name'} 
+                  reversed={sortConfig?.direction === 'desc'} 
+                  onSort={() => handleSort('name')}
+                >
+                  {t.visitors.thName}
+                </Th>
+                <Th 
+                  sorted={sortConfig?.key === 'host'} 
+                  reversed={sortConfig?.direction === 'desc'} 
+                  onSort={() => handleSort('host')}
+                >
+                  {t.visitors.thHost}
+                </Th>
+                <Th 
+                  sorted={sortConfig?.key === 'phone'} 
+                  reversed={sortConfig?.direction === 'desc'} 
+                  onSort={() => handleSort('phone')}
+                >
+                  {t.visitors.thContact}
+                </Th>
+                <Th 
+                  sorted={sortConfig?.key === 'type'} 
+                  reversed={sortConfig?.direction === 'desc'} 
+                  onSort={() => handleSort('type')}
+                >
+                  {t.visitors.thType}
+                </Th>
+                <Table.Th fw={700} fz="sm" c="white" ta="right">{t.visitors.thActions}</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
             <Table.Tbody>
-              {recentVisitors.filter(v => v.status === "In").map((visitor) => (
+              {sortedVisitors.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage).map((visitor) => (
                 <Table.Tr key={visitor.id}>
                   <Table.Td>
-                    <Badge variant="light" color="gray" radius="sm" fw={700}>{visitor.passNo}</Badge>
-                  </Table.Td>
-                  <Table.Td>
                     <Group gap="sm">
-                      <Avatar size="sm" radius="md" fw={700} color="blue" variant="light">{visitor.name[0]}</Avatar>
-                      <div>
-                        <Text size="sm" fw={600}>{visitor.name}</Text>
-                        <Text size="xs" c="dimmed">{visitor.type}</Text>
-                      </div>
+                      <ThemeIcon size="md" variant="light" color="blue" radius="md">
+                        <IconUser size={18} />
+                      </ThemeIcon>
+                      <Stack gap={0}>
+                        <Text size="sm" fw={700}>{visitor.name}</Text>
+                        <Text size="xs" c="dimmed">{visitor.passNo}</Text>
+                      </Stack>
                     </Group>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm" fw={500} c="dimmed">{visitor.phone}</Text>
+                    <Text size="sm" fw={500}>{visitor.host}</Text>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm" fw={600}>{visitor.host}</Text>
+                    <Text size="sm" fw={500}>{visitor.phone}</Text>
                   </Table.Td>
                   <Table.Td>
-                    <Text size="sm" fw={500}>{visitor.purpose}</Text>
-                  </Table.Td>
-                  <Table.Td>
-                    <Badge size="sm" color="#00AC79" variant="light" radius="sm">
-                      {visitor.time}
+                    <Badge 
+                      variant="light" 
+                      color={visitor.type === 'Guest' ? 'blue' : visitor.type === 'Delivery' ? 'orange' : visitor.type === 'Service' ? 'teal' : 'violet'} 
+                      fw={700}
+                      tt="uppercase"
+                    >
+                      {visitor.type}
                     </Badge>
                   </Table.Td>
-                  <Table.Td ta="right">
-                    <Text size="sm" fw={500} c="dimmed">{visitor.expectedOut}</Text>
+                  <Table.Td>
+                    <Group gap={4} justify="flex-end">
+                      <ActionIcon variant="subtle" color="gray"><IconEye size={16} /></ActionIcon>
+                      <ActionIcon variant="subtle" color="blue"><IconEdit size={16} /></ActionIcon>
+                      <ActionIcon variant="subtle" color="red"><IconTrash size={16} /></ActionIcon>
+                    </Group>
                   </Table.Td>
                 </Table.Tr>
               ))}
-              {recentVisitors.filter(v => v.status === "In").length === 0 && (
+              {sortedVisitors.length === 0 && (
                 <Table.Tr>
-                  <Table.Td colSpan={7} ta="center" py="xl">
-                    <Text c="dimmed" size="sm">No active visitors</Text>
+                  <Table.Td colSpan={5} ta="center" py="xl">
+                    <Text c="dimmed" size="sm">No active visitors found</Text>
                   </Table.Td>
                 </Table.Tr>
               )}
             </Table.Tbody>
           </Table>
         </ScrollArea>
+        
+        <Group justify="space-between" mt="md">
+          <Text size="sm" c="dimmed">
+            Showing {sortedVisitors.length === 0 ? 0 : (activePage - 1) * itemsPerPage + 1} to {Math.min(activePage * itemsPerPage, sortedVisitors.length)} of {sortedVisitors.length} entries
+          </Text>
+          <Pagination total={Math.ceil(sortedVisitors.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+        </Group>
       </Paper>
     </Stack>
   );

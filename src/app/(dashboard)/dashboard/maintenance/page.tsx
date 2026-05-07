@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
+import { Title, Paper, Table, Group, Button, Badge, Stack, Text, Select, ActionIcon, ThemeIcon, TextInput, Pagination, UnstyledButton, Center, Tabs, Collapse, Box, SimpleGrid } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
 import {  IconPlus, IconFilter, IconEye, IconEdit, IconTrash, IconTool, IconSearch , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -84,6 +84,9 @@ const translations = {
 
 export default function MaintenancePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [priorityFilter, setPriorityFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
   const [activeTab, setActiveTab] = useState<string | null>("All");
 
   const handleSort = (key: string) => {
@@ -94,7 +97,12 @@ export default function MaintenancePage() {
     setSortConfig({ key, direction });
   };
 
-  const filteredData = elements.filter(item => activeTab === "All" || item.status === activeTab);
+  const filteredData = elements.filter(item => {
+    const matchesTab = activeTab === "All" || item.status === activeTab;
+    const matchesPriority = !priorityFilter || item.priority === priorityFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesTab && matchesPriority && matchesStatus;
+  });
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -203,22 +211,62 @@ export default function MaintenancePage() {
           </Tabs.List>
         </Tabs>
 
-        <Group mb="xl" justify="space-between">
-          <Group style={{ flex: 1 }}>
-            <TextInput
-              placeholder={t.searchPlaceholder}
-              leftSection={<IconSearch size={16} />}
-              w={250}
-            />
-            <DatePickerInput
-              placeholder="Filter by date"
-              leftSection={<IconCalendar size={16} />}
-              clearable
-              style={{ width: 200 }}
-            />
-          </Group>
+        <Group mb="xs" justify="space-between">
+          <TextInput
+            placeholder={t.searchPlaceholder}
+            leftSection={<IconSearch size={16} />}
+            w={300}
+            size="md"
+            radius="md"
+          />
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
         </Group>
-        <Table verticalSpacing="sm" highlightOnHover>
+
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Priority</Text>}
+                placeholder="Priority"
+                data={["High", "Medium", "Low"]}
+                size="md"
+                radius="md"
+                clearable
+                value={priorityFilter}
+                onChange={setPriorityFilter}
+              />
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
+                placeholder="Status"
+                data={["Pending", "In Progress", "Completed"]}
+                size="md"
+                radius="md"
+                clearable
+                value={statusFilter}
+                onChange={setStatusFilter}
+              />
+              <DatePickerInput
+                label={<Text fw={600} size="sm" mb={5}>Date</Text>}
+                placeholder="Select date"
+                leftSection={<IconCalendar size={16} />}
+                size="md"
+                radius="md"
+                clearable
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="sm" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th c="white">

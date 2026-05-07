@@ -133,12 +133,7 @@ export default function PreventiveDetailPage() {
             <Paper p="xl" radius="md" withBorder shadow="sm">
               <Group justify="space-between" mb="xl">
                 <Stack gap={0}>
-                  <Group gap="xs">
-                    <ThemeIcon variant="light" color="cyan" size="lg" radius="md">
-                      <IconCalendarStats size={20} />
-                    </ThemeIcon>
-                    <Title order={2} c="#014F86">{t.details}: {task.id}</Title>
-                  </Group>
+                  <Title order={2} c="#014F86">{t.details}: {task.id}</Title>
                   <Text size="sm" c="dimmed" mt={4}>{t.nextDue}: {task.nextDue}</Text>
                 </Stack>
                 <Badge size="xl" variant="dot" color={getStatusColor(task.status)}>

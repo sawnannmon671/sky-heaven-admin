@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, Badge, Stack, Text, Avatar, TextInput, ActionIcon , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconUserPlus, IconSearch, IconShieldLock, IconEdit, IconTrash, IconEye , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Paper, Table, Group, Button, Badge, Stack, Text, Avatar, TextInput, ActionIcon, Pagination, UnstyledButton, Center, Select, Collapse, Box, SimpleGrid } from "@mantine/core";
+import {  IconUserPlus, IconSearch, IconShieldLock, IconEdit, IconTrash, IconEye , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
 const elements = [
@@ -58,6 +58,9 @@ const translations = {
 
 export default function StaffPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [roleFilter, setRoleFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -67,7 +70,13 @@ export default function StaffPage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
+  const filteredData = elements.filter(item => {
+    const matchesRole = !roleFilter || item.role === roleFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesRole && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -126,13 +135,54 @@ export default function StaffPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <TextInput
-          placeholder={t.searchPlaceholder}
-          leftSection={<IconSearch size={16} />}
-          mb="xl"
-          size="md"
-        />
-        <Table verticalSpacing="sm" highlightOnHover>
+        <Group justify="space-between" mb="xs">
+          <TextInput
+            placeholder={t.searchPlaceholder}
+            leftSection={<IconSearch size={16} />}
+            size="md"
+            radius="md"
+            w={300}
+          />
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
+        </Group>
+
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Role</Text>}
+                placeholder="Role"
+                data={["Admin", "Manager", "Staff"]}
+                size="md"
+                radius="md"
+                clearable
+                value={roleFilter}
+                onChange={setRoleFilter}
+              />
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
+                placeholder="Status"
+                data={["Active", "Inactive"]}
+                size="md"
+                radius="md"
+                clearable
+                value={statusFilter}
+                onChange={setStatusFilter}
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="sm" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th c="white">

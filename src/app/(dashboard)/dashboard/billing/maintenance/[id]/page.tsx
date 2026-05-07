@@ -33,12 +33,7 @@ export default function DetailPage() {
   return (
     <Stack gap="xl" p="md" style={{ maxWidth: 1000, margin: '0 auto' }}>
       <Group justify="space-between" align="center">
-        <Group gap="sm">
-          <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-            <IconReceipt size={20} />
-          </ThemeIcon>
-          <Title order={2} c="#014F86">Monthly Maintenance Fees Details</Title>
-        </Group>
+        <Title order={2} c="#014F86">Monthly Maintenance Fees Details</Title>
         <Button 
           component={Link} 
           href="../" 

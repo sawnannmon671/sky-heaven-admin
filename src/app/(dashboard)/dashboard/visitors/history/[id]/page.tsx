@@ -111,12 +111,7 @@ export default function VisitorHistoryDetailPage() {
           <Stack gap="xl">
             {/* Log Info Card */}
             <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
-              <Group gap="sm" mb="xl">
-                <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-                  <IconUser size={20} />
-                </ThemeIcon>
-                <Title order={3} style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Visitor Information</Title>
-              </Group>
+              <Title order={3} mb="xl" style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Visitor Information</Title>
 
               <Grid gutter="xl">
                 <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -151,12 +146,7 @@ export default function VisitorHistoryDetailPage() {
 
             {/* Visit Details Card */}
             <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
-              <Group gap="sm" mb="xl">
-                <ThemeIcon variant="light" color="violet" size="lg" radius="md">
-                  <IconBuildingSkyscraper size={20} />
-                </ThemeIcon>
-                <Title order={3} style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Visit Details</Title>
-              </Group>
+              <Title order={3} mb="xl" style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Visit Details</Title>
 
               <Grid gutter="xl">
                 <Grid.Col span={{ base: 12, sm: 6 }}>

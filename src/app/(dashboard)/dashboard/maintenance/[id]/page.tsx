@@ -140,12 +140,7 @@ export default function MaintenanceDetailPage() {
             <Paper p="xl" radius="md" withBorder shadow="sm">
               <Group justify="space-between" mb="xl">
                 <Stack gap={0}>
-                  <Group gap="xs">
-                    <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-                      <IconTool size={20} />
-                    </ThemeIcon>
-                    <Title order={2} c="#014F86">{t.requestId}: {request.id}</Title>
-                  </Group>
+                  <Title order={2} c="#014F86">{t.requestId}: {request.id}</Title>
                   <Text size="sm" c="dimmed" mt={4}>{t.date}: {request.date}</Text>
                 </Stack>
                 <Badge size="xl" variant="dot" color={getStatusColor(request.status)}>

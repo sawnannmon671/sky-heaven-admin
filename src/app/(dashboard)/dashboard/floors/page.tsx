@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge, Select , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconLayersIntersect , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge, Select , Pagination , UnstyledButton, Center, Collapse, Box, SimpleGrid } from "@mantine/core";
+import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconLayersIntersect , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -51,6 +51,8 @@ const translations = {
 
 export default function FloorsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [buildingFilter, setBuildingFilter] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -60,7 +62,11 @@ export default function FloorsPage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
+  const filteredData = elements.filter(item =>
+    !buildingFilter || item.building === buildingFilter
+  );
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -111,7 +117,7 @@ export default function FloorsPage() {
   ));
 
   return (
-    <Stack gap="xl">
+    <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
           <Title order={2} c="#014F86">{t.title}</Title>
@@ -121,23 +127,44 @@ export default function FloorsPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group mb="xl">
+        <Group justify="space-between" mb="xs">
           <TextInput
             placeholder={t.searchPlaceholder}
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            w={250}
+            w={300}
           />
-          <Select
-            placeholder={t.filterBuilding}
-            data={["Tower A", "Tower B", "Tower C"]}
-            size="md"
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
             radius="md"
-            w={200}
-          />
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
         </Group>
-        <Table verticalSpacing="md" highlightOnHover>
+
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>{t.filterBuilding}</Text>}
+                placeholder={t.filterBuilding}
+                data={["Tower A", "Tower B", "Tower C"]}
+                size="md"
+                radius="md"
+                clearable
+                value={buildingFilter}
+                onChange={setBuildingFilter}
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="white">

@@ -43,12 +43,7 @@ export default function ResidentDetailPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
-              <IconAddressBook size={20} />
-            </ThemeIcon>
-            <Title order={2} c="#014F86">Resident Details</Title>
-          </Group>
+          <Title order={2} c="#014F86">Resident Details</Title>
           <Text c="dimmed" size="sm">Detailed information for {item?.name || id}</Text>
         </Stack>
         <Button 

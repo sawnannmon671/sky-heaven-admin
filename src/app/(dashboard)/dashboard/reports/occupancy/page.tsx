@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconHome, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Box, SimpleGrid, Select, Collapse } from "@mantine/core";
+import {  IconHome, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function OccupancyReportPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [activePage, setPage] = useState(1);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -19,10 +21,9 @@ export default function OccupancyReportPage() {
 
   
 
-  const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
-  const { lang, mounted } = useTranslation();
+  const { lang } = useTranslation();
 
   
 
@@ -61,41 +62,63 @@ export default function OccupancyReportPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="teal" size="lg" radius="md">
-              <IconHome size={20} />
-            </ThemeIcon>
-            <Title order={1} c="#014F86">{t.title}</Title>
-          </Group>
-          <Text c="dimmed" size="md">{t.subtitle}</Text>
+          <Title order={2} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/reports" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
+        <Group gap="sm">
+          <Button 
+            component={Link} 
+            href="/dashboard/reports" 
+            variant="subtle" 
+            leftSection={<IconChevronLeft size={16} />}
+            color="gray"
+          >
+            {t.back}
+          </Button>
+          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+            Generate Report
+          </Button>
+        </Group>
       </Group>
 
       
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
+        <Group justify="space-between" mb="xs">
           <TextInput
             placeholder="Search..."
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            w={250}
+            w={300}
           />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Generate Report
-          </Button>
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
         </Group>
 
-        <Table verticalSpacing="md" highlightOnHover>
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
+                placeholder="Status"
+                data={["High", "Normal", "Low"]}
+                size="md"
+                radius="md"
+                clearable
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="white">

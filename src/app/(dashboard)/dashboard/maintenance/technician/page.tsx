@@ -61,13 +61,8 @@ const mockData = [
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
-              <IconUserCog size={20} />
-            </ThemeIcon>
-            <Title order={1} c="#014F86">{t.title}</Title>
-          </Group>
-          <Text c="dimmed" size="md">{t.subtitle}</Text>
+          <Title order={2} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
         <Button 
           component={Link} 

@@ -293,24 +293,14 @@ export default function AmenityDetailPage() {
           <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack gap={40}>
               <Box>
-                <Group mb="xl" gap="xs">
-                  <ThemeIcon variant="light" color="blue" size="md" radius="sm">
-                    <IconInfoCircle size={20} />
-                  </ThemeIcon>
-                  <Title order={2} c="#014F86" style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Amenities Details</Title>
-                </Group>
+                <Title order={2} c="#014F86" mb="xl" style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>Amenities Details</Title>
                 <Text size="xl" c="gray.7" style={{ lineHeight: 1.8, fontWeight: 500 }}>
                   {data.description}
                 </Text>
               </Box>
 
               <Paper radius="md" p="xl" style={{ border: '1px solid #e9ecef', backgroundColor: '#fafafa' }}>
-                <Group mb="xl" gap="xs">
-                  <ThemeIcon variant="light" color="green" size="md" radius="sm">
-                    <IconShieldCheck size={20} />
-                  </ThemeIcon>
-                  <Title order={2} c="#014F86" style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.rules}</Title>
-                </Group>
+                <Title order={2} c="#014F86" mb="xl" style={{ fontWeight: 800, letterSpacing: '-0.5px' }}>{t.rules}</Title>
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xl">
                   {data.rules.map((rule, index) => (
                     <Group key={index} gap="md" align="flex-start" wrap="nowrap">

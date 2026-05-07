@@ -421,7 +421,7 @@ export default function HomePage() {
             
             <Box style={{ height: 240 }}> {/* Fixed height container to prevent layout shift */}
               <Title 
-                order={1} 
+                order={2} 
                 c="white" 
                 size={72} 
                 fw={700} 

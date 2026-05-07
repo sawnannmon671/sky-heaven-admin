@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
-import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuildingCommunity , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Paper, Table, Group, Button, TextInput, Badge, Stack, ActionIcon, Text, ThemeIcon, Pagination, UnstyledButton, Center, Tabs, Select, Collapse, Box, SimpleGrid } from "@mantine/core";
+import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuildingCommunity , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -65,6 +65,9 @@ const translations = {
 export default function UnitsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
+  const [floorFilter, setFloorFilter] = useState<string | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -74,7 +77,12 @@ export default function UnitsPage() {
     setSortConfig({ key, direction });
   };
 
-  const filteredData = elements.filter(item => activeTab === "All" || item.status === activeTab);
+  const filteredData = elements.filter(item => {
+    const matchesTab = activeTab === "All" || item.status === activeTab;
+    const matchesType = !typeFilter || item.type === typeFilter;
+    const matchesFloor = !floorFilter || item.floor.toString() === floorFilter;
+    return matchesTab && matchesType && matchesFloor;
+  });
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -139,7 +147,7 @@ export default function UnitsPage() {
   ));
 
   return (
-    <Stack gap="xl">
+    <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={0}>
           <Title order={2} c="#014F86">{t.title}</Title>
@@ -178,13 +186,54 @@ export default function UnitsPage() {
           </Tabs.List>
         </Tabs>
 
-        <TextInput
-          placeholder={t.searchPlaceholder}
-          leftSection={<IconSearch size={16} />}
-          mb="xl"
-          size="md"
-        />
-        <Table verticalSpacing="sm" highlightOnHover>
+        <Group justify="space-between" mb="xs">
+          <TextInput
+            placeholder={t.searchPlaceholder}
+            leftSection={<IconSearch size={16} />}
+            size="md"
+            radius="md"
+            w={300}
+          />
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
+        </Group>
+
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Type</Text>}
+                placeholder="Type"
+                data={["Studio", "1 Bedroom", "2 Bedroom", "Penthouse"]}
+                size="md"
+                radius="md"
+                clearable
+                value={typeFilter}
+                onChange={setTypeFilter}
+              />
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Floor</Text>}
+                placeholder="Floor"
+                data={["1", "2", "3", "4", "5"]}
+                size="md"
+                radius="md"
+                clearable
+                value={floorFilter}
+                onChange={setFloorFilter}
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="sm" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th c="white">

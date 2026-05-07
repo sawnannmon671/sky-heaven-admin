@@ -116,12 +116,7 @@ export default function DeliveryLogsDetailPage() {
           <Stack gap="xl">
             {/* Delivery Info Card */}
             <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
-              <Group gap="sm" mb="xl">
-                <ThemeIcon variant="light" color="orange" size="lg" radius="md">
-                  <IconBox size={20} />
-                </ThemeIcon>
-                <Title order={3} style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Delivery Information</Title>
-              </Group>
+              <Title order={3} mb="xl" style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Delivery Information</Title>
 
               <Grid gutter="xl">
                 <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -159,12 +154,7 @@ export default function DeliveryLogsDetailPage() {
 
             {/* Recipient & Timings Card */}
             <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
-              <Group gap="sm" mb="xl">
-                <ThemeIcon variant="light" color="teal" size="lg" radius="md">
-                  <IconBuildingSkyscraper size={20} />
-                </ThemeIcon>
-                <Title order={3} style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Recipient & Timings</Title>
-              </Group>
+              <Title order={3} mb="xl" style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Recipient & Timings</Title>
 
               <Grid gutter="xl">
                 <Grid.Col span={{ base: 12, sm: 6 }}>

@@ -127,12 +127,7 @@ export default function ComplaintDetailPage() {
             <Paper p="xl" radius="md" withBorder shadow="sm">
               <Group justify="space-between" mb="xl">
                 <Stack gap={0}>
-                  <Group gap="xs">
-                    <ThemeIcon variant="light" color="red" size="lg" radius="md">
-                      <IconMessageExclamation size={20} />
-                    </ThemeIcon>
-                    <Title order={2} c="#014F86">{t.details}: {complaint.id}</Title>
-                  </Group>
+                  <Title order={2} c="#014F86">{t.details}: {complaint.id}</Title>
                   <Text size="sm" c="dimmed" mt={4}>{t.date}: {complaint.date}</Text>
                 </Stack>
                 <Badge size="xl" variant="dot" color={getStatusColor(complaint.status)}>

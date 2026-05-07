@@ -26,12 +26,7 @@ export default function DetailPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-              <IconInfoCircle size={20} />
-            </ThemeIcon>
-            <Title order={2} c="#014F86">Unit Type Details</Title>
-          </Group>
+          <Title order={2} c="#014F86">Unit Type Details</Title>
           <Text c="dimmed" size="sm">Viewing details for ID: {id}</Text>
         </Stack>
         <Button 

@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuilding , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge , Pagination , UnstyledButton, Center, Collapse, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuilding , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -47,6 +47,8 @@ const translations = {
 
 export default function BuildingsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -111,7 +113,7 @@ export default function BuildingsPage() {
   ));
 
   return (
-    <Stack gap="xl">
+    <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
           <Title order={2} c="#014F86">{t.title}</Title>
@@ -121,14 +123,44 @@ export default function BuildingsPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <TextInput
-          placeholder={t.searchPlaceholder}
-          leftSection={<IconSearch size={16} />}
-          mb="xl"
-          size="md"
-          radius="md"
-        />
-        <Table verticalSpacing="md" highlightOnHover>
+        <Group justify="space-between" mb="xs">
+          <TextInput
+            placeholder={t.searchPlaceholder}
+            leftSection={<IconSearch size={16} />}
+            size="md"
+            radius="md"
+            w={300}
+          />
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
+        </Group>
+
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>{t.thStatus}</Text>}
+                placeholder={t.thStatus}
+                data={["Active", "Under Maintenance"]}
+                size="md"
+                radius="md"
+                clearable
+                value={statusFilter}
+                onChange={setStatusFilter}
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="white">

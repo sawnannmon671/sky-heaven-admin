@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Modal } from "@mantine/core";
-import {  IconIdBadge, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconQrcode } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Modal, Collapse, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconIdBadge, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconQrcode, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 import { QRCodeSVG } from "qrcode.react";
@@ -11,6 +11,8 @@ export default function VisitorRegistrationPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [qrModalOpen, setQrModalOpen] = useState(false);
   const [selectedVisitor, setSelectedVisitor] = useState<any>(null);
+  const [showFilters, setShowFilters] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -69,13 +71,8 @@ export default function VisitorRegistrationPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="indigo" size="lg" radius="md">
-              <IconIdBadge size={20} />
-            </ThemeIcon>
-            <Title order={1} c="#014F86">{t.title}</Title>
-          </Group>
-          <Text c="dimmed" size="md">{t.subtitle}</Text>
+          <Title order={2} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
         <Button 
           component={Link} 
@@ -90,20 +87,44 @@ export default function VisitorRegistrationPage() {
 
       
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
+        <Group justify="space-between" mb="xs">
           <TextInput
             placeholder="Search..."
             leftSection={<IconSearch size={16} />}
             size="md"
             radius="md"
-            w={250}
+            w={300}
           />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
+          <ActionIcon 
+            variant={showFilters ? "filled" : "outline"} 
+            color={showFilters ? "#014F86" : "gray"} 
+            size="lg" 
+            radius="md"
+            style={{ border: '1px solid #dee2e6' }}
+            onClick={() => setShowFilters(!showFilters)}
+          >
+            <IconFilter size={18} stroke={1.5} />
+          </ActionIcon>
         </Group>
 
-        <Table verticalSpacing="md" highlightOnHover>
+        <Collapse in={showFilters}>
+          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+              <Select
+                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
+                placeholder="Status"
+                data={["Active", "Expired", "Pending"]}
+                size="md"
+                radius="md"
+                clearable
+                value={statusFilter}
+                onChange={setStatusFilter}
+              />
+            </SimpleGrid>
+          </Box>
+        </Collapse>
+
+        <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="white">

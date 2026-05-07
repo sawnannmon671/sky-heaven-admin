@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconUserPlus, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {  IconUserPlus, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
@@ -30,13 +30,11 @@ export default function MoveInOutPage() {
     en: {
       title: "Move In / Move Out",
       subtitle: "Track resident move-in and move-out requests and history.",
-      back: "Back to Residents",
       comingSoon: "Move-in and move-out tracking is coming soon.",
     },
     mm: {
       title: "အဝင် / အထွက်",
       subtitle: "နေထိုင်သူများ အဝင်အထွက် တောင်းဆိုမှုများနှင့် မှတ်တမ်းများကို ခြေရာခံပါ။",
-      back: "နေထိုင်သူများစာရင်းသို့ ပြန်သွားရန်",
       comingSoon: "အဝင်အထွက် ခြေရာခံမှုအသေးစိတ်အား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
     },
   }[lang === "mm" ? "mm" : "en"];
@@ -61,23 +59,9 @@ const mockData = [
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="orange" size="lg" radius="md">
-              <IconUserPlus size={20} />
-            </ThemeIcon>
-            <Title order={1} c="#014F86">{t.title}</Title>
-          </Group>
-          <Text c="dimmed" size="md">{t.subtitle}</Text>
+          <Title order={2} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/residents" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
       </Group>
 
       

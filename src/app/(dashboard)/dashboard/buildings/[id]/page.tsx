@@ -108,12 +108,7 @@ export default function BuildingDetailPage() {
           <Stack gap="xl">
             {/* Stats Info Card */}
             <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
-              <Group gap="sm" mb="xl">
-                <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-                  <IconLayoutBoardSplit size={20} />
-                </ThemeIcon>
-                <Title order={3} style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Structure & Capacity</Title>
-              </Group>
+              <Title order={3} mb="xl" style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Structure & Capacity</Title>
 
               <Grid gutter="xl">
                 <Grid.Col span={{ base: 12, sm: 6 }}>
@@ -148,12 +143,7 @@ export default function BuildingDetailPage() {
 
             {/* Additional Info */}
             <Paper p="xl" radius="md" withBorder style={{ border: '1px solid #E9ECEF', backgroundColor: '#FFFFFF' }}>
-              <Group gap="sm" mb="md">
-                <ThemeIcon variant="light" color="gray" size="lg" radius="md">
-                  <IconFileDescription size={20} />
-                </ThemeIcon>
-                <Title order={3} style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Description & Notes</Title>
-              </Group>
+              <Title order={3} mb="md" style={{ color: '#2C2E33', fontSize: '1.25rem' }}>Description & Notes</Title>
               <Text size="sm" style={{ color: '#495057' }}>
                 This building is equipped with modern security systems and high-speed elevators. Regular maintenance is scheduled quarterly to ensure optimal functionality of all utilities.
               </Text>

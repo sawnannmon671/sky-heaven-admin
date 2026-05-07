@@ -35,12 +35,7 @@ export default function FamilyMemberDetailPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="cyan" size="lg" radius="md">
-              <IconUsers size={20} />
-            </ThemeIcon>
-            <Title order={2} c="#014F86">Family Member Details</Title>
-          </Group>
+          <Title order={2} c="#014F86">Family Member Details</Title>
           <Text c="dimmed" size="sm">Detailed information for {item?.name || id}</Text>
         </Stack>
         <Button 

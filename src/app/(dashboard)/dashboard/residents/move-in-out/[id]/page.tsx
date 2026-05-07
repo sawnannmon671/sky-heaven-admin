@@ -41,12 +41,7 @@ export default function MoveInOutDetailPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="orange" size="lg" radius="md">
-              <IconUserPlus size={20} />
-            </ThemeIcon>
-            <Title order={2} c="#014F86">Move In / Move Out Request</Title>
-          </Group>
+          <Title order={2} c="#014F86">Move In / Move Out Request</Title>
           <Text c="dimmed" size="sm">Request details for {id}</Text>
         </Stack>
         <Button 

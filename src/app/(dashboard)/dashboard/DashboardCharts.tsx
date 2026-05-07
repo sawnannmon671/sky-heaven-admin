@@ -112,12 +112,12 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: 8 }}>
         <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
            <Box p="lg">
-            <Group justify="space-between">
-              <Stack gap={0}>
-                <Title order={3} c="#014F86">{t.financeOverview}</Title>
-                <Text size="xs" c="dimmed" fw={500}>{t.financeSub}</Text>
+            <Group justify="space-between" wrap="nowrap">
+              <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
+                <Title order={3} c="#014F86" truncate="end">{t.financeOverview}</Title>
+                <Text size="xs" c="dimmed" fw={500} truncate="end">{t.financeSub}</Text>
               </Stack>
-              <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
+              <Button variant="light" size="compact-xs" color="blue" radius="md" style={{ flexShrink: 0 }}>View Detail</Button>
             </Group>
           </Box>
           <Box p="md" style={{ height: 'calc(22.75rem * var(--mantine-scale))' }}>
@@ -143,12 +143,12 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12, lg: 4 }}>
         <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
            <Box p="lg">
-            <Group justify="space-between">
-              <Stack gap={0}>
-                <Title order={3} c="#014F86">{t.bookingBills}</Title>
-                <Text size="xs" c="dimmed" fw={500}>{t.bookingSub}</Text>
+            <Group justify="space-between" wrap="nowrap">
+              <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
+                <Title order={3} c="#014F86" truncate="end">{t.bookingBills}</Title>
+                <Text size="xs" c="dimmed" fw={500} truncate="end">{t.bookingSub}</Text>
               </Stack>
-              <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
+              <Button variant="light" size="compact-xs" color="blue" radius="md" style={{ flexShrink: 0 }}>View Detail</Button>
             </Group>
           </Box>
           <Box p="xl">
@@ -218,12 +218,12 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
       <Grid.Col span={{ base: 12 }}>
         <Paper radius="md" style={{ border: '2px solid #dee2e6', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)', height: '470px' }}>
            <Box p="lg">
-            <Group justify="space-between">
-              <Stack gap={0}>
-                <Title order={3} c="#014F86">{t.billingTrends}</Title>
-                <Text size="xs" c="dimmed" fw={500}>{t.billingSub}</Text>
+            <Group justify="space-between" wrap="nowrap">
+              <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
+                <Title order={3} c="#014F86" truncate="end">{t.billingTrends}</Title>
+                <Text size="xs" c="dimmed" fw={500} truncate="end">{t.billingSub}</Text>
               </Stack>
-              <Button variant="light" size="compact-xs" color="blue" radius="md">View Detail</Button>
+              <Button variant="light" size="compact-xs" color="blue" radius="md" style={{ flexShrink: 0 }}>View Detail</Button>
             </Group>
           </Box>
           <Box p="md" style={{ height: 'calc(22.75rem * var(--mantine-scale))' }}>

@@ -70,7 +70,7 @@ export default function DetailPage() {
                 <Badge color={item.color || 'blue'} size="lg" radius="sm" variant="filled" mb="md" style={{ textTransform: 'uppercase', letterSpacing: 1 }}>
                   {item.status}
                 </Badge>
-                <Title order={1} c="white" style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-1px' }}>
+                <Title order={2} c="white" style={{ fontSize: '3rem', fontWeight: 800, letterSpacing: '-1px' }}>
                   {item.name}
                 </Title>
               </Box>

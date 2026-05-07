@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconTools, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {  IconTools, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
@@ -30,13 +30,11 @@ export default function MaintenanceFeesPage() {
     en: {
       title: "Monthly Maintenance Fees",
       subtitle: "Track and manage monthly maintenance fee payments.",
-      back: "Back to Billing",
       comingSoon: "Maintenance fee management is coming soon.",
     },
     mm: {
       title: "လစဉ်ထိန်းသိမ်းခများ",
       subtitle: "လစဉ်ထိန်းသိမ်းခပေးချေမှုများကို ခြေရာခံခြင်းနှင့် စီမံခန့်ခွဲခြင်း။",
-      back: "ဘဏ္ဍာရေးစာမျက်နှာသို့ ပြန်သွားရန်",
       comingSoon: "လစဉ်ထိန်းသိမ်းခစီမံခန့်ခွဲမှုအား မကြာမီ ရရှိနိုင်တော့မည်ဖြစ်သည်။",
     },
   }[lang === "mm" ? "mm" : "en"];
@@ -61,23 +59,9 @@ const mockData = [
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Group gap="xs">
-            <ThemeIcon variant="light" color="teal" size="lg" radius="md">
-              <IconTools size={20} />
-            </ThemeIcon>
-            <Title order={1} c="#014F86">{t.title}</Title>
-          </Group>
-          <Text c="dimmed" size="md">{t.subtitle}</Text>
+          <Title order={2} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/billing" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
       </Group>
 
       

@@ -1,7 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Paper, Table, Group, Button, Badge, Stack, Text, ActionIcon, ThemeIcon, Avatar, Box, TextInput , Pagination } from "@mantine/core";
+import {
+  Title,
+  Paper,
+  Table,
+  Group,
+  Button,
+  Badge,
+  Stack,
+  Text,
+  ActionIcon,
+  ThemeIcon,
+  Avatar,
+  Box,
+  TextInput,
+  Pagination,
+  Collapse,
+  SimpleGrid,
+  Select,
+} from "@mantine/core";
 import { 
   IconPlus, 
   IconSearch, 
@@ -16,7 +34,8 @@ import {
   IconDeviceTv, 
   IconPool,
   IconBarbell,
-  IconMeat
+  IconMeat,
+  IconFilter
 } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
@@ -100,6 +119,8 @@ const translations = {
 export default function AmenitiesPage() {
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
+  const [showFilters, setShowFilters] = useState(false);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const { lang, mounted } = useTranslation();
   
@@ -178,8 +199,8 @@ export default function AmenitiesPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between" align="flex-end">
         <Stack gap={4}>
-          <Title order={1} c="#014F86" style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.title}</Title>
-          <Text c="dimmed" size="md" fw={500}>{t.subtitle}</Text>
+          <Title order={2} c="#014F86" style={{ fontSize: '2rem', fontWeight: 900, letterSpacing: '-1px' }}>{t.title}</Title>
+          <Text c="dimmed" size="sm" fw={500}>{t.subtitle}</Text>
         </Stack>
         <Button 
           leftSection={<IconPlus size={18} />} 
@@ -194,18 +215,45 @@ export default function AmenitiesPage() {
 
       <Paper radius="md" style={{ border: '1px solid #e9ecef', overflow: 'hidden', boxShadow: '0 4px 20px rgba(0, 0, 0, 0.03)' }}>
         <Box p="lg">
-          <Group justify="space-between">
+          <Group justify="space-between" mb="xs">
             <TextInput
               placeholder={t.searchPlaceholder}
               leftSection={<IconSearch size={18} color="var(--mantine-color-blue-6)" />}
-              style={{ width: 350 }}
+              style={{ width: 300 }}
               radius="md"
-              size="sm"
+              size="md"
             />
+            <ActionIcon 
+              variant={showFilters ? "filled" : "outline"} 
+              color={showFilters ? "#014F86" : "gray"} 
+              size="lg" 
+              radius="md"
+              style={{ border: '1px solid #dee2e6' }}
+              onClick={() => setShowFilters(!showFilters)}
+            >
+              <IconFilter size={18} stroke={1.5} />
+            </ActionIcon>
           </Group>
+
+          <Collapse in={showFilters}>
+            <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+              <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+                <Select
+                  label={<Text fw={600} size="sm" mb={5}>Status</Text>}
+                  placeholder="Status"
+                  data={["Open", "Reserved", "Maintenance"]}
+                  size="md"
+                  radius="md"
+                  clearable
+                  value={statusFilter}
+                  onChange={setStatusFilter}
+                />
+              </SimpleGrid>
+            </Box>
+          </Collapse>
         </Box>
 
-        <Table.ScrollContainer minWidth={800}>
+        <Table.ScrollContainer minWidth={800} mt="xs">
           <Table verticalSpacing="md" horizontalSpacing="lg" highlightOnHover>
             <Table.Thead bg="#014F86">
               <Table.Tr>

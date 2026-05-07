@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import {  Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput , Pagination } from "@mantine/core";
+import { Title, Paper, Table, Group, Button, Stack, Text, ActionIcon, ThemeIcon, TextInput, Pagination, Box, SimpleGrid } from "@mantine/core";
 import { IconSearch, IconPlus, IconEdit, IconTrash, IconCreditCard } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -66,14 +66,18 @@ const translations = {
 
 export default function PaymentTypePage() {
   const [activePage, setPage] = useState(1);
+  const [searchQuery, setSearchQuery] = useState("");
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
-  const t = translations[lang];
+  const t = translations[lang as keyof typeof translations] || translations.en;
 
-  
+  const filteredData = paymentTypes.filter(item => 
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.description.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
-  const rows = paymentTypes.map((type) => (
+  const rows = filteredData.map((type) => (
     <Table.Tr key={type.id}>
       <Table.Td>
         <Group gap="sm">
@@ -99,22 +103,29 @@ export default function PaymentTypePage() {
   ));
 
   return (
-    <Stack gap="xl">
+    <Stack gap="xl" p="md">
       <Group justify="space-between">
-        <Stack gap={0}>
-          <Title order={2} c="#014F86">{t.title}</Title>
-          <Text c="dimmed" size="sm">{t.subtitle}</Text>
+        <Stack gap={4}>
+          <Title order={2} fz={28} fw={700} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm" fw={500}>{t.subtitle}</Text>
         </Stack>
-        <Button color="#014F86" leftSection={<IconPlus size={18} />}>{t.addBtn}</Button>
+        <Button color="#014F86" leftSection={<IconPlus size={18} />} radius="md">{t.addBtn}</Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <TextInput
-          placeholder={t.searchPlaceholder}
-          leftSection={<IconSearch size={16} />}
-          mb="xl"
-          size="md"
-        />
+        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label="Search"
+              placeholder={t.searchPlaceholder}
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
+
         <Table verticalSpacing="sm" highlightOnHover>
           <Table.Thead bg="#014F86">
             <Table.Tr>
@@ -128,11 +139,10 @@ export default function PaymentTypePage() {
         </Table>
         <Group justify="space-between" mt="md">
           <Text size="sm" c="dimmed">
-            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, rows.length)} of {rows.length} entries
+            Showing {filteredData.length > 0 ? ((activePage - 1) * itemsPerPage) + 1 : 0} to {Math.min(activePage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
           </Text>
-          <Pagination total={Math.ceil(rows.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+          <Pagination total={Math.ceil(filteredData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
-      
       </Paper>
     </Stack>
   );

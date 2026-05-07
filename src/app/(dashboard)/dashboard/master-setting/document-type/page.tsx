@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge, Pagination, UnstyledButton, Center } from "@mantine/core";
+import { Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge, Pagination, UnstyledButton, Center, Box, SimpleGrid } from "@mantine/core";
 import { IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconFileText, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -51,6 +51,12 @@ const translations = {
 
 export default function DocumentTypePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
+
+  const { lang } = useTranslation();
+  const t = translations[lang as keyof typeof translations] || translations.en;
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -60,19 +66,18 @@ export default function DocumentTypePage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
+  const filteredData = elements.filter(item => 
+    item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+    item.id.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
     if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
     return 0;
   });
-
-  const [activePage, setPage] = useState(1);
-  const itemsPerPage = 5;
-
-  const { lang } = useTranslation();
-  const t = translations[lang as keyof typeof translations] || translations.en;
 
   const rows = sortedData.map((element) => (
     <Table.Tr key={element.id}>
@@ -123,24 +128,27 @@ export default function DocumentTypePage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Title order={2} c="#014F86">{t.title}</Title>
+          <Title order={2} fz={28} fw={700} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          {t.addBtn}
+        </Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            {t.addBtn}
-          </Button>
-        </Group>
+        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label="Search"
+              placeholder={t.searchPlaceholder}
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">
@@ -152,12 +160,14 @@ export default function DocumentTypePage() {
               <Table.Th c="white" style={{ padding: '8px' }}><Text fw={600} size="sm">{t.thActions}</Text></Table.Th>
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody>{rows}</Table.Tbody>
+          <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>
         </Table>
 
         <Group justify="space-between" mt="md">
-          <Text size="sm" c="dimmed">Showing 1 to 4 of 4 entries</Text>
-          <Pagination value={activePage} onChange={setPage} total={1} color="#014F86" radius="md" />
+          <Text size="sm" c="dimmed">
+            Showing {filteredData.length > 0 ? ((activePage - 1) * itemsPerPage) + 1 : 0} to {Math.min(activePage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
+          </Text>
+          <Pagination total={Math.ceil(filteredData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
       </Paper>
     </Stack>

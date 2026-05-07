@@ -7,7 +7,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 
 export default function StaffTypePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string | null>("All");
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -66,7 +67,17 @@ export default function StaffTypePage() {
     { id: "ST-005", name: "Admin", description: "Administrative and office staff", status: "Active", count: 4 },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const filteredData = mockData.filter(item => {
+    const matchesSearch = 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === "All" || item.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -131,8 +142,8 @@ export default function StaffTypePage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Title order={2} c="#014F86">{t.title}</Title>
-          <Text c="dimmed" size="sm">{t.subtitle}</Text>
+          <Title order={2} fz={28} fw={700} c="#014F86">{t.title}</Title>
+          <Text c="dimmed" size="sm" fw={500}>{t.subtitle}</Text>
         </Stack>
         <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
           {t.addNew}
@@ -140,40 +151,27 @@ export default function StaffTypePage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="xs">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={300}
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
-                placeholder="Status"
-                data={["Active", "Inactive"]}
-                size="md"
-                radius="md"
-                clearable
-              />
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label="Search"
+              placeholder={t.searchPlaceholder}
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label="Status"
+              placeholder="Filter by status"
+              leftSection={<IconFilter size={16} />}
+              data={["All", "Active", "Inactive"]}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
@@ -186,13 +184,15 @@ export default function StaffTypePage() {
             </Table.Tr>
           </Table.Thead>
           <Table.Tbody>
-            {rows}
+            {rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}
           </Table.Tbody>
         </Table>
 
         <Group justify="space-between" mt="md">
-          <Text size="sm" c="dimmed">Showing 1 to 5 of 5 entries</Text>
-          <Pagination value={activePage} onChange={setPage} total={1} color="#014F86" radius="md" />
+          <Text size="sm" c="dimmed">
+            Showing {filteredData.length > 0 ? ((activePage - 1) * itemsPerPage) + 1 : 0} to {Math.min(activePage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
+          </Text>
+          <Pagination total={Math.ceil(filteredData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
       </Paper>
     </Stack>

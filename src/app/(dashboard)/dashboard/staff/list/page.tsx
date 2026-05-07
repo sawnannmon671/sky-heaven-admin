@@ -146,7 +146,7 @@ export default function StaffListPage() {
           </Tabs.List>
         </Tabs>
 
-        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+        <Box bg="#f8f9fa" p="md" mb="md" style={{ borderRadius: '8px' }}>
           <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
             <TextInput
               label="Search"

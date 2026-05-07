@@ -65,9 +65,9 @@ const translations = {
 export default function UnitsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [unitNumberFilter, setUnitNumberFilter] = useState<string | null>(null);
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
   const [floorFilter, setFloorFilter] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -77,18 +77,25 @@ export default function UnitsPage() {
     setSortConfig({ key, direction });
   };
 
+  const unitNumbers = Array.from(new Set(elements.map(e => e.id)));
+  const unitTypes = Array.from(new Set(elements.map(e => e.type)));
+  const floors = Array.from(new Set(elements.map(e => e.floor.toString())));
+
   const filteredData = elements.filter(item => {
     const matchesTab = activeTab === "All" || item.status === activeTab;
+    const matchesUnitNumber = !unitNumberFilter || item.id === unitNumberFilter;
     const matchesType = !typeFilter || item.type === typeFilter;
     const matchesFloor = !floorFilter || item.floor.toString() === floorFilter;
-    return matchesTab && matchesType && matchesFloor;
+    return matchesTab && matchesUnitNumber && matchesType && matchesFloor;
   });
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
     return 0;
   });
 
@@ -186,52 +193,45 @@ export default function UnitsPage() {
           </Tabs.List>
         </Tabs>
 
-        <Group justify="space-between" mb="xs">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={300}
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Type</Text>}
-                placeholder="Type"
-                data={["Studio", "1 Bedroom", "2 Bedroom", "Penthouse"]}
-                size="md"
-                radius="md"
-                clearable
-                value={typeFilter}
-                onChange={setTypeFilter}
-              />
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Floor</Text>}
-                placeholder="Floor"
-                data={["1", "2", "3", "4", "5"]}
-                size="md"
-                radius="md"
-                clearable
-                value={floorFilter}
-                onChange={setFloorFilter}
-              />
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thUnitNumber}</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitNumberFilter}
+              onChange={setUnitNumberFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thFloor}</Text>}
+              placeholder="Select Floor"
+              data={floors}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={floorFilter}
+              onChange={setFloorFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thType}</Text>}
+              placeholder="Select Type"
+              data={unitTypes}
+              size="sm"
+              radius="md"
+              clearable
+              value={typeFilter}
+              onChange={setTypeFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="sm" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">

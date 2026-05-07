@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Tabs } from "@mantine/core";
-import { IconUsers, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Tabs, Box, SimpleGrid, Select } from "@mantine/core";
+import { IconUsers, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function StaffListPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [deptFilter, setDeptFilter] = useState<string | null>("All");
+  const [statusFilter, setStatusFilter] = useState<string | null>("All");
+  const [activePage, setPage] = useState(1);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
+  const itemsPerPage = 5;
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -16,10 +22,6 @@ export default function StaffListPage() {
     }
     setSortConfig({ key, direction });
   };
-
-  const [activePage, setPage] = useState(1);
-  const [activeTab, setActiveTab] = useState<string | null>("All");
-  const itemsPerPage = 5;
 
   const { lang } = useTranslation();
 
@@ -71,8 +73,19 @@ export default function StaffListPage() {
   ];
 
   const staffTypes = ["All", ...Array.from(new Set(mockData.map(item => item.staffType)))];
+  const departments = ["All", ...Array.from(new Set(mockData.map(item => item.dept)))];
 
-  const filteredData = mockData.filter(item => activeTab === "All" || item.staffType === activeTab);
+  const filteredData = mockData.filter(item => {
+    const matchesTab = activeTab === "All" || item.staffType === activeTab;
+    const matchesSearch = 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesDept = deptFilter === "All" || item.dept === deptFilter;
+    const matchesStatus = statusFilter === "All" || item.status === statusFilter;
+
+    return matchesTab && matchesSearch && matchesDept && matchesStatus;
+  });
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
@@ -108,9 +121,12 @@ export default function StaffListPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Title order={2} c="#014F86">{t.title}</Title>
+          <Title order={2} fz={28} fw={700} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          {t.addNew}
+        </Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
@@ -130,18 +146,36 @@ export default function StaffListPage() {
           </Tabs.List>
         </Tabs>
 
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            {t.addNew}
-          </Button>
-        </Group>
+        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label="Search"
+              placeholder={t.searchPlaceholder}
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label="Department"
+              placeholder="Filter by department"
+              leftSection={<IconFilter size={16} />}
+              data={departments}
+              value={deptFilter}
+              onChange={setDeptFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label="Status"
+              placeholder="Filter by status"
+              leftSection={<IconFilter size={16} />}
+              data={["All", "Active", "On Leave", "Resigned"]}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

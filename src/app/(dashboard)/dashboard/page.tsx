@@ -282,9 +282,10 @@ export default function DashboardPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
-  const [search, setSearch] = useState("");
+  const [visitorNameFilter, setVisitorNameFilter] = useState<string | null>(null);
+  const [hostUnitFilter, setHostUnitFilter] = useState<string | null>(null);
+  const [contactInfoFilter, setContactInfoFilter] = useState("");
   const [typeFilter, setTypeFilter] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -296,12 +297,15 @@ export default function DashboardPage() {
 
   const activeVisitors = recentVisitors.filter(v => v.status === "In");
   
+  const visitorNames = Array.from(new Set(activeVisitors.map(v => v.name)));
+  const hostUnits = Array.from(new Set(activeVisitors.map(v => v.host)));
+
   const filteredVisitors = activeVisitors.filter(v => {
-    const matchesSearch = v.name.toLowerCase().includes(search.toLowerCase()) || 
-      v.passNo.toLowerCase().includes(search.toLowerCase()) ||
-      v.host.toLowerCase().includes(search.toLowerCase());
+    const matchesName = !visitorNameFilter || v.name === visitorNameFilter;
+    const matchesHost = !hostUnitFilter || v.host === hostUnitFilter;
+    const matchesContact = !contactInfoFilter || v.phone.toLowerCase().includes(contactInfoFilter.toLowerCase());
     const matchesType = !typeFilter || v.type === typeFilter;
-    return matchesSearch && matchesType;
+    return matchesName && matchesHost && matchesContact && matchesType;
   });
 
   const sortedVisitors = [...filteredVisitors].sort((a, b) => {
@@ -550,45 +554,54 @@ export default function DashboardPage() {
           <Button variant="light" size="xs" color="blue" radius="md">View Detail</Button>
         </Group>
         
-        <Group justify="space-between" mb="xs">
-          <TextInput
-            placeholder={t.visitors.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={300}
-            value={search}
-            onChange={(e) => setSearch(e.currentTarget.value)}
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>{t.visitors.thType}</Text>}
-                placeholder={t.visitors.filterType}
-                data={["Guest", "Delivery", "Service", "Contractor"]}
-                size="md"
-                radius="md"
-                clearable
-                value={typeFilter}
-                onChange={setTypeFilter}
-              />
-              {/* Add more filters if needed */}
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box mt="md" mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.visitors.thName}</Text>}
+              placeholder="Select Visitor"
+              data={visitorNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={visitorNameFilter}
+              onChange={setVisitorNameFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.visitors.thHost}</Text>}
+              placeholder="Select Unit"
+              data={hostUnits}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={hostUnitFilter}
+              onChange={setHostUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <TextInput
+              label={<Text fw={700} size="xs" mb={5}>{t.visitors.thContact}</Text>}
+              placeholder="Enter contact info"
+              size="sm"
+              radius="md"
+              value={contactInfoFilter}
+              onChange={(e) => setContactInfoFilter(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.visitors.thType}</Text>}
+              placeholder={t.visitors.filterType}
+              data={["Guest", "Delivery", "Service", "Contractor"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={typeFilter}
+              onChange={setTypeFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <ScrollArea mt="sm">
           <Table verticalSpacing="md" horizontalSpacing="md" highlightOnHover>

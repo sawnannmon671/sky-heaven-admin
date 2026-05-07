@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconUserPlus, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconUserPlus, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function MoveInOutPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [requestTypeFilter, setRequestTypeFilter] = useState<string | null>(null);
+  const [residentNameFilter, setResidentNameFilter] = useState<string | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,14 +21,40 @@ export default function MoveInOutPage() {
     setSortConfig({ key, direction });
   };
 
-  
-
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
-  
+  const mockData = [
+    { id: "REQ-001", type: "Move In", residentName: "U Tun Tun", unit: "A-101", date: "2024-05-01", status: "Approved" },
+    { id: "REQ-002", type: "Move Out", residentName: "Daw Mya Mya", unit: "B-205", date: "2024-04-15", status: "Pending" },
+    { id: "REQ-003", type: "Move In", residentName: "U Hlaing Bwar", unit: "C-304", date: "2024-06-01", status: "Approved" },
+    { id: "REQ-004", type: "Move Out", residentName: "Daw Thandar", unit: "A-502", date: "2024-03-20", status: "Completed" },
+    { id: "REQ-005", type: "Move In", residentName: "U Nyan Lin", unit: "D-102", date: "2024-05-10", status: "Rejected" },
+  ];
+
+  const requestTypes = Array.from(new Set(mockData.map(e => e.type)));
+  const residentNames = Array.from(new Set(mockData.map(e => e.residentName)));
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesType = !requestTypeFilter || item.type === requestTypeFilter;
+    const matchesName = !residentNameFilter || item.residentName === residentNameFilter;
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesType && matchesName && matchesUnit && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const t = {
     en: {
@@ -39,22 +69,6 @@ export default function MoveInOutPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "REQ-001", type: "Move In", residentName: "U Tun Tun", unit: "A-101", date: "2024-05-01", status: "Approved" },
-    { id: "REQ-002", type: "Move Out", residentName: "Daw Mya Mya", unit: "B-205", date: "2024-04-15", status: "Pending" },
-    { id: "REQ-003", type: "Move In", residentName: "U Hlaing Bwar", unit: "C-304", date: "2024-06-01", status: "Approved" },
-    { id: "REQ-004", type: "Move Out", residentName: "Daw Thandar", unit: "A-502", date: "2024-03-20", status: "Completed" },
-    { id: "REQ-005", type: "Move In", residentName: "U Nyan Lin", unit: "D-102", date: "2024-05-10", status: "Rejected" },
-  ];
-
-  const sortedData = [...mockData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -62,22 +76,62 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
-      
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Request Type</Text>}
+              placeholder="Select Type"
+              data={requestTypes}
+              size="sm"
+              radius="md"
+              clearable
+              value={requestTypeFilter}
+              onChange={setRequestTypeFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Resident Name</Text>}
+              placeholder="Select Resident"
+              data={residentNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={residentNameFilter}
+              onChange={setResidentNameFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={["Approved", "Pending", "Completed", "Rejected"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

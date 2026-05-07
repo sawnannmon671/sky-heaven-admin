@@ -1,13 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
-import {  IconDroplet, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconDroplet, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function UtilityBillsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [typeFilter, setTypeFilter] = useState<string | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,15 +23,36 @@ export default function UtilityBillsPage() {
     setSortConfig({ key, direction });
   };
 
-  
+  const mockData = [
+    { id: "UTL-001", type: "Water", unit: "A-101", amount: "$25.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
+    { id: "UTL-002", type: "Electricity", unit: "B-205", amount: "$85.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Unpaid" },
+    { id: "UTL-003", type: "Water", unit: "C-304", amount: "$30.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
+    { id: "UTL-004", type: "Internet", unit: "A-502", amount: "$40.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Overdue" },
+    { id: "UTL-005", type: "Electricity", unit: "D-102", amount: "$90.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
+  ];
 
-  const [activePage, setPage] = useState(1);
-  const [activeTab, setActiveTab] = useState<string | null>("All");
-  const itemsPerPage = 5;
+  const utilityTypes = Array.from(new Set(mockData.map(e => e.type)));
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesTab = activeTab === "All" || item.type === activeTab;
+    const matchesType = !typeFilter || item.type === typeFilter;
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesTab && matchesType && matchesUnit && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const { lang, mounted } = useTranslation();
-
-  
 
   const t = {
     en: {
@@ -40,25 +67,7 @@ export default function UtilityBillsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "UTL-001", type: "Water", unit: "A-101", amount: "$25.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
-    { id: "UTL-002", type: "Electricity", unit: "B-205", amount: "$85.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Unpaid" },
-    { id: "UTL-003", type: "Water", unit: "C-304", amount: "$30.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
-    { id: "UTL-004", type: "Internet", unit: "A-502", amount: "$40.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Overdue" },
-    { id: "UTL-005", type: "Electricity", unit: "D-102", amount: "$90.00", month: "Sep 2024", dueDate: "2024-10-15", status: "Paid" },
-  ];
-
-  const utilityTypes = ["All", ...Array.from(new Set(mockData.map(item => item.type)))];
-
-  const filteredData = mockData.filter(item => activeTab === "All" || item.type === activeTab);
-
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
+  const tabsUtilityTypes = ["All", ...utilityTypes];
 
   return (
     <Stack gap="xl" p="md">
@@ -67,13 +76,16 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
       
       <Paper p="md" radius="md" withBorder shadow="sm">
         <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="md" color="#014F86">
           <Tabs.List>
-            {utilityTypes.map(type => {
+            {tabsUtilityTypes.map(type => {
               const count = type === "All" ? mockData.length : mockData.filter(i => i.type === type).length;
               return (
                 <Tabs.Tab key={type} value={type}>
@@ -87,18 +99,44 @@ const mockData = [
           </Tabs.List>
         </Tabs>
 
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Utility Type</Text>}
+              placeholder="Select Type"
+              data={utilityTypes}
+              size="sm"
+              radius="md"
+              clearable
+              value={typeFilter}
+              onChange={setTypeFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={["Paid", "Unpaid", "Overdue"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

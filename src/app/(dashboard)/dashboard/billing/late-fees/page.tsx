@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconAlertTriangle, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconAlertTriangle, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function LateFeesPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [residentFilter, setResidentFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,14 +20,38 @@ export default function LateFeesPage() {
     setSortConfig({ key, direction });
   };
 
-  
-
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
-  
+  const mockData = [
+    { id: "LF-001", unit: "A-502", resident: "Daw Hla Hla", amount: "$15.00", originalInvoice: "INV-2024-004", daysLate: 15, status: "Unpaid" },
+    { id: "LF-002", unit: "B-205", resident: "Daw Su Su", amount: "$10.00", originalInvoice: "INV-2024-002", daysLate: 5, status: "Paid" },
+    { id: "LF-003", unit: "C-101", resident: "U Tun Tun", amount: "$25.00", originalInvoice: "INV-2024-008", daysLate: 30, status: "Unpaid" },
+    { id: "LF-004", unit: "D-304", resident: "Daw Aye Aye", amount: "$15.00", originalInvoice: "INV-2024-010", daysLate: 12, status: "Waived" },
+    { id: "LF-005", unit: "A-202", resident: "U Kyaw Kyaw", amount: "$20.00", originalInvoice: "INV-2024-015", daysLate: 20, status: "Unpaid" },
+  ];
+
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+  const residentNames = Array.from(new Set(mockData.map(e => e.resident)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesResident = !residentFilter || item.resident === residentFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesUnit && matchesResident && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const t = {
     en: {
@@ -39,22 +66,6 @@ export default function LateFeesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "LF-001", unit: "A-502", resident: "Daw Hla Hla", amount: "$15.00", originalInvoice: "INV-2024-004", daysLate: 15, status: "Unpaid" },
-    { id: "LF-002", unit: "B-205", resident: "Daw Su Su", amount: "$10.00", originalInvoice: "INV-2024-002", daysLate: 5, status: "Paid" },
-    { id: "LF-003", unit: "C-101", resident: "U Tun Tun", amount: "$25.00", originalInvoice: "INV-2024-008", daysLate: 30, status: "Unpaid" },
-    { id: "LF-004", unit: "D-304", resident: "Daw Aye Aye", amount: "$15.00", originalInvoice: "INV-2024-010", daysLate: 12, status: "Waived" },
-    { id: "LF-005", unit: "A-202", resident: "U Kyaw Kyaw", amount: "$20.00", originalInvoice: "INV-2024-015", daysLate: 20, status: "Unpaid" },
-  ];
-
-  const sortedData = [...mockData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -62,22 +73,52 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
       
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Resident</Text>}
+              placeholder="Select Resident"
+              data={residentNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={residentFilter}
+              onChange={setResidentFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={["Paid", "Unpaid", "Waived"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

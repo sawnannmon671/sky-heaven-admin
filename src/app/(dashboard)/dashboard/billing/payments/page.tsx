@@ -1,15 +1,19 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs, Box, SimpleGrid, Select } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import {  IconHistory, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
+import {  IconHistory, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function PaymentRecordsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [invoiceIdFilter, setInvoiceIdFilter] = useState<string | null>(null);
+  const [residentFilter, setResidentFilter] = useState<string | null>(null);
+  const [methodFilter, setMethodFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -21,6 +25,42 @@ export default function PaymentRecordsPage() {
       direction = 'desc';
     }
     setSortConfig({ key, direction });
+  };
+
+  const mockData = [
+    { id: "PAY-001", invoiceId: "INV-2024-001", resident: "U Aung Aung", amount: "$150.00", method: "Bank Transfer", date: "2024-10-05", status: "Completed" },
+    { id: "PAY-002", invoiceId: "INV-2024-003", resident: "U Kyaw Min", amount: "$200.00", method: "Cash", date: "2024-10-10", status: "Completed" },
+    { id: "PAY-003", invoiceId: "INV-2024-005", resident: "U Zaw Myo", amount: "$180.00", method: "Credit Card", date: "2024-10-12", status: "Completed" },
+    { id: "PAY-004", invoiceId: "INV-2024-002", resident: "Daw Su Su", amount: "$120.00", method: "Mobile Wallet", date: "2024-10-15", status: "Processing" },
+    { id: "PAY-005", invoiceId: "INV-2024-004", resident: "Daw Hla Hla", amount: "$150.00", method: "Bank Transfer", date: "2024-10-16", status: "Failed" },
+  ];
+
+  const invoiceIds = Array.from(new Set(mockData.map(e => e.invoiceId)));
+  const residentNames = Array.from(new Set(mockData.map(e => e.resident)));
+  const paymentMethods = Array.from(new Set(mockData.map(e => e.method)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesTab = activeTab === "All" || item.status === activeTab;
+    const matchesInvoice = !invoiceIdFilter || item.invoiceId === invoiceIdFilter;
+    const matchesResident = !residentFilter || item.resident === residentFilter;
+    const matchesMethod = !methodFilter || item.method === methodFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesTab && matchesInvoice && matchesResident && matchesMethod && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const getCount = (status: string) => {
+    if (status === "All") return mockData.length;
+    return mockData.filter(item => item.status === status).length;
   };
 
   const t = {
@@ -46,29 +86,6 @@ export default function PaymentRecordsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-  const mockData = [
-    { id: "PAY-001", invoiceId: "INV-2024-001", resident: "U Aung Aung", amount: "$150.00", method: "Bank Transfer", date: "2024-10-05", status: "Completed" },
-    { id: "PAY-002", invoiceId: "INV-2024-003", resident: "U Kyaw Min", amount: "$200.00", method: "Cash", date: "2024-10-10", status: "Completed" },
-    { id: "PAY-003", invoiceId: "INV-2024-005", resident: "U Zaw Myo", amount: "$180.00", method: "Credit Card", date: "2024-10-12", status: "Completed" },
-    { id: "PAY-004", invoiceId: "INV-2024-002", resident: "Daw Su Su", amount: "$120.00", method: "Mobile Wallet", date: "2024-10-15", status: "Processing" },
-    { id: "PAY-005", invoiceId: "INV-2024-004", resident: "Daw Hla Hla", amount: "$150.00", method: "Bank Transfer", date: "2024-10-16", status: "Failed" },
-  ];
-
-  const filteredData = mockData.filter(item => activeTab === "All" || item.status === activeTab);
-
-  const sortedData = [...filteredData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
-
-  const getCount = (status: string) => {
-    if (status === "All") return mockData.length;
-    return mockData.filter(item => item.status === status).length;
-  };
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -76,6 +93,9 @@ export default function PaymentRecordsPage() {
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
@@ -108,28 +128,54 @@ export default function PaymentRecordsPage() {
           </Tabs.List>
         </Tabs>
 
-        <Group justify="space-between" mb="md">
-          <Group style={{ flex: 1 }}>
-            <TextInput
-              placeholder="Search..."
-              leftSection={<IconSearch size={16} />}
-              size="md"
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Invoice ID</Text>}
+              placeholder="Select Invoice"
+              data={invoiceIds}
+              size="sm"
               radius="md"
-              w={250}
+              clearable
+              searchable
+              value={invoiceIdFilter}
+              onChange={setInvoiceIdFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Resident</Text>}
+              placeholder="Select Resident"
+              data={residentNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={residentFilter}
+              onChange={setResidentFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Method</Text>}
+              placeholder="Select Method"
+              data={paymentMethods}
+              size="sm"
+              radius="md"
+              clearable
+              value={methodFilter}
+              onChange={setMethodFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
             />
             <DatePickerInput
+              label={<Text fw={700} size="xs" mb={5}>Date</Text>}
               placeholder="Filter by date"
               leftSection={<IconCalendar size={16} />}
               clearable
-              size="md"
+              size="sm"
               radius="md"
-              style={{ width: 200 }}
+              styles={{ input: { backgroundColor: '#fff' } }}
             />
-          </Group>
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

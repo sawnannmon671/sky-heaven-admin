@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconUsers, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconUsers, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function FamilyMembersPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [memberNameFilter, setMemberNameFilter] = useState<string | null>(null);
+  const [primaryResidentFilter, setPrimaryResidentFilter] = useState<string | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,14 +20,39 @@ export default function FamilyMembersPage() {
     setSortConfig({ key, direction });
   };
 
-  
-
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
-  
+  const mockData = [
+    { id: "FAM-001", name: "Mg Aung Myint", relation: "Son", primaryResident: "U Aung Aung", unit: "A-101", age: 18, status: "Active" },
+    { id: "FAM-002", name: "Ma Su Mon", relation: "Daughter", primaryResident: "Daw Su Su", unit: "B-205", age: 22, status: "Active" },
+    { id: "FAM-003", name: "Daw Mya Sein", relation: "Mother", primaryResident: "U Kyaw Min", unit: "C-304", age: 65, status: "Active" },
+    { id: "FAM-004", name: "Mg Thura", relation: "Son", primaryResident: "Daw Hla Hla", unit: "A-502", age: 15, status: "Active" },
+    { id: "FAM-005", name: "Ma Khin Myo", relation: "Spouse", primaryResident: "U Zaw Myo", unit: "D-102", age: 35, status: "Active" },
+  ];
+
+  const memberNames = Array.from(new Set(mockData.map(e => e.name)));
+  const primaryResidents = Array.from(new Set(mockData.map(e => e.primaryResident)));
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesName = !memberNameFilter || item.name === memberNameFilter;
+    const matchesPrimary = !primaryResidentFilter || item.primaryResident === primaryResidentFilter;
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    return matchesName && matchesPrimary && matchesUnit;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const t = {
     en: {
@@ -39,22 +67,6 @@ export default function FamilyMembersPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "FAM-001", name: "Mg Aung Myint", relation: "Son", primaryResident: "U Aung Aung", unit: "A-101", age: 18, status: "Active" },
-    { id: "FAM-002", name: "Ma Su Mon", relation: "Daughter", primaryResident: "Daw Su Su", unit: "B-205", age: 22, status: "Active" },
-    { id: "FAM-003", name: "Daw Mya Sein", relation: "Mother", primaryResident: "U Kyaw Min", unit: "C-304", age: 65, status: "Active" },
-    { id: "FAM-004", name: "Mg Thura", relation: "Son", primaryResident: "Daw Hla Hla", unit: "A-502", age: 15, status: "Active" },
-    { id: "FAM-005", name: "Ma Khin Myo", relation: "Spouse", primaryResident: "U Zaw Myo", unit: "D-102", age: 35, status: "Active" },
-  ];
-
-  const sortedData = [...mockData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -62,22 +74,52 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
-      
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Member Name</Text>}
+              placeholder="Select Member"
+              data={memberNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={memberNameFilter}
+              onChange={setMemberNameFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Primary Resident</Text>}
+              placeholder="Select Resident"
+              data={primaryResidents}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={primaryResidentFilter}
+              onChange={setPrimaryResidentFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

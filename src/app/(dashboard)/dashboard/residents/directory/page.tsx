@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Tabs } from "@mantine/core";
-import { IconAddressBook, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Tabs, Box, SimpleGrid, Select } from "@mantine/core";
+import { IconAddressBook, IconChevronLeft, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function ResidentDirectoryPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [residentNameFilter, setResidentNameFilter] = useState<string | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -66,15 +69,25 @@ export default function ResidentDirectoryPage() {
     { id: "RES-005", name: "Daw Thandar", residentType: "Tenant", unit: "A-502", phone: "+95 9 555 666 777", moveInDate: "2022-08-15", status: "Inactive" },
   ];
 
-  const residentTypes = ["All", ...Array.from(new Set(mockData.map(item => item.residentType)))];
+  const residentNames = Array.from(new Set(mockData.map(e => e.name)));
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+  const residentTypes = ["All", ...Array.from(new Set(mockData.map(e => e.residentType)))];
 
-  const filteredData = mockData.filter(item => activeTab === "All" || item.residentType === activeTab);
+  const filteredData = mockData.filter(item => {
+    const matchesTab = activeTab === "All" || item.residentType === activeTab;
+    const matchesName = !residentNameFilter || item.name === residentNameFilter;
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesTab && matchesName && matchesUnit && matchesStatus;
+  });
 
   const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
     return 0;
   });
 
@@ -105,6 +118,9 @@ export default function ResidentDirectoryPage() {
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          {t.addNew}
+        </Button>
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
@@ -124,18 +140,45 @@ export default function ResidentDirectoryPage() {
           </Tabs.List>
         </Tabs>
 
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            {t.addNew}
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.columns.name}</Text>}
+              placeholder="Select Resident"
+              data={residentNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={residentNameFilter}
+              onChange={setResidentNameFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.columns.unit}</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.columns.status}</Text>}
+              placeholder="Select Status"
+              data={["Active", "Inactive"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

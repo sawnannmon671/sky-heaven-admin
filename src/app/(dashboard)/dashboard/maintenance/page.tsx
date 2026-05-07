@@ -86,7 +86,7 @@ export default function MaintenancePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [priorityFilter, setPriorityFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
   const [activeTab, setActiveTab] = useState<string | null>("All");
 
   const handleSort = (key: string) => {
@@ -101,7 +101,11 @@ export default function MaintenancePage() {
     const matchesTab = activeTab === "All" || item.status === activeTab;
     const matchesPriority = !priorityFilter || item.priority === priorityFilter;
     const matchesStatus = !statusFilter || item.status === statusFilter;
-    return matchesTab && matchesPriority && matchesStatus;
+    const matchesSearch = !searchQuery || 
+      item.id.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.unit.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.category.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesTab && matchesPriority && matchesStatus && matchesSearch;
   });
 
   const sortedData = [...filteredData].sort((a, b) => {
@@ -182,89 +186,43 @@ export default function MaintenancePage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Tabs value={activeTab} onChange={(val) => { setActiveTab(val); setPage(1); }} mb="xl" color="#014F86">
-          <Tabs.List>
-            <Tabs.Tab value="All">
-              <Group gap="xs">
-                <span>All Requests</span>
-                <Badge size="xs" variant="filled" color={activeTab === "All" ? "#014F86" : "gray"}>{getCount("All")}</Badge>
-              </Group>
-            </Tabs.Tab>
-            <Tabs.Tab value="Pending">
-              <Group gap="xs">
-                <span>{t.statuses.Pending}</span>
-                <Badge size="xs" variant="filled" color={activeTab === "Pending" ? "#014F86" : "gray"}>{getCount("Pending")}</Badge>
-              </Group>
-            </Tabs.Tab>
-            <Tabs.Tab value="In Progress">
-              <Group gap="xs">
-                <span>{t.statuses["In Progress"]}</span>
-                <Badge size="xs" variant="filled" color={activeTab === "In Progress" ? "#014F86" : "gray"}>{getCount("In Progress")}</Badge>
-              </Group>
-            </Tabs.Tab>
-            <Tabs.Tab value="Completed">
-              <Group gap="xs">
-                <span>{t.statuses.Completed}</span>
-                <Badge size="xs" variant="filled" color={activeTab === "Completed" ? "#014F86" : "gray"}>{getCount("Completed")}</Badge>
-              </Group>
-            </Tabs.Tab>
-          </Tabs.List>
-        </Tabs>
-
-        <Group mb="xs" justify="space-between">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            w={300}
-            size="md"
-            radius="md"
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Priority</Text>}
-                placeholder="Priority"
-                data={["High", "Medium", "Low"]}
-                size="md"
-                radius="md"
-                clearable
-                value={priorityFilter}
-                onChange={setPriorityFilter}
-              />
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
-                placeholder="Status"
-                data={["Pending", "In Progress", "Completed"]}
-                size="md"
-                radius="md"
-                clearable
-                value={statusFilter}
-                onChange={setStatusFilter}
-              />
-              <DatePickerInput
-                label={<Text fw={600} size="sm" mb={5}>Date</Text>}
-                placeholder="Select date"
-                leftSection={<IconCalendar size={16} />}
-                size="md"
-                radius="md"
-                clearable
-              />
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label={<Text fw={700} size="xs" mb={5}>Search Request</Text>}
+              placeholder={t.searchPlaceholder}
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Priority</Text>}
+              placeholder="Select Priority"
+              data={["High", "Medium", "Low"]}
+              clearable
+              value={priorityFilter}
+              onChange={setPriorityFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={["Pending", "In Progress", "Completed"]}
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <DatePickerInput
+              label={<Text fw={700} size="xs" mb={5}>Date</Text>}
+              placeholder="Select date"
+              leftSection={<IconCalendar size={16} />}
+              clearable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="sm" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">

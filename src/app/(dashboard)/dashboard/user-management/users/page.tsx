@@ -1,13 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconUsers, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import { IconUsers, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function UsersPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [roleFilter, setRoleFilter] = useState<string | null>("All");
+  const [statusFilter, setStatusFilter] = useState<string | null>("All");
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -16,11 +21,6 @@ export default function UsersPage() {
     }
     setSortConfig({ key, direction });
   };
-
-  
-
-  const [activePage, setPage] = useState(1);
-  const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
@@ -49,7 +49,20 @@ export default function UsersPage() {
     { id: "USR-005", name: "Robert Bruce", email: "robert.b@skyheaven.com", role: "Temporary Staff", lastLogin: "2024-04-20 11:10:00", status: "Suspended" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const roles = ["All", ...Array.from(new Set(mockData.map(item => item.role)))];
+
+  const filteredData = mockData.filter(item => {
+    const matchesSearch = 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesRole = roleFilter === "All" || item.role === roleFilter;
+    const matchesStatus = statusFilter === "All" || item.status === statusFilter;
+
+    return matchesSearch && matchesRole && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -61,34 +74,56 @@ export default function UsersPage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Title order={2} c="#014F86">{t.title}</Title>
+          <Title order={2} fz={28} fw={700} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/user-management" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
-      </Group>
-
-      
-      <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search users..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
+        <Group>
+          <Button 
+            component={Link} 
+            href="/dashboard/user-management" 
+            variant="subtle" 
+            leftSection={<IconChevronLeft size={16} />}
+            color="gray"
+          >
+            {t.back}
+          </Button>
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             Add User
           </Button>
         </Group>
+      </Group>
+
+      <Paper p="md" radius="md" withBorder shadow="sm">
+        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label="Search"
+              placeholder="Search by ID, Name, Email..."
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label="Role"
+              placeholder="Filter by role"
+              leftSection={<IconFilter size={16} />}
+              data={roles}
+              value={roleFilter}
+              onChange={setRoleFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label="Status"
+              placeholder="Filter by status"
+              leftSection={<IconFilter size={16} />}
+              data={["All", "Active", "Inactive", "Suspended"]}
+              value={statusFilter}
+              onChange={statusFilter === "All" ? (val) => setStatusFilter(val) : setStatusFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">
@@ -201,9 +236,9 @@ export default function UsersPage() {
         </Table>
         <Group justify="space-between" mt="md">
           <Text size="sm" c="dimmed">
-            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, mockData.length)} of {mockData.length} entries
+            Showing {filteredData.length > 0 ? ((activePage - 1) * itemsPerPage) + 1 : 0} to {Math.min(activePage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
           </Text>
-          <Pagination total={Math.ceil(mockData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+          <Pagination total={Math.ceil(filteredData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
       
       </Paper>

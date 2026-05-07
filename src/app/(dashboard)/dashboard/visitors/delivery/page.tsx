@@ -8,8 +8,10 @@ import Link from "next/link";
 
 export default function DeliveryLogsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [itemTypeFilter, setItemTypeFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -51,7 +53,20 @@ export default function DeliveryLogsPage() {
     { id: "DL-005", company: "KMD", unit: "D-102", item: "Electronics", arrival: "2024-10-26 03:30 PM", status: "Pending" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+  const itemTypes = Array.from(new Set(mockData.map(e => e.item)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesItemType = !itemTypeFilter || item.item === itemTypeFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    const matchesSearch = !searchQuery || 
+      item.company.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesUnit && matchesItemType && matchesStatus && matchesSearch;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -66,55 +81,64 @@ export default function DeliveryLogsPage() {
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/visitors" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
+        <Group gap="sm">
+          <Button 
+            component={Link} 
+            href="/dashboard/visitors" 
+            variant="subtle" 
+            leftSection={<IconChevronLeft size={16} />}
+            color="gray"
+          >
+            {t.back}
+          </Button>
+          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+            Add New
+          </Button>
+        </Group>
       </Group>
 
-      
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="xs">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={300}
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
-                placeholder="Status"
-                data={["Delivered", "Arrived", "Pending"]}
-                size="md"
-                radius="md"
-                clearable
-                value={statusFilter}
-                onChange={setStatusFilter}
-              />
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label={<Text fw={700} size="xs" mb={5}>Search Delivery</Text>}
+              placeholder="Search Company or ID"
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              value={unitFilter}
+              onChange={setUnitFilter}
+              clearable
+              searchable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Item Type</Text>}
+              placeholder="Select Type"
+              data={itemTypes}
+              value={itemTypeFilter}
+              onChange={setItemTypeFilter}
+              clearable
+              searchable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={['Delivered', 'Arrived', 'Pending']}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              clearable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">

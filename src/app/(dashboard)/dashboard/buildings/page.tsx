@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge , Pagination , UnstyledButton, Center, Collapse, Box, SimpleGrid, Select } from "@mantine/core";
-import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconBuilding , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
+import {   Title, Paper, Table, Group, Button, TextInput, Stack, Text, ThemeIcon, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconPlus, IconEye, IconEdit, IconTrash, IconBuilding , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import Link from "next/link";
 import { useTranslation } from "@/hooks/useTranslation";
 
@@ -47,8 +47,11 @@ const translations = {
 
 export default function BuildingsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [buildingNameFilter, setBuildingNameFilter] = useState<string | null>(null);
+  const [buildingIdFilter, setBuildingIdFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -58,16 +61,25 @@ export default function BuildingsPage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
+  const buildingNames = Array.from(new Set(elements.map(e => e.name)));
+  const buildingIds = Array.from(new Set(elements.map(e => e.id)));
+
+  const filteredData = elements.filter(item => {
+    const matchesName = !buildingNameFilter || item.name === buildingNameFilter;
+    const matchesId = !buildingIdFilter || item.id === buildingIdFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesName && matchesId && matchesStatus;
   });
 
-  const [activePage, setPage] = useState(1);
-  const itemsPerPage = 5;
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const { lang, mounted } = useTranslation();
   const t = translations[lang as keyof typeof translations] || translations.en;
@@ -123,42 +135,45 @@ export default function BuildingsPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="xs">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={300}
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>{t.thStatus}</Text>}
-                placeholder={t.thStatus}
-                data={["Active", "Under Maintenance"]}
-                size="md"
-                radius="md"
-                clearable
-                value={statusFilter}
-                onChange={setStatusFilter}
-              />
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thBuilding}</Text>}
+              placeholder="Select Building"
+              data={buildingNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={buildingNameFilter}
+              onChange={setBuildingNameFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Building ID</Text>}
+              placeholder="Select ID"
+              data={buildingIds}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={buildingIdFilter}
+              onChange={setBuildingIdFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thStatus}</Text>}
+              placeholder={t.thStatus}
+              data={["Active", "Under Maintenance"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
@@ -222,7 +237,17 @@ export default function BuildingsPage() {
               <Table.Th fw={700} fz="sm" c="white" ta="right">{t.thActions}</Table.Th>
             </Table.Tr>
           </Table.Thead>
-          <Table.Tbody>{rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)}</Table.Tbody>
+          <Table.Tbody>
+            {rows.length > 0 ? (
+              rows.slice((activePage - 1) * itemsPerPage, activePage * itemsPerPage)
+            ) : (
+              <Table.Tr>
+                <Table.Td colSpan={5} ta="center" py="xl">
+                  <Text c="dimmed" size="sm">No buildings found</Text>
+                </Table.Td>
+              </Table.Tr>
+            )}
+          </Table.Tbody>
         </Table>
         <Group justify="space-between" mt="md">
           <Text size="sm" c="dimmed">

@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconPool, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconPool, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function PoolBookingPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -49,7 +52,18 @@ export default function PoolBookingPage() {
     { id: "PB-005", resident: "U Zaw Myo", unit: "D-102", session: "06:00 AM - 08:00 AM", guests: "0 Guests", status: "Pending" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    const matchesSearch = !searchQuery || 
+      item.resident.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesUnit && matchesStatus && matchesSearch;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -64,33 +78,57 @@ export default function PoolBookingPage() {
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/amenities" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
-      </Group>
-
-      
-      <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
+        <Group gap="sm">
+          <Button 
+            component={Link} 
+            href="/dashboard/amenities" 
+            variant="subtle" 
+            leftSection={<IconChevronLeft size={16} />}
+            color="gray"
+          >
+            {t.back}
+          </Button>
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             Add New
           </Button>
         </Group>
+      </Group>
 
-        <Table verticalSpacing="md" highlightOnHover>
+      
+      <Paper p="md" radius="md" withBorder shadow="sm">
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <TextInput
+              label={<Text fw={700} size="xs" mb={5}>Search Booking</Text>}
+              placeholder="Search by ID or Resident"
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              value={unitFilter}
+              onChange={setUnitFilter}
+              clearable
+              searchable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={['Confirmed', 'Pending', 'Cancelled']}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              clearable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
+
+        <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">
             <Table.Tr>
               <Table.Th fw={700} fz="sm" c="white">

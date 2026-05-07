@@ -1,13 +1,17 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconClock, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import { Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge, Pagination, UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import { IconClock, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus, IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function AttendancePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState<string | null>("All");
+  const [activePage, setPage] = useState(1);
+  const itemsPerPage = 5;
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -16,11 +20,6 @@ export default function AttendancePage() {
     }
     setSortConfig({ key, direction });
   };
-
-  
-
-  const [activePage, setPage] = useState(1);
-  const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
@@ -49,7 +48,17 @@ export default function AttendancePage() {
     { id: "AT-005", name: "U Zaw", role: "Security Guard", date: "2024-10-26", time: "08:00 AM - --:--", status: "Present" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const filteredData = mockData.filter(item => {
+    const matchesSearch = 
+      item.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.role.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesStatus = statusFilter === "All" || item.status === statusFilter;
+
+    return matchesSearch && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -61,34 +70,47 @@ export default function AttendancePage() {
     <Stack gap="xl" p="md">
       <Group justify="space-between">
         <Stack gap={4}>
-          <Title order={2} c="#014F86">{t.title}</Title>
+          <Title order={2} fz={28} fw={700} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/staff" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
-      </Group>
-
-      
-      <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
+        <Group>
+          <Button 
+            component={Link} 
+            href="/dashboard/staff" 
+            variant="subtle" 
+            leftSection={<IconChevronLeft size={16} />}
+            color="gray"
+          >
+            {t.back}
+          </Button>
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             Add New
           </Button>
         </Group>
+      </Group>
+
+      <Paper p="md" radius="md" withBorder shadow="sm">
+        <Box bg="#f8f9fa" p="md" mb="md" radius="md">
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <TextInput
+              label="Search"
+              placeholder="Search by ID, Name, Role..."
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label="Status"
+              placeholder="Filter by status"
+              leftSection={<IconFilter size={16} />}
+              data={["All", "Present", "Late", "Absent"]}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">
@@ -194,9 +216,9 @@ export default function AttendancePage() {
         </Table>
         <Group justify="space-between" mt="md">
           <Text size="sm" c="dimmed">
-            Showing {((activePage - 1) * itemsPerPage) + 1} to {Math.min(activePage * itemsPerPage, mockData.length)} of {mockData.length} entries
+            Showing {filteredData.length > 0 ? ((activePage - 1) * itemsPerPage) + 1 : 0} to {Math.min(activePage * itemsPerPage, filteredData.length)} of {filteredData.length} entries
           </Text>
-          <Pagination total={Math.ceil(mockData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
+          <Pagination total={Math.ceil(filteredData.length / itemsPerPage)} value={activePage} onChange={setPage} color="#014F86" />
         </Group>
       
       </Paper>

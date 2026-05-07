@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
 import {  IconCalendarStats, IconChevronLeft, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function PreventiveMaintenancePage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [locationFilter, setLocationFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -49,7 +52,18 @@ const mockData = [
     { id: "PM-005", equipment: "Generator", location: "Basement", frequency: "Monthly", nextDue: "2024-11-05", status: "Scheduled" },
   ];
 
-  const sortedData = [...mockData].sort((a, b) => {
+  const locations = Array.from(new Set(mockData.map(e => e.location)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesLocation = !locationFilter || item.location === locationFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    const matchesSearch = !searchQuery || 
+      item.equipment.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      item.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesLocation && matchesStatus && matchesSearch;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
     if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
@@ -64,31 +78,54 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
-        <Button 
-          component={Link} 
-          href="/dashboard/maintenance" 
-          variant="subtle" 
-          leftSection={<IconChevronLeft size={16} />}
-          color="gray"
-        >
-          {t.back}
-        </Button>
-      </Group>
-
-      
-      <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
+        <Group gap="sm">
+          <Button 
+            component={Link} 
+            href="/dashboard/maintenance" 
+            variant="subtle" 
+            leftSection={<IconChevronLeft size={16} />}
+            color="gray"
+          >
+            {t.back}
+          </Button>
           <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
             Add New
           </Button>
         </Group>
+      </Group>
+
+      <Paper p="md" radius="md" withBorder shadow="sm">
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <TextInput
+              label={<Text fw={700} size="xs" mb={5}>Search Equipment</Text>}
+              placeholder="Search by ID or Equipment"
+              leftSection={<IconSearch size={16} />}
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.currentTarget.value)}
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Location</Text>}
+              placeholder="Select Location"
+              data={locations}
+              value={locationFilter}
+              onChange={setLocationFilter}
+              clearable
+              searchable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={['Scheduled', 'Upcoming', 'Overdue']}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              clearable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

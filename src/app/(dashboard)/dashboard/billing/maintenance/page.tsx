@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconTools, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconTools, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function MaintenanceFeesPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [monthFilter, setMonthFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,14 +20,38 @@ export default function MaintenanceFeesPage() {
     setSortConfig({ key, direction });
   };
 
-  
-
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
-  
+  const mockData = [
+    { id: "MF-2024-001", unit: "A-101", amount: "$50.00", month: "October 2024", dueDate: "2024-10-05", status: "Paid" },
+    { id: "MF-2024-002", unit: "B-205", amount: "$60.00", month: "October 2024", dueDate: "2024-10-05", status: "Unpaid" },
+    { id: "MF-2024-003", unit: "C-304", amount: "$55.00", month: "October 2024", dueDate: "2024-10-05", status: "Paid" },
+    { id: "MF-2024-004", unit: "A-502", amount: "$50.00", month: "October 2024", dueDate: "2024-10-05", status: "Overdue" },
+    { id: "MF-2024-005", unit: "D-102", amount: "$70.00", month: "October 2024", dueDate: "2024-10-05", status: "Paid" },
+  ];
+
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+  const months = Array.from(new Set(mockData.map(e => e.month)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesMonth = !monthFilter || item.month === monthFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesUnit && matchesMonth && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const t = {
     en: {
@@ -39,22 +66,6 @@ export default function MaintenanceFeesPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "MF-2024-001", unit: "A-101", amount: "$50.00", month: "October 2024", dueDate: "2024-10-05", status: "Paid" },
-    { id: "MF-2024-002", unit: "B-205", amount: "$60.00", month: "October 2024", dueDate: "2024-10-05", status: "Unpaid" },
-    { id: "MF-2024-003", unit: "C-304", amount: "$55.00", month: "October 2024", dueDate: "2024-10-05", status: "Paid" },
-    { id: "MF-2024-004", unit: "A-502", amount: "$50.00", month: "October 2024", dueDate: "2024-10-05", status: "Overdue" },
-    { id: "MF-2024-005", unit: "D-102", amount: "$70.00", month: "October 2024", dueDate: "2024-10-05", status: "Paid" },
-  ];
-
-  const sortedData = [...mockData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -62,22 +73,52 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
       
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Month</Text>}
+              placeholder="Select Month"
+              data={months}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={monthFilter}
+              onChange={setMonthFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={["Paid", "Unpaid", "Overdue"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

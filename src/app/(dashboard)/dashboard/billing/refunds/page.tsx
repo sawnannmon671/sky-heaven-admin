@@ -1,13 +1,16 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center } from "@mantine/core";
-import {  IconRotate2, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Box, SimpleGrid, Select } from "@mantine/core";
+import {  IconRotate2, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function RefundsPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [residentFilter, setResidentFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
     let direction: 'asc' | 'desc' = 'asc';
@@ -17,14 +20,38 @@ export default function RefundsPage() {
     setSortConfig({ key, direction });
   };
 
-  
-
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
   const { lang, mounted } = useTranslation();
 
-  
+  const mockData = [
+    { id: "REF-001", unit: "A-101", resident: "U Aung Aung", amount: "$50.00", reason: "Overpayment", date: "2024-10-08", status: "Completed" },
+    { id: "REF-002", unit: "B-205", resident: "Daw Su Su", amount: "$25.00", reason: "Deposit Return", date: "2024-10-10", status: "Pending" },
+    { id: "REF-003", unit: "C-304", resident: "U Kyaw Min", amount: "$15.00", reason: "Maintenance Error", date: "2024-10-12", status: "Processing" },
+    { id: "REF-004", unit: "A-502", resident: "Daw Hla Hla", amount: "$30.00", reason: "Overpayment", date: "2024-10-15", status: "Completed" },
+    { id: "REF-005", unit: "D-102", resident: "U Zaw Myo", amount: "$100.00", reason: "Move-out Deposit", date: "2024-10-20", status: "Pending" },
+  ];
+
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+  const residentNames = Array.from(new Set(mockData.map(e => e.resident)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesResident = !residentFilter || item.resident === residentFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesUnit && matchesResident && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
 
   const t = {
     en: {
@@ -39,22 +66,6 @@ export default function RefundsPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "REF-001", unit: "A-101", resident: "U Aung Aung", amount: "$50.00", reason: "Overpayment", date: "2024-10-08", status: "Completed" },
-    { id: "REF-002", unit: "B-205", resident: "Daw Su Su", amount: "$25.00", reason: "Deposit Return", date: "2024-10-10", status: "Pending" },
-    { id: "REF-003", unit: "C-304", resident: "U Kyaw Min", amount: "$15.00", reason: "Maintenance Error", date: "2024-10-12", status: "Processing" },
-    { id: "REF-004", unit: "A-502", resident: "Daw Hla Hla", amount: "$30.00", reason: "Overpayment", date: "2024-10-15", status: "Completed" },
-    { id: "REF-005", unit: "D-102", resident: "U Zaw Myo", amount: "$100.00", reason: "Move-out Deposit", date: "2024-10-20", status: "Pending" },
-  ];
-
-  const sortedData = [...mockData].sort((a, b) => {
-    if (!sortConfig) return 0;
-    const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-    return 0;
-  });
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -62,22 +73,42 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
-      
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="md">
-          <TextInput
-            placeholder="Search..."
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={250}
-          />
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+            <Select
+              placeholder="Unit"
+              data={unitNumbers}
+              value={unitFilter}
+              onChange={setUnitFilter}
+              clearable
+              searchable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              placeholder="Resident"
+              data={residentNames}
+              value={residentFilter}
+              onChange={setResidentFilter}
+              clearable
+              searchable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+            <Select
+              placeholder="Status"
+              data={['Completed', 'Pending', 'Processing']}
+              value={statusFilter}
+              onChange={setStatusFilter}
+              clearable
+              styles={{ input: { backgroundColor: 'white' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

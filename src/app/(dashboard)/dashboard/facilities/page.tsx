@@ -60,7 +60,8 @@ const translations = {
 
 export default function FacilitiesPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
-  const [showFilters, setShowFilters] = useState(false);
+  const [facilityNameFilter, setFacilityNameFilter] = useState<string | null>(null);
+  const [locationFilter, setLocationFilter] = useState<string | null>(null);
   const [statusFilter, setStatusFilter] = useState<string | null>(null);
 
   const handleSort = (key: string) => {
@@ -71,11 +72,23 @@ export default function FacilitiesPage() {
     setSortConfig({ key, direction });
   };
 
-  const sortedData = [...elements].sort((a, b) => {
+  const facilityNames = Array.from(new Set(elements.map(e => e.name)));
+  const locations = Array.from(new Set(elements.map(e => e.location)));
+
+  const filteredData = elements.filter(item => {
+    const matchesName = !facilityNameFilter || item.name === facilityNameFilter;
+    const matchesLocation = !locationFilter || item.location === locationFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesName && matchesLocation && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
     if (!sortConfig) return 0;
     const { key, direction } = sortConfig;
-    if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-    if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
     return 0;
   });
 
@@ -145,42 +158,45 @@ export default function FacilitiesPage() {
       </Group>
 
       <Paper p="md" radius="md" withBorder shadow="sm">
-        <Group justify="space-between" mb="xs">
-          <TextInput
-            placeholder={t.searchPlaceholder}
-            leftSection={<IconSearch size={16} />}
-            size="md"
-            radius="md"
-            w={300}
-          />
-          <ActionIcon 
-            variant={showFilters ? "filled" : "outline"} 
-            color={showFilters ? "#014F86" : "gray"} 
-            size="lg" 
-            radius="md"
-            style={{ border: '1px solid #dee2e6' }}
-            onClick={() => setShowFilters(!showFilters)}
-          >
-            <IconFilter size={18} stroke={1.5} />
-          </ActionIcon>
-        </Group>
-
-        <Collapse in={showFilters}>
-          <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
-            <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-              <Select
-                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
-                placeholder="Status"
-                data={["Open", "Cleaning", "Maintenance"]}
-                size="md"
-                radius="md"
-                clearable
-                value={statusFilter}
-                onChange={setStatusFilter}
-              />
-            </SimpleGrid>
-          </Box>
-        </Collapse>
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thFacility}</Text>}
+              placeholder="Select Facility"
+              data={facilityNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={facilityNameFilter}
+              onChange={setFacilityNameFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thLocation}</Text>}
+              placeholder="Select Location"
+              data={locations}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={locationFilter}
+              onChange={setLocationFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>{t.thStatus}</Text>}
+              placeholder="Select Status"
+              data={["Open", "Cleaning", "Maintenance"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover mt="sm">
           <Table.Thead bg="#014F86">

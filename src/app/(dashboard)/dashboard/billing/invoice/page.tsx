@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs } from "@mantine/core";
+import {   Title, Text, Stack, Paper, Group, ThemeIcon, Button, Table, TextInput, ActionIcon, Badge , Pagination , UnstyledButton, Center, Tabs, Box, SimpleGrid, Select } from "@mantine/core";
 import { DatePickerInput } from "@mantine/dates";
-import {  IconFileInvoice, IconSearch, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
+import {  IconFileInvoice, IconEye, IconEdit, IconTrash, IconPlus , IconSelector, IconChevronUp, IconChevronDown, IconCalendar } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import Link from "next/link";
 
 export default function InvoiceGenerationPage() {
   const [sortConfig, setSortConfig] = useState<{ key: string, direction: 'asc' | 'desc' } | null>(null);
   const [activeTab, setActiveTab] = useState<string | null>("All");
+  const [unitFilter, setUnitFilter] = useState<string | null>(null);
+  const [residentFilter, setResidentFilter] = useState<string | null>(null);
+  const [statusFilter, setStatusFilter] = useState<string | null>(null);
   const [activePage, setPage] = useState(1);
   const itemsPerPage = 5;
 
@@ -23,7 +26,39 @@ export default function InvoiceGenerationPage() {
     setSortConfig({ key, direction });
   };
 
-  
+  const mockData = [
+    { id: "INV-2024-001", unit: "A-101", resident: "U Aung Aung", amount: "$150.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
+    { id: "INV-2024-002", unit: "B-205", resident: "Daw Su Su", amount: "$120.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Unpaid" },
+    { id: "INV-2024-003", unit: "C-304", resident: "U Kyaw Min", amount: "$200.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
+    { id: "INV-2024-004", unit: "A-502", resident: "Daw Hla Hla", amount: "$150.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Overdue" },
+    { id: "INV-2024-005", unit: "D-102", resident: "U Zaw Myo", amount: "$180.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
+  ];
+
+  const unitNumbers = Array.from(new Set(mockData.map(e => e.unit)));
+  const residentNames = Array.from(new Set(mockData.map(e => e.resident)));
+
+  const filteredData = mockData.filter(item => {
+    const matchesTab = activeTab === "All" || item.status === activeTab;
+    const matchesUnit = !unitFilter || item.unit === unitFilter;
+    const matchesResident = !residentFilter || item.resident === residentFilter;
+    const matchesStatus = !statusFilter || item.status === statusFilter;
+    return matchesTab && matchesUnit && matchesResident && matchesStatus;
+  });
+
+  const sortedData = [...filteredData].sort((a, b) => {
+    if (!sortConfig) return 0;
+    const { key, direction } = sortConfig;
+    const aValue = a[key as keyof typeof a];
+    const bValue = b[key as keyof typeof b];
+    if (aValue < bValue) return direction === 'asc' ? -1 : 1;
+    if (aValue > bValue) return direction === 'asc' ? 1 : -1;
+    return 0;
+  });
+
+  const getCount = (status: string) => {
+    if (status === "All") return mockData.length;
+    return mockData.filter(item => item.status === status).length;
+  };
 
   const t = {
     en: {
@@ -38,29 +73,6 @@ export default function InvoiceGenerationPage() {
     },
   }[lang === "mm" ? "mm" : "en"];
 
-const mockData = [
-    { id: "INV-2024-001", unit: "A-101", resident: "U Aung Aung", amount: "$150.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
-    { id: "INV-2024-002", unit: "B-205", resident: "Daw Su Su", amount: "$120.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Unpaid" },
-    { id: "INV-2024-003", unit: "C-304", resident: "U Kyaw Min", amount: "$200.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
-    { id: "INV-2024-004", unit: "A-502", resident: "Daw Hla Hla", amount: "$150.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Overdue" },
-    { id: "INV-2024-005", unit: "D-102", resident: "U Zaw Myo", amount: "$180.00", date: "2024-10-01", dueDate: "2024-10-15", status: "Paid" },
-  ];
-
-  const sortedData = [...mockData]
-    .filter(item => activeTab === "All" || item.status === activeTab)
-    .sort((a, b) => {
-      if (!sortConfig) return 0;
-      const { key, direction } = sortConfig;
-      if (a[key as keyof typeof a] < b[key as keyof typeof b]) return direction === 'asc' ? -1 : 1;
-      if (a[key as keyof typeof a] > b[key as keyof typeof b]) return direction === 'asc' ? 1 : -1;
-      return 0;
-    });
-
-  const getCount = (status: string) => {
-    if (status === "All") return mockData.length;
-    return mockData.filter(item => item.status === status).length;
-  };
-
   return (
     <Stack gap="xl" p="md">
       <Group justify="space-between">
@@ -68,6 +80,9 @@ const mockData = [
           <Title order={2} c="#014F86">{t.title}</Title>
           <Text c="dimmed" size="sm">{t.subtitle}</Text>
         </Stack>
+        <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
+          Add New
+        </Button>
       </Group>
 
       
@@ -101,28 +116,54 @@ const mockData = [
           </Tabs.List>
         </Tabs>
 
-        <Group justify="space-between" mb="md">
-          <Group style={{ flex: 1 }}>
-            <TextInput
-              placeholder="Search..."
-              leftSection={<IconSearch size={16} />}
-              size="md"
+        <Box mb="xl" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
+          <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Unit</Text>}
+              placeholder="Select Unit"
+              data={unitNumbers}
+              size="sm"
               radius="md"
-              w={250}
+              clearable
+              searchable
+              value={unitFilter}
+              onChange={setUnitFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Resident</Text>}
+              placeholder="Select Resident"
+              data={residentNames}
+              size="sm"
+              radius="md"
+              clearable
+              searchable
+              value={residentFilter}
+              onChange={setResidentFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
+            />
+            <Select
+              label={<Text fw={700} size="xs" mb={5}>Status</Text>}
+              placeholder="Select Status"
+              data={["Paid", "Unpaid", "Overdue"]}
+              size="sm"
+              radius="md"
+              clearable
+              value={statusFilter}
+              onChange={setStatusFilter}
+              styles={{ input: { backgroundColor: '#fff' } }}
             />
             <DatePickerInput
+              label={<Text fw={700} size="xs" mb={5}>Date</Text>}
               placeholder="Filter by date"
               leftSection={<IconCalendar size={16} />}
               clearable
-              size="md"
+              size="sm"
               radius="md"
-              style={{ width: 200 }}
+              styles={{ input: { backgroundColor: '#fff' } }}
             />
-          </Group>
-          <Button leftSection={<IconPlus size={16} />} color="#014F86" radius="md">
-            Add New
-          </Button>
-        </Group>
+          </SimpleGrid>
+        </Box>
 
         <Table verticalSpacing="md" highlightOnHover>
           <Table.Thead bg="#014F86">

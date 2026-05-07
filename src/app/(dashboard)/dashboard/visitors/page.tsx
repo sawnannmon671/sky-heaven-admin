@@ -186,7 +186,7 @@ export default function VisitorsPage() {
           <Box mt="md" mb="md" p="md" style={{ backgroundColor: '#f8f9fa', borderRadius: '8px' }}>
             <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
               <Select
-                label={<Text fw={600} size="sm" mb={5">Purpose</Text>}
+                label={<Text fw={600} size="sm" mb={5}>Purpose</Text>}
                 placeholder="Purpose"
                 data={["Delivery", "Guest", "Maintenance"]}
                 size="md"
@@ -196,7 +196,7 @@ export default function VisitorsPage() {
                 onChange={setPurposeFilter}
               />
               <Select
-                label={<Text fw={600} size="sm" mb={5">Status</Text>}
+                label={<Text fw={600} size="sm" mb={5}>Status</Text>}
                 placeholder="Status"
                 data={["Checked In", "Checked Out"]}
                 size="md"

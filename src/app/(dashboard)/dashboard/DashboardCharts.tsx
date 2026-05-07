@@ -114,7 +114,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
            <Box p="lg">
             <Group justify="space-between" wrap="nowrap">
               <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
-                <Title order={3} c="#014F86" truncate="end">{t.financeOverview}</Title>
+                <Title order={3} c="#014F86" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{t.financeOverview}</Title>
                 <Text size="xs" c="dimmed" fw={500} truncate="end">{t.financeSub}</Text>
               </Stack>
               <Button variant="light" size="compact-xs" color="blue" radius="md" style={{ flexShrink: 0 }}>View Detail</Button>
@@ -145,7 +145,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
            <Box p="lg">
             <Group justify="space-between" wrap="nowrap">
               <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
-                <Title order={3} c="#014F86" truncate="end">{t.bookingBills}</Title>
+                <Title order={3} c="#014F86" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{t.bookingBills}</Title>
                 <Text size="xs" c="dimmed" fw={500} truncate="end">{t.bookingSub}</Text>
               </Stack>
               <Button variant="light" size="compact-xs" color="blue" radius="md" style={{ flexShrink: 0 }}>View Detail</Button>
@@ -220,7 +220,7 @@ export function DashboardCharts({ occupancyCard }: { occupancyCard?: ReactNode }
            <Box p="lg">
             <Group justify="space-between" wrap="nowrap">
               <Stack gap={0} style={{ flex: 1, minWidth: 0 }}>
-                <Title order={3} c="#014F86" truncate="end">{t.billingTrends}</Title>
+                <Title order={3} c="#014F86" style={{ textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap' }}>{t.billingTrends}</Title>
                 <Text size="xs" c="dimmed" fw={500} truncate="end">{t.billingSub}</Text>
               </Stack>
               <Button variant="light" size="compact-xs" color="blue" radius="md" style={{ flexShrink: 0 }}>View Detail</Button>

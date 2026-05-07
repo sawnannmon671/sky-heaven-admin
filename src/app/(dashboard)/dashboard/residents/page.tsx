@@ -24,10 +24,22 @@ import {
 import {  IconPlus, IconSearch, IconEye, IconEdit, IconTrash, IconPhone, IconMail , IconSelector, IconChevronUp, IconChevronDown, IconFilter } from "@tabler/icons-react";
 import { useTranslation } from "@/hooks/useTranslation";
 
-const elements = [
-  { id: "1", name: "John Doe", unit: "101", phone: "09-123456789", email: "john@example.com", type: "Owner", status: "Active", color: "blue" },
-  { id: "2", name: "Jane Smith", unit: "201", phone: "09-987654321", email: "jane@example.com", type: "Tenant", status: "Active", color: "teal" },
-  { id: "3", name: "Robert Wilson", unit: "305", phone: "09-555666777", email: "robert@example.com", type: "Owner", status: "Inactive", color: "gray" },
+type Resident = {
+  id: string;
+  name: string;
+  unit: string;
+  building: string;
+  phone: string;
+  email: string;
+  type: string;
+  status: string;
+  color: string;
+};
+
+const elements: Resident[] = [
+  { id: "1", name: "John Doe", unit: "101", building: "Tower A", phone: "09-123456789", email: "john@example.com", type: "Owner", status: "Active", color: "blue" },
+  { id: "2", name: "Jane Smith", unit: "201", building: "Tower B", phone: "09-987654321", email: "jane@example.com", type: "Tenant", status: "Active", color: "teal" },
+  { id: "3", name: "Robert Wilson", unit: "305", building: "Tower C", phone: "09-555666777", email: "robert@example.com", type: "Owner", status: "Inactive", color: "gray" },
 ];
 
 const translations = {
